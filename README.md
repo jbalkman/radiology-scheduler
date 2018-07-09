@@ -6,3 +6,4 @@ Constraint Programming Solution for Private Practice Radiology Group
 - random seed determines thousands of potential schedules which are then sorted to minimize variance
 - increase time limit on schedule generation to consider more potential schedules (increases run time)
 - global lists define subspecialty staff and all rotations
+- see ExampleOutput.txt for random scheduling for single week of multiple rotations
