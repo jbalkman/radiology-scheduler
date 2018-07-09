@@ -65,13 +65,14 @@ STA_ROTS = ['STAT_AM','STAT_PM']
 OPR_ROTS = ['OPPR_AM','OPPR_PM']
 
 # Staff Lists
-ALL_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','HG']
+ALL_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','HG','RV']
 BRT_STAFF = ['JDB','SDE','GHL','DCN','JKS']
 SFL_STAFF = ALL_STAFF
 MSK_STAFF = ['CCM','GJS','GSR','DRL','SJP']
 NER_STAFF = ['EEP','GSR','JFK','SMN','SJP']
 ABD_STAFF = ['BCL','DSL','HSS','JKL','SH']
 CHT_STAFF = ['BCL','SMN','RV']
+STA_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH']
 
 # General Use
 WEEKDAYS = ['MON','TUE','WED','THU','FRI']
@@ -134,45 +135,42 @@ def get_section_nstaff_nrots_staff_rots(sect):
         num_staff = len(BRT_STAFF)
         num_rots = len(BRT_ROTS)
         staff = BRT_STAFF
-        rots = BRT_STAFF
+        rots = BRT_ROTS
     elif sect == 'sfl':
         num_staff = len(SFL_STAFF)
         num_rots = len(SFL_ROTS)
         staff = SFL_STAFF
-        rots = SFL_STAFF
+        rots = SFL_ROTS
     elif sect == 'msk':
         num_staff = len(MSK_STAFF)
         num_rots = len(MSK_ROTS)
         staff = MSK_STAFF
-        rots = MSK_STAFF
+        rots = MSK_ROTS
     elif sect == 'ner':
         num_staff = len(NER_STAFF)
         num_rots = len(NER_ROTS)
         staff = NER_STAFF
-        rots = NER_STAFF
+        rots = NER_ROTS
     elif sect == 'abd':
         num_staff = len(ABD_STAFF)
         num_rots = len(ABD_ROTS)
         staff = ABD_STAFF
-        rots = ABD_STAFF
+        rots = ABD_ROTS
     elif sect == 'cht':
         num_staff = len(CHT_STAFF)
         num_shifts = len(CHT_SHIFTS)
         staff = CHT_STAFF
-        rots = CHT_STAFF
-        num_rots = len(CHT_ROTS)
-        shifts = CHT_SHIFTS
         rots = CHT_ROTS
     elif sect == 'sta':
         num_staff = len(STA_STAFF)
         num_rots = len(STA_ROTS)
         staff = STA_STAFF
-        rots = STA_STAFF
+        rots = STA_ROTS
     elif sect == 'opr':
         num_staff = len(OPR_STAFF)
         num_rots = len(OPR_ROTS)
         staff = OPR_STAFF
-        rots = OPR_STAFF
+        rots = OPR_ROTS
     else:
         raise ValueError('Unresolved section name in get_section_nstaff_nrots_staff_rots function.')
     
@@ -533,15 +531,15 @@ def set_cht_constraints(s,st): # s = solver
     for i in range(len(WEEKDAYS)):
 
         # Constraints binding AM/PM rotations
-        s.Add(st[(NER_SHIFTS.index('Chest/PET_AM'),i*2)] == st[(NER_SHIFTS.index('Chest/PET_PM'),i*2+1)])
+        s.Add(st[(CHT_SHIFTS.index('Chest/PET_AM'),i*2)] == st[(CHT_SHIFTS.index('Chest/PET_PM'),i*2+1)])
 
         # These shifts are real and need to be assigned
-        s.Add(st[(NER_SHIFTS.index('Chest/PET_AM'),i*2)] != -1)
-        s.Add(st[(NER_SHIFTS.index('Chest/PET_PM'),i*2+1)] != -1)
+        s.Add(st[(CHT_SHIFTS.index('Chest/PET_AM'),i*2)] != -1)
+        s.Add(st[(CHT_SHIFTS.index('Chest/PET_PM'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
-        s.Add(st[(NER_SHIFTS.index('Chest/PET_PM'),i*2)] == -1)
-        s.Add(st[(NER_SHIFTS.index('Chest/PET_AM'),i*2+1)] == -1)
+        s.Add(st[(CHT_SHIFTS.index('Chest/PET_PM'),i*2)] == -1)
+        s.Add(st[(CHT_SHIFTS.index('Chest/PET_AM'),i*2+1)] == -1)
 
 def set_sta_constraints(s,st): # s = solver
     
@@ -955,8 +953,9 @@ def build_multi(nweeks,sects,limit):
         history = np.zeros((nstaff,nrots),dtype='int64')
 
         for i in range(nweeks):
-            
-            print("WEEK #",int(i+1))
+            print("===========================================")
+            print("          WEEK #",int(i+1)," ",sects[j])
+            print("===========================================")
             
             if sects[j] == 'brt':      
                 cumulative,history,recentweek = build_brt(unavailability[:,:,i],cumulative,history,bias,limit) # recentweek is to update_availability matrix
@@ -1250,8 +1249,8 @@ def main():
 
     # Top level settings
     num_weeks = 1
-    time_limit = 500
-    sections = ['brt','ner','msk','abd','sfl']
+    time_limit = 1000
+    sections = ['brt','ner','cht','msk','abd','sta','opr','sfl']
     #sections = ['brt']
     #sections = ['sonoflu']
 
