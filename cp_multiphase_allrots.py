@@ -160,7 +160,7 @@ def get_section_nstaff_nrots_staff_rots(sect):
         staff = SFL_STAFF
         rots = SFL_ROTS
     elif sect == 'msk':
-       num_staff = len(MSK_STAFF)
+        num_staff = len(MSK_STAFF)
         num_rots = len(MSK_ROTS)
         staff = MSK_STAFF
         rots = MSK_ROTS
