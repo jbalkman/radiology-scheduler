@@ -625,7 +625,7 @@ def create_analysis(collect,stafflookup,cuml,hist,bias,sect):
 
     analysis = []
     num_solutions = collect.SolutionCount()
-    print("Number of solutions:",num_solutions)
+    print("number of solutions:",num_solutions)
     for sol in range(num_solutions):
       
         curr = np.zeros((num_staff,num_shifts,num_hdays))
