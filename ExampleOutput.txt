@@ -1,0 +1,889 @@
+
+===========================================
+          WEEK # 1   brt
+===========================================
+random seed: 62188
+creating decision builder...
+creating collector...
+creating analysis...
+number of solutions: 7449
+sorting analysis of length 7449
+printing analysis...
+
+Staffing matrix with variance: 0.1275
+
+Day 0
+AM Shift: UNC_Diag_AM DCN
+AM Shift: UNC_Proc_AM GHL
+AM Shift: FRE_Mamm JKS
+PM Shift: UNC_Diag_PM DCN
+PM Shift: UNC_Proc_PM GHL
+
+Day 1
+AM Shift: UNC_Diag_AM JKS
+AM Shift: UNC_Proc_AM JDB
+AM Shift: SLN_Mamm GHL
+PM Shift: UNC_Diag_PM JKS
+PM Shift: UNC_Proc_PM JDB
+PM Shift: FRE_Mamm GHL
+
+Day 2
+AM Shift: UNC_Diag_AM GHL
+AM Shift: UNC_Proc_AM SDE
+AM Shift: FRE_Mamm JDB
+PM Shift: UNC_Diag_PM GHL
+PM Shift: UNC_Proc_PM SDE
+
+Day 3
+AM Shift: UNC_Diag_AM JDB
+AM Shift: UNC_Proc_AM DCN
+AM Shift: SLN_Mamm SDE
+PM Shift: UNC_Diag_PM JDB
+PM Shift: UNC_Proc_PM DCN
+PM Shift: FRE_Mamm SDE
+
+Day 4
+AM Shift: UNC_Diag_AM SDE
+AM Shift: UNC_Proc_AM JKS
+AM Shift: FRE_Mamm DCN
+PM Shift: UNC_Diag_PM SDE
+PM Shift: UNC_Proc_PM JKS
+
+Solutions found: 7449
+Variance max: 0.2475
+Variance min: 0.1275
+Time: 3570 ms
+
+Cumulative Week Summary for Section: brt
+====================================
+
+Staff JDB
+UNC_Diag 1  MON 0 TUE 0 WED 0 THU 1 FRI 0
+UNC_Proc 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+FRE_Mamm 1  MON 0 TUE 0 WED 1 THU 0 FRI 0
+SLN_Mamm 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SDE
+UNC_Diag 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+UNC_Proc 1  MON 0 TUE 0 WED 1 THU 0 FRI 0
+FRE_Mamm 1  MON 0 TUE 0 WED 0 THU 1 FRI 0
+SLN_Mamm 1  MON 0 TUE 0 WED 0 THU 1 FRI 0
+Staff GHL
+UNC_Diag 1  MON 0 TUE 0 WED 1 THU 0 FRI 0
+UNC_Proc 1  MON 1 TUE 0 WED 0 THU 0 FRI 0
+FRE_Mamm 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+SLN_Mamm 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+Staff DCN
+UNC_Diag 1  MON 1 TUE 0 WED 0 THU 0 FRI 0
+UNC_Proc 1  MON 0 TUE 0 WED 0 THU 1 FRI 0
+FRE_Mamm 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+SLN_Mamm 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff JKS
+UNC_Diag 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+UNC_Proc 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+FRE_Mamm 1  MON 1 TUE 0 WED 0 THU 0 FRI 0
+SLN_Mamm 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+
+Current Bias Values for Section: brt (more negative numbers indicate rotation has not been covered by this staff member in a while)
+================================
+
+Staff JDB
+UNC_Diag -1
+UNC_Proc -1
+FRE_Mamm -1
+SLN_Mamm -2
+Staff SDE
+UNC_Diag -1
+UNC_Proc -1
+FRE_Mamm -1
+SLN_Mamm -1
+Staff GHL
+UNC_Diag -1
+UNC_Proc -1
+FRE_Mamm -1
+SLN_Mamm -1
+Staff DCN
+UNC_Diag -1
+UNC_Proc -1
+FRE_Mamm -1
+SLN_Mamm -2
+Staff JKS
+UNC_Diag -1
+UNC_Proc -1
+FRE_Mamm -1
+SLN_Mamm -2
+
+===========================================
+          WEEK # 1   sfl
+===========================================
+random seed: 31957
+creating decision builder...
+creating collector...
+creating analysis...
+number of solutions: 7179
+sorting analysis of length 7179
+printing analysis...
+
+Staffing matrix with variance: 0.1875
+
+Day 0
+AM Shift: FRE_Sonoflu_AM DRL
+AM Shift: SLN_Sonoflu_AM SH
+PM Shift: FRE_Sonoflu_PM DRL
+PM Shift: SLN_Sonoflu_PM SH
+
+Day 1
+AM Shift: FRE_Sonoflu_AM HG
+AM Shift: SLN_Sonoflu_AM GJS
+PM Shift: FRE_Sonoflu_PM HG
+PM Shift: SLN_Sonoflu_PM GJS
+
+Day 2
+AM Shift: FRE_Sonoflu_AM DCN
+AM Shift: SLN_Sonoflu_AM SMN
+PM Shift: FRE_Sonoflu_PM DCN
+PM Shift: SLN_Sonoflu_PM SMN
+
+Day 3
+AM Shift: FRE_Sonoflu_AM JKL
+AM Shift: SLN_Sonoflu_AM GSR
+PM Shift: FRE_Sonoflu_PM JKL
+PM Shift: SLN_Sonoflu_PM GSR
+
+Day 4
+AM Shift: FRE_Sonoflu_AM CCM
+AM Shift: SLN_Sonoflu_AM SJP
+PM Shift: FRE_Sonoflu_PM CCM
+PM Shift: SLN_Sonoflu_PM SJP
+
+Solutions found: 7179
+Variance max: 0.1875
+Variance min: 0.1875
+Time: 6476 ms
+
+Cumulative Week Summary for Section: sfl
+====================================
+
+Staff JDB
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SDE
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff GHL
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff DCN
+FRE_Sonoflu 1  MON 0 TUE 0 WED 1 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff JKS
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff CCM
+FRE_Sonoflu 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff GJS
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+Staff GSR
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 1  MON 0 TUE 0 WED 0 THU 1 FRI 0
+Staff DRL
+FRE_Sonoflu 1  MON 1 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SJP
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+Staff EEP
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff JFK
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SMN
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 1  MON 0 TUE 0 WED 1 THU 0 FRI 0
+Staff BCL
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff DSL
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff HSS
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff JKL
+FRE_Sonoflu 1  MON 0 TUE 0 WED 0 THU 1 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SH
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 1  MON 1 TUE 0 WED 0 THU 0 FRI 0
+Staff HG
+FRE_Sonoflu 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff RV
+FRE_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+SLN_Sonoflu 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+
+Current Bias Values for Section: sfl (more negative numbers indicate rotation has not been covered by this staff member in a while)
+================================
+
+Staff JDB
+FRE_Sonoflu -2
+SLN_Sonoflu -2
+Staff SDE
+FRE_Sonoflu -2
+SLN_Sonoflu -2
+Staff GHL
+FRE_Sonoflu -2
+SLN_Sonoflu -2
+Staff DCN
+FRE_Sonoflu -1
+SLN_Sonoflu -2
+Staff JKS
+FRE_Sonoflu -2
+SLN_Sonoflu -2
+Staff CCM
+FRE_Sonoflu -1
+SLN_Sonoflu -2
+Staff GJS
+FRE_Sonoflu -2
+SLN_Sonoflu -1
+Staff GSR
+FRE_Sonoflu -2
+SLN_Sonoflu -1
+Staff DRL
+FRE_Sonoflu -1
+SLN_Sonoflu -2
+Staff SJP
+FRE_Sonoflu -2
+SLN_Sonoflu -1
+Staff EEP
+FRE_Sonoflu -2
+SLN_Sonoflu -2
+Staff JFK
+FRE_Sonoflu -2
+SLN_Sonoflu -2
+Staff SMN
+FRE_Sonoflu -2
+SLN_Sonoflu -1
+Staff BCL
+FRE_Sonoflu -2
+SLN_Sonoflu -2
+Staff DSL
+FRE_Sonoflu -2
+SLN_Sonoflu -2
+Staff HSS
+FRE_Sonoflu -2
+SLN_Sonoflu -2
+Staff JKL
+FRE_Sonoflu -1
+SLN_Sonoflu -2
+Staff SH
+FRE_Sonoflu -2
+SLN_Sonoflu -1
+Staff HG
+FRE_Sonoflu -1
+SLN_Sonoflu -2
+Staff RV
+FRE_Sonoflu -2
+SLN_Sonoflu -2
+
+===========================================
+          WEEK # 1   ner
+===========================================
+random seed: 12937
+creating decision builder...
+creating collector...
+creating analysis...
+number of solutions: 1600
+sorting analysis of length 1600
+printing analysis...
+
+Staffing matrix with variance: 0.0
+
+Day 0
+AM Shift: Neuro_AM GSR
+PM Shift: Neuro_PM GSR
+
+Day 1
+AM Shift: Neuro_AM SMN
+PM Shift: Neuro_PM SMN
+
+Day 2
+AM Shift: Neuro_AM EEP
+PM Shift: Neuro_PM EEP
+
+Day 3
+AM Shift: Neuro_AM SJP
+PM Shift: Neuro_PM SJP
+
+Day 4
+AM Shift: Neuro_AM JFK
+PM Shift: Neuro_PM JFK
+
+Solutions found: 1600
+Variance max: 0.24
+Variance min: 0.0
+Time: 355 ms
+
+Cumulative Week Summary for Section: ner
+====================================
+
+Staff EEP
+Neuro 1  MON 0 TUE 0 WED 1 THU 0 FRI 0
+Staff GSR
+Neuro 1  MON 1 TUE 0 WED 0 THU 0 FRI 0
+Staff JFK
+Neuro 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+Staff SMN
+Neuro 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+Staff SJP
+Neuro 1  MON 0 TUE 0 WED 0 THU 1 FRI 0
+
+Current Bias Values for Section: ner (more negative numbers indicate rotation has not been covered by this staff member in a while)
+================================
+
+Staff EEP
+Neuro -1
+Staff GSR
+Neuro -1
+Staff JFK
+Neuro -1
+Staff SMN
+Neuro -1
+Staff SJP
+Neuro -1
+CHT staff 5 CHT nrots 1
+
+===========================================
+          WEEK # 1   cht
+===========================================
+random seed: 82231
+creating decision builder...
+creating collector...
+creating analysis...
+number of solutions: 1200
+sorting analysis of length 1200
+printing analysis...
+
+Staffing matrix with variance: 0.0
+
+Day 0
+AM Shift: Chest/PET_AM SMN
+PM Shift: Chest/PET_PM SMN
+
+Day 1
+AM Shift: Chest/PET_AM RV
+PM Shift: Chest/PET_PM RV
+
+Day 2
+AM Shift: Chest/PET_AM JKL
+PM Shift: Chest/PET_PM JKL
+
+Day 3
+AM Shift: Chest/PET_AM GJS
+PM Shift: Chest/PET_PM GJS
+
+Day 4
+AM Shift: Chest/PET_AM BCL
+PM Shift: Chest/PET_PM BCL
+
+Solutions found: 1200
+Variance max: 0.24
+Variance min: 0.0
+Time: 302 ms
+
+Cumulative Week Summary for Section: cht
+====================================
+
+Staff BCL
+Chest/PET 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+Staff GJS
+Chest/PET 1  MON 0 TUE 0 WED 0 THU 1 FRI 0
+Staff SMN
+Chest/PET 1  MON 1 TUE 0 WED 0 THU 0 FRI 0
+Staff RV
+Chest/PET 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+Staff JKL
+Chest/PET 1  MON 0 TUE 0 WED 1 THU 0 FRI 0
+
+Current Bias Values for Section: cht (more negative numbers indicate rotation has not been covered by this staff member in a while)
+================================
+
+Staff BCL
+Chest/PET -1
+Staff GJS
+Chest/PET -1
+Staff SMN
+Chest/PET -1
+Staff RV
+Chest/PET -1
+Staff JKL
+Chest/PET -1
+
+===========================================
+          WEEK # 1   msk
+===========================================
+random seed: 10245
+creating decision builder...
+creating collector...
+creating analysis...
+number of solutions: 360
+sorting analysis of length 360
+printing analysis...
+
+Staffing matrix with variance: 0.0
+
+Day 0
+AM Shift: MSK_AM GJS
+PM Shift: MSK_PM GJS
+
+Day 1
+AM Shift: MSK_AM SJP
+PM Shift: MSK_PM SJP
+
+Day 2
+AM Shift: MSK_AM DRL
+PM Shift: MSK_PM DRL
+
+Day 3
+AM Shift: MSK_AM CCM
+PM Shift: MSK_PM CCM
+
+Day 4
+AM Shift: MSK_AM GSR
+PM Shift: MSK_PM GSR
+
+Solutions found: 360
+Variance max: 0.24
+Variance min: 0.0
+Time: 79 ms
+
+Cumulative Week Summary for Section: msk
+====================================
+
+Staff CCM
+MSK 1  MON 0 TUE 0 WED 0 THU 1 FRI 0
+Staff GJS
+MSK 1  MON 1 TUE 0 WED 0 THU 0 FRI 0
+Staff GSR
+MSK 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+Staff DRL
+MSK 1  MON 0 TUE 0 WED 1 THU 0 FRI 0
+Staff SJP
+MSK 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+
+Current Bias Values for Section: msk (more negative numbers indicate rotation has not been covered by this staff member in a while)
+================================
+
+Staff CCM
+MSK -1
+Staff GJS
+MSK -1
+Staff GSR
+MSK -1
+Staff DRL
+MSK -1
+Staff SJP
+MSK -1
+
+===========================================
+          WEEK # 1   abd
+===========================================
+random seed: 9785
+creating decision builder...
+creating collector...
+creating analysis...
+number of solutions: 1280
+sorting analysis of length 1280
+printing analysis...
+
+Staffing matrix with variance: 0.0
+
+Day 0
+AM Shift: Abdomen_AM BCL
+PM Shift: Abdomen_PM BCL
+
+Day 1
+AM Shift: Abdomen_AM JKL
+PM Shift: Abdomen_PM JKL
+
+Day 2
+AM Shift: Abdomen_AM SH
+PM Shift: Abdomen_PM SH
+
+Day 3
+AM Shift: Abdomen_AM DSL
+PM Shift: Abdomen_PM DSL
+
+Day 4
+AM Shift: Abdomen_AM HSS
+PM Shift: Abdomen_PM HSS
+
+Solutions found: 1280
+Variance max: 0.24
+Variance min: 0.0
+Time: 285 ms
+
+Cumulative Week Summary for Section: abd
+====================================
+
+Staff BCL
+Abdomen 1  MON 1 TUE 0 WED 0 THU 0 FRI 0
+Staff DSL
+Abdomen 1  MON 0 TUE 0 WED 0 THU 1 FRI 0
+Staff HSS
+Abdomen 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+Staff JKL
+Abdomen 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+Staff SH
+Abdomen 1  MON 0 TUE 0 WED 1 THU 0 FRI 0
+
+Current Bias Values for Section: abd (more negative numbers indicate rotation has not been covered by this staff member in a while)
+================================
+
+Staff BCL
+Abdomen -1
+Staff DSL
+Abdomen -1
+Staff HSS
+Abdomen -1
+Staff JKL
+Abdomen -1
+Staff SH
+Abdomen -1
+
+===========================================
+          WEEK # 1   sta
+===========================================
+random seed: 65421
+creating decision builder...
+creating collector...
+creating analysis...
+number of solutions: 11562
+sorting analysis of length 11562
+printing analysis...
+
+Staffing matrix with variance: 0.172839506173
+
+Day 0
+AM Shift: STAT1_AM EEP
+PM Shift: STAT1b_PM EEP
+PM Shift: STAT2_PM CCM
+
+Day 1
+AM Shift: STAT1_AM SH
+PM Shift: STAT1b_PM SH
+PM Shift: STAT2_PM BCL
+
+Day 2
+AM Shift: STAT1_AM CCM
+PM Shift: STAT1b_PM CCM
+PM Shift: STAT2_PM BCL
+
+Day 3
+AM Shift: STAT1_AM SH
+PM Shift: STAT1b_PM SH
+PM Shift: STAT2_PM BCL
+
+Day 4
+AM Shift: STAT1_AM EEP
+PM Shift: STAT1b_PM EEP
+PM Shift: STAT2_PM DCN
+
+Solutions found: 11562
+Variance max: 0.237654320988
+Variance min: 0.172839506173
+Time: 8446 ms
+
+Cumulative Week Summary for Section: sta
+====================================
+
+Staff JDB
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SDE
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff GHL
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff DCN
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+Staff JKS
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff CCM
+STAT_AM 1  MON 0 TUE 0 WED 1 THU 0 FRI 0
+STAT_PM 2  MON 1 TUE 0 WED 1 THU 0 FRI 0
+Staff GJS
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff GSR
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff DRL
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SJP
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff EEP
+STAT_AM 2  MON 1 TUE 0 WED 0 THU 0 FRI 1
+STAT_PM 2  MON 1 TUE 0 WED 0 THU 0 FRI 1
+Staff JFK
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SMN
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff BCL
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 3  MON 0 TUE 1 WED 1 THU 1 FRI 0
+Staff DSL
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff HSS
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff JKL
+STAT_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+STAT_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SH
+STAT_AM 2  MON 0 TUE 1 WED 0 THU 1 FRI 0
+STAT_PM 2  MON 0 TUE 1 WED 0 THU 1 FRI 0
+
+Current Bias Values for Section: sta (more negative numbers indicate rotation has not been covered by this staff member in a while)
+================================
+
+Staff JDB
+STAT_AM -2
+STAT_PM -2
+Staff SDE
+STAT_AM -2
+STAT_PM -2
+Staff GHL
+STAT_AM -2
+STAT_PM -2
+Staff DCN
+STAT_AM -2
+STAT_PM -1
+Staff JKS
+STAT_AM -2
+STAT_PM -2
+Staff CCM
+STAT_AM -1
+STAT_PM -1
+Staff GJS
+STAT_AM -2
+STAT_PM -2
+Staff GSR
+STAT_AM -2
+STAT_PM -2
+Staff DRL
+STAT_AM -2
+STAT_PM -2
+Staff SJP
+STAT_AM -2
+STAT_PM -2
+Staff EEP
+STAT_AM -1
+STAT_PM -1
+Staff JFK
+STAT_AM -2
+STAT_PM -2
+Staff SMN
+STAT_AM -2
+STAT_PM -2
+Staff BCL
+STAT_AM -2
+STAT_PM -1
+Staff DSL
+STAT_AM -2
+STAT_PM -2
+Staff HSS
+STAT_AM -2
+STAT_PM -2
+Staff JKL
+STAT_AM -2
+STAT_PM -2
+Staff SH
+STAT_AM -1
+STAT_PM -1
+
+===========================================
+          WEEK # 1   opr
+===========================================
+random seed: 13682
+creating decision builder...
+creating collector...
+creating analysis...
+number of solutions: 10877
+sorting analysis of length 10877
+printing analysis...
+
+Staffing matrix with variance: 0.219375
+
+Day 0
+AM Shift: OPPR1_AM HSS
+AM Shift: OPPR2_AM JFK
+PM Shift: OPPR3_PM JKS
+PM Shift: OPPR4_PM SJP
+
+Day 1
+AM Shift: OPPR1_AM CCM
+AM Shift: OPPR2_AM HSS
+PM Shift: OPPR3_PM HSS
+PM Shift: OPPR4_PM DSL
+
+Day 2
+AM Shift: OPPR1_AM HSS
+AM Shift: OPPR2_AM RV
+PM Shift: OPPR3_PM RV
+PM Shift: OPPR4_PM JKS
+
+Day 3
+AM Shift: OPPR1_AM DRL
+AM Shift: OPPR2_AM HSS
+PM Shift: OPPR3_PM JKS
+PM Shift: OPPR4_PM RV
+
+Day 4
+AM Shift: OPPR1_AM JDB
+AM Shift: OPPR2_AM GHL
+PM Shift: OPPR3_PM DSL
+PM Shift: OPPR4_PM GJS
+
+Solutions found: 10877
+Variance max: 0.2475
+Variance min: 0.219375
+Time: 10265 ms
+
+Cumulative Week Summary for Section: opr
+====================================
+
+Staff JDB
+OPPR_AM 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SDE
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff GHL
+OPPR_AM 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff DCN
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff JKS
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 3  MON 1 TUE 0 WED 1 THU 1 FRI 0
+Staff CCM
+OPPR_AM 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff GJS
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 1  MON 0 TUE 0 WED 0 THU 0 FRI 1
+Staff GSR
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff DRL
+OPPR_AM 1  MON 0 TUE 0 WED 0 THU 1 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SJP
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 1  MON 1 TUE 0 WED 0 THU 0 FRI 0
+Staff EEP
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff JFK
+OPPR_AM 1  MON 1 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SMN
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff BCL
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff DSL
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 2  MON 0 TUE 1 WED 0 THU 0 FRI 1
+Staff HSS
+OPPR_AM 4  MON 1 TUE 1 WED 1 THU 1 FRI 0
+OPPR_PM 1  MON 0 TUE 1 WED 0 THU 0 FRI 0
+Staff JKL
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff SH
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff HG
+OPPR_AM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+OPPR_PM 0  MON 0 TUE 0 WED 0 THU 0 FRI 0
+Staff RV
+OPPR_AM 1  MON 0 TUE 0 WED 1 THU 0 FRI 0
+OPPR_PM 2  MON 0 TUE 0 WED 1 THU 1 FRI 0
+
+Current Bias Values for Section: opr (more negative numbers indicate rotation has not been covered by this staff member in a while)
+================================
+
+Staff JDB
+OPPR_AM -1
+OPPR_PM -2
+Staff SDE
+OPPR_AM -2
+OPPR_PM -2
+Staff GHL
+OPPR_AM -1
+OPPR_PM -2
+Staff DCN
+OPPR_AM -2
+OPPR_PM -2
+Staff JKS
+OPPR_AM -2
+OPPR_PM -1
+Staff CCM
+OPPR_AM -1
+OPPR_PM -2
+Staff GJS
+OPPR_AM -2
+OPPR_PM -1
+Staff GSR
+OPPR_AM -2
+OPPR_PM -2
+Staff DRL
+OPPR_AM -1
+OPPR_PM -2
+Staff SJP
+OPPR_AM -2
+OPPR_PM -1
+Staff EEP
+OPPR_AM -2
+OPPR_PM -2
+Staff JFK
+OPPR_AM -1
+OPPR_PM -2
+Staff SMN
+OPPR_AM -2
+OPPR_PM -2
+Staff BCL
+OPPR_AM -2
+OPPR_PM -2
+Staff DSL
+OPPR_AM -2
+OPPR_PM -1
+Staff HSS
+OPPR_AM -1
+OPPR_PM -1
+Staff JKL
+OPPR_AM -2
+OPPR_PM -2
+Staff SH
+OPPR_AM -2
+OPPR_PM -2
+Staff HG
+OPPR_AM -2
+OPPR_PM -2
+Staff RV
+OPPR_AM -1
+OPPR_PM -1
