@@ -71,7 +71,7 @@ SFL_STAFF = ALL_STAFF
 MSK_STAFF = ['CCM','GJS','GSR','DRL','SJP']
 NER_STAFF = ['EEP','GSR','JFK','SMN','SJP']
 ABD_STAFF = ['BCL','DSL','HSS','JKL','SH']
-CHT_STAFF = ['BCL','SMN','RV']
+CHT_STAFF = ['BCL','GJS','SMN','RV','JKL']
 STA_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH']
 
 # General Use
@@ -158,7 +158,7 @@ def get_section_nstaff_nrots_staff_rots(sect):
         rots = ABD_ROTS
     elif sect == 'cht':
         num_staff = len(CHT_STAFF)
-        num_shifts = len(CHT_SHIFTS)
+        num_rots = len(CHT_SHIFTS)
         staff = CHT_STAFF
         rots = CHT_ROTS
     elif sect == 'sta':
@@ -174,6 +174,9 @@ def get_section_nstaff_nrots_staff_rots(sect):
     else:
         raise ValueError('Unresolved section name in get_section_nstaff_nrots_staff_rots function.')
     
+    if (num_staff == 0 or num_rots == 0):
+        raise ValueError('Exiting function get_section_nstaff_nrots_staff_rots with num_staff or num_rots == 0',num_staff,num_rots)
+
     return num_staff,num_rots,staff,rots
 
 def get_section_nstaff_nshifts_nrots_shifts_rots(sect):
@@ -603,8 +606,9 @@ def create_analysis(collect,stafflookup,cuml,hist,bias,sect):
     num_staff,num_shifts,staff,shifts = get_section_nstaff_nshifts_staff_shifts(sect)
 
     analysis = []
-
-    for sol in range(collect.SolutionCount()):
+    num_solutions = collect.SolutionCount()
+    print("Number of solutions:",num_solutions)
+    for sol in range(num_solutions):
       
         curr = np.zeros((num_staff,num_shifts,num_hdays))
         for i in range(num_hdays):
@@ -937,6 +941,7 @@ def build_multi(nweeks,sects,limit):
         elif sects[j] == 'cht':
             nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('cht')      
             bias = init_cht_bias()
+            print("CHT staff",nstaff,"CHT nrots",nrots) 
         elif sects[j] == 'sta':
             nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('sta')      
             bias = init_sta_bias()
@@ -1171,7 +1176,7 @@ def make_cht_hx(cur,cml,his,bis):
     ndays = len(WEEKDAYS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('cht')
-
+    #print("staff",nstaff,"shifts",nshifts,"nrots",nrots,"shifts",shifts,"rots",rots)
     curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
 
     for s in range(nstaff):
@@ -1184,7 +1189,9 @@ def make_cht_hx(cur,cml,his,bis):
                         pass
                         #raise ValueError('Unresolved shift/halfday combination in make_cht_hx function.')
 
-    new_cml = cml.astype('int64')+curr_rots.astype('int64')      
+    new_cml = cml.astype('int64')+curr_rots.astype('int64')
+    print("Curr Rots:",curr_rots)
+    print("History:",his)
     hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
 
     return new_cml,hist_plus
@@ -1250,8 +1257,8 @@ def main():
     # Top level settings
     num_weeks = 1
     time_limit = 1000
-    sections = ['brt','ner','cht','msk','abd','sta','opr','sfl']
-    #sections = ['brt']
+    sections = ['brt','ner','msk','abd','sta','cht','opr','sfl']
+    #sections = ['cht']
     #sections = ['sonoflu']
 
     # Build multiphase schedule
