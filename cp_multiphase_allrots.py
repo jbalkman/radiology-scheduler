@@ -84,6 +84,7 @@ NER_STAFF = ['EEP','GSR','JFK','SMN','SJP']
 ABD_STAFF = ['BCL','DSL','HSS','JKL','SH']
 CHT_STAFF = ['BCL','GJS','SMN','RV','JKL']
 STA_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH']
+OPR_STAFF = ALL_STAFF
 
 # General Use
 WEEKDAYS = ['MON','TUE','WED','THU','FRI']
@@ -974,6 +975,7 @@ def build_multi(nweeks,sects,limit):
         history = np.zeros((nstaff,nrots),dtype='int64')
 
         for i in range(nweeks):
+            print()
             print("===========================================")
             print("          WEEK #",int(i+1)," ",sects[j])
             print("===========================================")
@@ -1008,7 +1010,6 @@ def build_multi(nweeks,sects,limit):
 
             print_results(cumulative,sects[j])
             print_results(history,sects[j])
-            print("======================================================================================")
 
 def update_availability(c,a,s): # c = nstaff x nhds reflecting 1-week (10 shift); a = unavailability matrix
     
@@ -1268,9 +1269,9 @@ def make_opr_hx(cur,cml,his,bis):
 def main():
 
     # Top level settings
-    num_weeks = 1
-    time_limit = 1000
-    sections = ['brt','ner','cht','msk','abd','sta','opr','sfl']
+    num_weeks = 2
+    time_limit = 100
+    sections = ['brt','sfl','ner','cht','msk','abd','sta','opr']
     #sections = ['cht']
     #sections = ['sonoflu']
 
