@@ -85,16 +85,7 @@ def leave(r,a,s,st,ns):
         s.Add(s.Max([st[(k,d*2+1)] == rad for k in range(ns)]) == 0)
 
 def print_results(results,section):
-    if section == 'brt':
-        num_staff = len(BRT_STAFF)
-        staff = BRT_STAFF
-        num_rots = len(BRT_ROTS)
-        rots = BRT_ROTS
-    else:
-        num_staff = len(SFL_STAFF)
-        staff = SFL_STAFF
-        num_rots = len(SFL_ROTS)
-        rots = SFL_ROTS
+    num_staff,num_rots,staff,rots = get_section_nstaff_nrots_staff_rots(section) 
 
     if len(results.shape) > 2:
         for s in range(num_staff):
@@ -132,42 +123,60 @@ def create_staff_lookup(solver,num_hdays,num_shifts,num_staff):
 ===============
 '''
 
-def get_section_nstaff_nrots(sect):
+def get_section_nstaff_nrots_staff_rots(sect):
 
     num_staff = 0
     num_rots = 0
+    staff = []
+    rots = []
 
     if sect == 'brt':
         num_staff = len(BRT_STAFF)
         num_rots = len(BRT_ROTS)
+        staff = BRT_STAFF
+        rots = BRT_STAFF
     elif sect == 'sfl':
         num_staff = len(SFL_STAFF)
         num_rots = len(SFL_ROTS)
+        staff = SFL_STAFF
+        rots = SFL_STAFF
     elif sect == 'msk':
         num_staff = len(MSK_STAFF)
         num_rots = len(MSK_ROTS)
+        staff = MSK_STAFF
+        rots = MSK_STAFF
     elif sect == 'ner':
         num_staff = len(NER_STAFF)
         num_rots = len(NER_ROTS)
+        staff = NER_STAFF
+        rots = NER_STAFF
     elif sect == 'abd':
         num_staff = len(ABD_STAFF)
         num_rots = len(ABD_ROTS)
+        staff = ABD_STAFF
+        rots = ABD_STAFF
     elif sect == 'cht':
         num_staff = len(CHT_STAFF)
         num_shifts = len(CHT_SHIFTS)
+        staff = CHT_STAFF
+        rots = CHT_STAFF
         num_rots = len(CHT_ROTS)
         shifts = CHT_SHIFTS
         rots = CHT_ROTS
     elif sect == 'sta':
         num_staff = len(STA_STAFF)
         num_rots = len(STA_ROTS)
+        staff = STA_STAFF
+        rots = STA_STAFF
     elif sect == 'opr':
         num_staff = len(OPR_STAFF)
         num_rots = len(OPR_ROTS)
+        staff = OPR_STAFF
+        rots = OPR_STAFF
     else:
-        pass
+        raise ValueError('Unresolved section name in get_section_nstaff_nrots_staff_rots function.')
     
-    return num_staff,num_rots
+    return num_staff,num_rots,staff,rots
 
 def get_section_nstaff_nshifts_nrots_shifts_rots(sect):
 
@@ -226,7 +235,7 @@ def get_section_nstaff_nshifts_nrots_shifts_rots(sect):
         shifts = OPR_SHIFTS
         rots = OPR_ROTS
     else:
-        pass
+        raise ValueError('Unresolved section name in get_section_nstaff_nshifts_nrots_shifts_rots function.')
     
     return num_staff,num_shifts,num_rots,shifts,rots
 
@@ -277,7 +286,7 @@ def get_section_nstaff_nshifts_staff_shifts(sect):
         shifts = OPR_SHIFTS
         staff = OPR_STAFF
     else:
-        pass
+        raise ValueError('Unresolved section name in get_section_nstaff_nshifts_staff_shifts function.')
     
     return num_staff,num_shifts,staff,shifts
 
@@ -454,6 +463,133 @@ def set_sfl_constraints(s,st): # s = solver
     s.Add(s.Max([st[(SFL_SHIFTS.index('SLN_Sonoflu_AM'),WEEK_SHIFTS.index('TUE-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
     s.Add(s.Max([st[(SFL_SHIFTS.index('SLN_Sonoflu_AM'),WEEK_SHIFTS.index('THU-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
 
+def set_msk_constraints(s,st): # s = solver
+    
+    for i in range(len(WEEK_SHIFTS)):
+
+        # No double coverage
+        s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(MSK_SHIFTS))],-1))
+        
+    for i in range(len(WEEKDAYS)):
+
+        # Constraints binding AM/PM rotations
+        s.Add(st[(MSK_SHIFTS.index('MSK_AM'),i*2)] == st[(MSK_SHIFTS.index('MSK_PM'),i*2+1)])
+
+        # These shifts are real and need to be assigned
+        s.Add(st[(MSK_SHIFTS.index('MSK_AM'),i*2)] != -1)
+        s.Add(st[(MSK_SHIFTS.index('MSK_PM'),i*2+1)] != -1)
+
+        # Shifts that don't fit into context (e.g. PM on a morning shift)
+        s.Add(st[(MSK_SHIFTS.index('MSK_PM'),i*2)] == -1)
+        s.Add(st[(MSK_SHIFTS.index('MSK_AM'),i*2+1)] == -1)
+
+def set_abd_constraints(s,st): # s = solver
+    
+    for i in range(len(WEEK_SHIFTS)):
+
+        # No double coverage
+        s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(ABD_SHIFTS))],-1))
+        
+    for i in range(len(WEEKDAYS)):
+
+        # Constraints binding AM/PM rotations
+        s.Add(st[(ABD_SHIFTS.index('Abdomen_AM'),i*2)] == st[(ABD_SHIFTS.index('Abdomen_PM'),i*2+1)])
+
+        # These shifts are real and need to be assigned
+        s.Add(st[(ABD_SHIFTS.index('Abdomen_AM'),i*2)] != -1)
+        s.Add(st[(ABD_SHIFTS.index('Abdomen_PM'),i*2+1)] != -1)
+
+        # Shifts that don't fit into context (e.g. PM on a morning shift)
+        s.Add(st[(ABD_SHIFTS.index('Abdomen_PM'),i*2)] == -1)
+        s.Add(st[(ABD_SHIFTS.index('Abdomen_AM'),i*2+1)] == -1)
+
+def set_ner_constraints(s,st): # s = solver
+    
+    for i in range(len(WEEK_SHIFTS)):
+
+        # No double coverage
+        s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(NER_SHIFTS))],-1))
+        
+    for i in range(len(WEEKDAYS)):
+
+        # Constraints binding AM/PM rotations
+        s.Add(st[(NER_SHIFTS.index('Neuro_AM'),i*2)] == st[(NER_SHIFTS.index('Neuro_PM'),i*2+1)])
+
+        # These shifts are real and need to be assigned
+        s.Add(st[(NER_SHIFTS.index('Neuro_AM'),i*2)] != -1)
+        s.Add(st[(NER_SHIFTS.index('Neuro_PM'),i*2+1)] != -1)
+
+        # Shifts that don't fit into context (e.g. PM on a morning shift)
+        s.Add(st[(NER_SHIFTS.index('Neuro_PM'),i*2)] == -1)
+        s.Add(st[(NER_SHIFTS.index('Neuro_AM'),i*2+1)] == -1)
+
+def set_cht_constraints(s,st): # s = solver
+    
+    for i in range(len(WEEK_SHIFTS)):
+
+        # No double coverage
+        s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(CHT_SHIFTS))],-1))
+        
+    for i in range(len(WEEKDAYS)):
+
+        # Constraints binding AM/PM rotations
+        s.Add(st[(NER_SHIFTS.index('Chest/PET_AM'),i*2)] == st[(NER_SHIFTS.index('Chest/PET_PM'),i*2+1)])
+
+        # These shifts are real and need to be assigned
+        s.Add(st[(NER_SHIFTS.index('Chest/PET_AM'),i*2)] != -1)
+        s.Add(st[(NER_SHIFTS.index('Chest/PET_PM'),i*2+1)] != -1)
+
+        # Shifts that don't fit into context (e.g. PM on a morning shift)
+        s.Add(st[(NER_SHIFTS.index('Chest/PET_PM'),i*2)] == -1)
+        s.Add(st[(NER_SHIFTS.index('Chest/PET_AM'),i*2+1)] == -1)
+
+def set_sta_constraints(s,st): # s = solver
+    
+    for i in range(len(WEEK_SHIFTS)):
+
+        # No double coverage
+        s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(STA_SHIFTS))],-1))
+        
+    for i in range(len(WEEKDAYS)):
+
+        # Constraints binding AM/PM rotations
+        s.Add(st[(STA_SHIFTS.index('STAT1_AM'),i*2)] == st[(STA_SHIFTS.index('STAT1b_PM'),i*2+1)])
+
+        # These shifts are real and need to be assigned
+        s.Add(st[(STA_SHIFTS.index('STAT1_AM'),i*2)] != -1)
+        s.Add(st[(STA_SHIFTS.index('STAT1b_PM'),i*2+1)] != -1)
+        s.Add(st[(STA_SHIFTS.index('STAT2_PM'),i*2+1)] != -1)
+
+        # Shifts that don't fit into context (e.g. PM on a morning shift)
+        s.Add(st[(STA_SHIFTS.index('STAT1b_PM'),i*2)] == -1)
+        s.Add(st[(STA_SHIFTS.index('STAT2_PM'),i*2)] == -1)
+        s.Add(st[(STA_SHIFTS.index('STAT1_AM'),i*2+1)] == -1)
+
+        # Don't be on all day STAT two days in a row 
+        if i < 4:
+            s.Add(st[(STA_SHIFTS.index('STAT1_AM'),i*2)] != st[(STA_SHIFTS.index('STAT1_AM'),i*2+2)])
+
+def set_opr_constraints(s,st): # s = solver
+    
+    for i in range(len(WEEK_SHIFTS)):
+
+        # No double coverage
+        s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(OPR_SHIFTS))],-1))
+        
+    for i in range(len(WEEKDAYS)):
+
+        # These shifts are real and need to be assigned
+        s.Add(st[(OPR_SHIFTS.index('OPPR1_AM'),i*2)] != -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR2_AM'),i*2)] != -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR3_PM'),i*2+1)] != -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR4_PM'),i*2+1)] != -1)
+
+        # Shifts that don't fit into context (e.g. PM on a morning shift)
+        s.Add(st[(OPR_SHIFTS.index('OPPR3_PM'),i*2)] == -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR4_PM'),i*2)] == -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR1_AM'),i*2+1)] != -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR2_AM'),i*2+1)] != -1)
+          
 '''
 ====================
  ANALYSIS FUNCTIONS
@@ -482,8 +618,20 @@ def create_analysis(collect,stafflookup,cuml,hist,bias,sect):
             updated_cuml,hist_plus = make_brt_hx(curr,cuml,hist,bias)
         elif sect == 'sfl':
             updated_cuml,hist_plus = make_sfl_hx(curr,cuml,hist,bias)
+        elif sect == 'msk':
+            updated_cuml,hist_plus = make_msk_hx(curr,cuml,hist,bias)
+        elif sect == 'ner':
+            updated_cuml,hist_plus = make_ner_hx(curr,cuml,hist,bias)
+        elif sect == 'abd':
+            updated_cuml,hist_plus = make_abd_hx(curr,cuml,hist,bias)
+        elif sect == 'cht':
+            updated_cuml,hist_plus = make_cht_hx(curr,cuml,hist,bias)
+        elif sect == 'sta':
+            updated_cuml,hist_plus = make_sta_hx(curr,cuml,hist,bias)
+        elif sect == 'opr':
+            updated_cuml,hist_plus = make_opr_hx(curr,cuml,hist,bias)
         else:
-          updated_cuml,hist_plus = make_brt_hx(curr,cuml,hist,bias)
+            raise ValueError('Unresolved section in create_anslysis function.')
 
         # sort by variance of each matrix; 
         analysis.append((sol,np.var(hist_plus),updated_cuml,hist_plus,curr))
@@ -774,28 +922,28 @@ def build_multi(nweeks,sects,limit):
 
     for j in range(len(sects)):
         if sects[j] == 'brt':
-            nstaff,nrots = get_section_nstaff_nrots('brt')            
+            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('brt')            
             bias = init_brt_bias()
         elif sects[j] == 'sfl':
-            nstaff,nrots = get_section_nstaff_nrots('sfl')      
+            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('sfl')      
             bias = init_sfl_bias()
         elif sects[j] == 'msk':
-            nstaff,nrots = get_section_nstaff_nrots('msk')      
+            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('msk')      
             bias = init_msk_bias()
         elif sects[j] == 'ner':
-            nstaff,nrots = get_section_nstaff_nrots('ner')      
+            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('ner')      
             bias = init_ner_bias()
         elif sects[j] == 'abd':
-            nstaff,nrots = get_section_nstaff_nrots('abd')      
+            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('abd')      
             bias = init_abd_bias()
         elif sects[j] == 'cht':
-            nstaff,nrots = get_section_nstaff_nrots('cht')      
+            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('cht')      
             bias = init_cht_bias()
         elif sects[j] == 'sta':
-            nstaff,nrots = get_section_nstaff_nrots('sta')      
+            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('sta')      
             bias = init_sta_bias()
         elif sects[j] == 'opr':
-            nstaff,nrots = get_section_nstaff_nrots('opr')      
+            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('opr')      
             bias = init_opr_bias()
         else:
             nstaff = len(OTHER_STAFF)
@@ -808,7 +956,7 @@ def build_multi(nweeks,sects,limit):
 
         for i in range(nweeks):
             
-            print("WEEK #",i)
+            print("WEEK #",int(i+1))
             
             if sects[j] == 'brt':      
                 cumulative,history,recentweek = build_brt(unavailability[:,:,i],cumulative,history,bias,limit) # recentweek is to update_availability matrix
@@ -861,7 +1009,7 @@ def update_availability(c,a,s): # c = nstaff x nhds reflecting 1-week (10 shift)
     elif s == 'opr':
         staff = OPR_STAFF 
     else:
-        pass
+        raise ValueError('Unresolved section in update_availability function.')
 
     c_or = np.sum(c,axis=1,dtype='bool')
     for i in range(len(staff)):
@@ -918,8 +1066,8 @@ def make_brt_hx(cur,cml,his,bis):
                     elif j == 5 : # SLN Mamm
                         curr_rots[s,rots.index('SLN_Mamm'),int(i/2)] += 1
                     else:
+#raise ValueError('Unresolved shift/halfday combination in make_brt_hx function.',i,j)
                         pass
-
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
     hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
 
@@ -943,6 +1091,7 @@ def make_sfl_hx(cur,cml,his,bis):
                         curr_rots[s,rots.index('SLN_Sonoflu'),int(i/2)] += 1
                     else:
                         pass
+                        #raise ValueError('Unresolved shift/halfday combination in make_sfl_hx function.')
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
     hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
@@ -965,6 +1114,7 @@ def make_msk_hx(cur,cml,his,bis):
                         curr_rots[s,rots.index('MSK'),int(i/2)] += 1
                     else:
                         pass
+                        #raise ValueError('Unresolved shift/halfday combination in make_msk_hx function.')
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
     hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
@@ -987,6 +1137,7 @@ def make_abd_hx(cur,cml,his,bis):
                         curr_rots[s,rots.index('Abdomen'),int(i/2)] += 1
                     else:
                         pass
+                        #raise ValueError('Unresolved shift/halfday combination in make_abd_hx function.')
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
     hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
@@ -1009,6 +1160,7 @@ def make_ner_hx(cur,cml,his,bis):
                         curr_rots[s,rots.index('Neuro'),int(i/2)] += 1
                     else:
                         pass
+                        #raise ValueError('Unresolved shift/halfday combination in make_ner_hx function.')
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
     hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
@@ -1031,6 +1183,7 @@ def make_cht_hx(cur,cml,his,bis):
                         curr_rots[s,rots.index('Chest/PET'),int(i/2)] += 1
                     else:
                         pass
+                        #raise ValueError('Unresolved shift/halfday combination in make_cht_hx function.')
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
     hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
@@ -1055,6 +1208,7 @@ def make_sta_hx(cur,cml,his,bis):
                         curr_rots[s,rots.index('STAT_PM'),int(i/2)] += 1
                     else:
                         pass
+                        #raise ValueError('Unresolved shift/halfday combination in make_sta_hx function.')
                         
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
     hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
@@ -1079,6 +1233,7 @@ def make_opr_hx(cur,cml,his,bis):
                         curr_rots[s,rots.index('OPPR_PM'),int(i/2)] += 1
                     else:
                         pass
+                        #raise ValueError('Unresolved shift/halfday combination in make_opr_hx function.')
                         
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
     hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
