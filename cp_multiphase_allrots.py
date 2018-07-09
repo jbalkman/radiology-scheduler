@@ -43,6 +43,17 @@ SPLIT_LOWER_HALF
 SPLIT_UPPER_HALF
 '''
 
+# Legend
+
+# BRT = Breast Imaging
+# SFL = Ultrasound/Fluoroscopy
+# MSK = Musculoskeletal Imaging
+# NER = Neuroradiology
+# ABD = Abdominal Imaging
+# CHT = Chest/PET Imaging
+# STA = STAT/Emergency Imaging
+# OPR = Outpatient Plain Film Radiography
+
 # Shifts
 ALL_SHIFTS = ['UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm','FRE_Sonoflu_AM','FRE_Sonoflu_PM','SLN_Sonoflu_AM','SLN_Sonoflu_PM','OPPR1','OPPR2','OPPR3','OPPR4']
 BRT_SHIFTS = ['UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm']
@@ -89,8 +100,10 @@ def print_results(results,section):
     num_staff,num_rots,staff,rots = get_section_nstaff_nrots_staff_rots(section) 
 
     if len(results.shape) > 2:
+        print("Cumulative Week Summary for Section:", section)
+        print("====================================")
+        print()
         for s in range(num_staff):
-            print()
             print("Staff",staff[s])
             for r in range(num_rots):
                 mon = results[s][r][WEEKDAYS.index('MON')]
@@ -101,8 +114,11 @@ def print_results(results,section):
                 alwk = mon+tue+wed+thu+fri
                 print(rots[r],int(alwk)," MON",int(mon),"TUE",int(tue),"WED",int(wed),"THU",int(thu),"FRI",int(fri))
     else:
+        print()
+        print("Current Bias Values for Section:", section, "(more negative numbers indicate rotation has not been covered by this staff member in a while)")
+        print("================================")
+        print()
         for s in range(num_staff):
-            print()
             print("Staff",staff[s])
             for r in range(num_rots):
                 alwk = results[s][r]
@@ -158,7 +174,7 @@ def get_section_nstaff_nrots_staff_rots(sect):
         rots = ABD_ROTS
     elif sect == 'cht':
         num_staff = len(CHT_STAFF)
-        num_rots = len(CHT_SHIFTS)
+        num_rots = len(CHT_ROTS)
         staff = CHT_STAFF
         rots = CHT_ROTS
     elif sect == 'sta':
@@ -1035,7 +1051,7 @@ def make_random_solver():
     solver = pywrapcp.Solver("Schedule Solution")
     random.seed()
     r = int(random.random()*100000)
-    print("SEED:", r)
+    print("random seed:", r)
     solver.ReSeed(r)
 
     return solver
@@ -1176,7 +1192,6 @@ def make_cht_hx(cur,cml,his,bis):
     ndays = len(WEEKDAYS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('cht')
-    #print("staff",nstaff,"shifts",nshifts,"nrots",nrots,"shifts",shifts,"rots",rots)
     curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
 
     for s in range(nstaff):
@@ -1190,8 +1205,6 @@ def make_cht_hx(cur,cml,his,bis):
                         #raise ValueError('Unresolved shift/halfday combination in make_cht_hx function.')
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')
-    print("Curr Rots:",curr_rots)
-    print("History:",his)
     hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
 
     return new_cml,hist_plus
@@ -1257,7 +1270,7 @@ def main():
     # Top level settings
     num_weeks = 1
     time_limit = 1000
-    sections = ['brt','ner','msk','abd','sta','cht','opr','sfl']
+    sections = ['brt','ner','cht','msk','abd','sta','opr','sfl']
     #sections = ['cht']
     #sections = ['sonoflu']
 
