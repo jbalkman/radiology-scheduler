@@ -90,6 +90,7 @@ OPR_STAFF = ALL_STAFF
 WEEKDAYS = ['MON','TUE','WED','THU','FRI']
 WEEK_SHIFTS = ['MON-AM','MON-PM','TUE-AM','TUE-PM','WED-AM','WED-PM','THU-AM','THU-PM','FRI-AM','FRI-PM']
 
+# function currently not used but serves as an example for adding constraints for staff leave/vacation
 # r = staff; a = leave day(s) list; s = solver; l = leave_days variable, st = staff variable; ns = num_shifts
 def leave(r,a,s,st,ns):
     rad = BRT_STAFF.index(r)
@@ -159,7 +160,7 @@ def get_section_nstaff_nrots_staff_rots(sect):
         staff = SFL_STAFF
         rots = SFL_ROTS
     elif sect == 'msk':
-        num_staff = len(MSK_STAFF)
+       num_staff = len(MSK_STAFF)
         num_rots = len(MSK_ROTS)
         staff = MSK_STAFF
         rots = MSK_ROTS
@@ -605,8 +606,8 @@ def set_opr_constraints(s,st): # s = solver
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(OPR_SHIFTS.index('OPPR3_PM'),i*2)] == -1)
         s.Add(st[(OPR_SHIFTS.index('OPPR4_PM'),i*2)] == -1)
-        s.Add(st[(OPR_SHIFTS.index('OPPR1_AM'),i*2+1)] != -1)
-        s.Add(st[(OPR_SHIFTS.index('OPPR2_AM'),i*2+1)] != -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR1_AM'),i*2+1)] == -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR2_AM'),i*2+1)] == -1)
           
 '''
 ====================
