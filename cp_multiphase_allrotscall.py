@@ -95,11 +95,11 @@ ABD_STAFF = ['BCL','DSL','HSS','JKL','SH']
 CHT_STAFF = ['BCL','GJS','SMN','RV','JKL']
 STA_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH']
 OPR_STAFF = ALL_STAFF
-ST3_STAFF = ALL_STAFF
+ST3_STAFF = ['JDB','SDE','GHL','DCN','JKS','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','RV']
 SWG_STAFF = ALL_STAFF
-STW_STAFF = ALL_STAFF
-WSP_STAFF = ALL_STAFF
-WMR_STAFF = ALL_STAFF
+STW_STAFF = ST3_STAFF
+WSP_STAFF = ['JDB','SDE','GHL','DCN','JKS','BCL','DSL','HSS','JKL','HG','RV']
+WMR_STAFF = ['GJS','GSR','DRL','SJP','EEP','JFK','SMN','SH']
 
 # General Use
 WEEKDAYS = ['MON','TUE','WED','THU','FRI']
@@ -114,64 +114,6 @@ def leave(r,a,s,st,ns):
     for d in a:
         s.Add(s.Max([st[(k,d*2)] == rad for k in range(ns)]) == 0)
         s.Add(s.Max([st[(k,d*2+1)] == rad for k in range(ns)]) == 0)
-
-def print_results(results,section):
-    num_staff,num_rots,staff,rots = get_section_nstaff_nrots_staff_rots(section) 
-
-    if len(results.shape) > 2:
-        print("Cumulative Week Summary for Section:", section)
-        print("====================================")
-        print()
-        for s in range(num_staff):
-            print("Staff",staff[s])
-            for r in range(num_rots):
-                mon = results[s][r][WEEKDAYS.index('MON')]
-                tue = results[s][r][WEEKDAYS.index('TUE')]
-                wed = results[s][r][WEEKDAYS.index('WED')]
-                thu = results[s][r][WEEKDAYS.index('THU')]
-                fri = results[s][r][WEEKDAYS.index('FRI')]
-                alwk = mon+tue+wed+thu+fri
-                print(rots[r],int(alwk)," MON",int(mon),"TUE",int(tue),"WED",int(wed),"THU",int(thu),"FRI",int(fri))
-    else:
-        print()
-        print("Current Bias Values for Section:", section, "(more negative numbers indicate rotation has not been covered by this staff member in a while)")
-        print("================================")
-        print()
-        for s in range(num_staff):
-            print("Staff",staff[s])
-            for r in range(num_rots):
-                alwk = results[s][r]
-                print(rots[r],int(alwk))
-
-def print_call_results(results,section):
-    num_staff,num_rots,staff,rots = get_section_nstaff_nrots_staff_rots(section) 
-
-    if len(results.shape) > 2:
-        print("Cumulative Week Summary for Section:", section)
-        print("====================================")
-        print()
-        for s in range(num_staff):
-            print("Staff",staff[s])
-            for r in range(num_rots):
-                mon = results[s][r][CALLDAYS.index('MON')]
-                tue = results[s][r][CALLDAYS.index('TUE')]
-                wed = results[s][r][CALLDAYS.index('WED')]
-                thu = results[s][r][CALLDAYS.index('THU')]
-                fri = results[s][r][CALLDAYS.index('FRI')]
-                sat = results[s][r][CALLDAYS.index('SAT')]
-                sun = results[s][r][CALLDAYS.index('SUN')]
-                alwk = mon+tue+wed+thu+fri+sat+sun
-                print(rots[r],int(alwk)," MON",int(mon),"TUE",int(tue),"WED",int(wed),"THU",int(thu),"FRI",int(fri),"SAT",int(sat),"SUN",int(sun))
-    else:
-        print()
-        print("Current Bias Values for Section:", section, "(more negative numbers indicate rotation has not been covered by this staff member in a while)")
-        print("================================")
-        print()
-        for s in range(num_staff):
-            print("Staff",staff[s])
-            for r in range(num_rots):
-                alwk = results[s][r]
-                print(rots[r],int(alwk))
 
 def create_staff_lookup(solver,num_hdays,num_shifts,num_staff):
     staff = {}
@@ -963,7 +905,6 @@ def print_analysis(slvr,collect,stafflookup,anal,sect):
 def print_call_analysis(slvr,collect,stafflookup,anal,sect):
     print("printing analysis...")
     num_cshs = len(CALL_SHIFTS)
-    num_days = num_cshs/2
 
     num_staff,num_shifts,staff,shifts = get_section_nstaff_nshifts_staff_shifts(sect)
     
@@ -980,16 +921,28 @@ def print_call_analysis(slvr,collect,stafflookup,anal,sect):
                 if st != -1:
                     print("WEEKDAY PM Call Shift:", shifts[j], staff[st])
         else:
-            if i%2 == 1:
+            if i == CALL_SHIFTS.index('SAT-AM'):
                 for j in range(num_shifts):
                     st = collect.Value(ts,stafflookup[(j,i)])
                     if st != -1:
-                        print("AM Shift:", shifts[j], staff[st])
+                        print(CALL_SHIFTS[i],"AM Shift:", shifts[j], staff[st])
+            elif i == CALL_SHIFTS.index('SAT-PM'):
+                for j in range(num_shifts):
+                    st = collect.Value(ts,stafflookup[(j,i)])
+                    if st != -1:
+                        print(CALL_SHIFTS[i],"PM Shift:", shifts[j], staff[st])
+            elif i == CALL_SHIFTS.index('SUN-AM'):
+                for j in range(num_shifts):
+                    st = collect.Value(ts,stafflookup[(j,i)])
+                    if st != -1:
+                        print(CALL_SHIFTS[i],"AM Shift:", shifts[j], staff[st])
+            elif i == CALL_SHIFTS.index('SUN-PM'):
+                for j in range(num_shifts):
+                    st = collect.Value(ts,stafflookup[(j,i)])
+                    if st != -1:
+                        print(CALL_SHIFTS[i],"PM Shift:", shifts[j], staff[st])
             else:
-                for j in range(num_shifts):
-                    st = collect.Value(ts,stafflookup[(j,i)])
-                    if st != -1:
-                        print("PM Shift:", shifts[j], staff[st])
+                pass
                         
     print()
     print("Solutions found:", collect.SolutionCount())
@@ -997,6 +950,70 @@ def print_call_analysis(slvr,collect,stafflookup,anal,sect):
     print("Variance min:", min(anal,key=itemgetter(1))[1])
     print("Time:", slvr.WallTime(), "ms")
     print()
+
+'''
+===================
+ RESULTS FUNCTIONS
+===================
+'''
+
+def print_results(results,section):
+    num_staff,num_rots,staff,rots = get_section_nstaff_nrots_staff_rots(section) 
+
+    if len(results.shape) > 2:
+        print("Cumulative Week Summary for Section:", section)
+        print("====================================")
+        print()
+        for s in range(num_staff):
+            print("Staff",staff[s])
+            for r in range(num_rots):
+                mon = results[s][r][WEEKDAYS.index('MON')]
+                tue = results[s][r][WEEKDAYS.index('TUE')]
+                wed = results[s][r][WEEKDAYS.index('WED')]
+                thu = results[s][r][WEEKDAYS.index('THU')]
+                fri = results[s][r][WEEKDAYS.index('FRI')]
+                alwk = mon+tue+wed+thu+fri
+                print(rots[r],int(alwk)," MON",int(mon),"TUE",int(tue),"WED",int(wed),"THU",int(thu),"FRI",int(fri))
+    else:
+        print()
+        print("Current Bias Values for Section:", section, "(more negative numbers indicate rotation has not been covered by this staff member in a while)")
+        print("================================")
+        print()
+        for s in range(num_staff):
+            print("Staff",staff[s])
+            for r in range(num_rots):
+                alwk = results[s][r]
+                print(rots[r],int(alwk))
+
+def print_call_results(results,section):
+    num_staff,num_rots,staff,rots = get_section_nstaff_nrots_staff_rots(section) 
+
+    if len(results.shape) > 2:
+        print("Cumulative Week Summary for Section:", section)
+        print("====================================")
+        print()
+        for s in range(num_staff):
+            print("Staff",staff[s])
+            for r in range(num_rots):
+                mon = results[s][r][CALLDAYS.index('MON')]
+                tue = results[s][r][CALLDAYS.index('TUE')]
+                wed = results[s][r][CALLDAYS.index('WED')]
+                thu = results[s][r][CALLDAYS.index('THU')]
+                fri = results[s][r][CALLDAYS.index('FRI')]
+                sat = results[s][r][CALLDAYS.index('SAT')]
+                sun = results[s][r][CALLDAYS.index('SUN')]
+                alwk = mon+tue+wed+thu+fri+sat+sun
+                print(rots[r],int(alwk)," MON",int(mon),"TUE",int(tue),"WED",int(wed),"THU",int(thu),"FRI",int(fri),"SAT",int(sat),"SUN",int(sun))
+    else:
+        print()
+        print("Current Bias Values for Section:", section, "(more negative numbers indicate rotation has not been covered by this staff member in a while)")
+        print("================================")
+        print()
+        for s in range(num_staff):
+            print("Staff",staff[s])
+            for r in range(num_rots):
+                alwk = results[s][r]
+                print(rots[r],int(alwk))
 
 '''
 =================
@@ -1426,35 +1443,35 @@ def build_multi_day(nweeks,sects,limit,unavailability):
             print("===========================================")
             
             if sects[j] == 'brt':      
-                cumulative,history,recentweek = build_brt(unavailability[:,:len(WEEK_SHIFTS),i],cumulative,history,bias,limit) # recentweek is to update_availability matrix
-                unavailability[:,:len(WEEK_SHIFTS),i] = update_availability(recentweek,unavailability[:,:len(WEEK_SHIFTS),i],'brt')
+                cumulative,history,recentweek = build_brt(unavailability[:,:,i],cumulative,history,bias,limit) # recentweek is to update_availability matrix
+                unavailability[:,:,i] = update_availability(recentweek,unavailability[:,:,i],'brt')
             elif sects[j] == 'sfl':
-                cumulative,history,recentweek = build_sfl(unavailability[:,:len(WEEK_SHIFTS),i],cumulative,history,bias,limit)
-                unavailability[:,:len(WEEK_SHIFTS),i] = update_availability(recentweek,unavailability[:,:len(WEEK_SHIFTS),i],'sfl')
+                cumulative,history,recentweek = build_sfl(unavailability[:,:,i],cumulative,history,bias,limit)
+                unavailability[:,:,i] = update_availability(recentweek,unavailability[:,:,i],'sfl')
             elif sects[j] == 'msk':
-                cumulative,history,recentweek = build_msk(unavailability[:,:len(WEEK_SHIFTS),i],cumulative,history,bias,limit)
-                unavailability[:,:len(WEEK_SHIFTS),i] = update_availability(recentweek,unavailability[:,:len(WEEK_SHIFTS),i],'msk')
+                cumulative,history,recentweek = build_msk(unavailability[:,:,i],cumulative,history,bias,limit)
+                unavailability[:,:,i] = update_availability(recentweek,unavailability[:,:,i],'msk')
             elif sects[j] == 'ner':
-                cumulative,history,recentweek = build_ner(unavailability[:,:len(WEEK_SHIFTS),i],cumulative,history,bias,limit)
-                unavailability[:,:len(WEEK_SHIFTS),i] = update_availability(recentweek,unavailability[:,:len(WEEK_SHIFTS),i],'ner')
+                cumulative,history,recentweek = build_ner(unavailability[:,:,i],cumulative,history,bias,limit)
+                unavailability[:,:,i] = update_availability(recentweek,unavailability[:,:,i],'ner')
             elif sects[j] == 'abd':
-                cumulative,history,recentweek = build_abd(unavailability[:,:len(WEEK_SHIFTS),i],cumulative,history,bias,limit)
-                unavailability[:,:len(WEEK_SHIFTS),i] = update_availability(recentweek,unavailability[:,:len(WEEK_SHIFTS),i],'abd')
+                cumulative,history,recentweek = build_abd(unavailability[:,:,i],cumulative,history,bias,limit)
+                unavailability[:,:,i] = update_availability(recentweek,unavailability[:,:,i],'abd')
             elif sects[j] == 'cht':
-                cumulative,history,recentweek = build_cht(unavailability[:,:len(WEEK_SHIFTS),i],cumulative,history,bias,limit)
-                unavailability[:,:len(WEEK_SHIFTS),i] = update_availability(recentweek,unavailability[:,:len(WEEK_SHIFTS),i],'cht')
+                cumulative,history,recentweek = build_cht(unavailability[:,:,i],cumulative,history,bias,limit)
+                unavailability[:,:,i] = update_availability(recentweek,unavailability[:,:,i],'cht')
             elif sects[j] == 'sta':
-                cumulative,history,recentweek = build_sta(unavailability[:,:len(WEEK_SHIFTS),i],cumulative,history,bias,limit)
-                unavailability[:,:len(WEEK_SHIFTS),i] = update_availability(recentweek,unavailability[:,:len(WEEK_SHIFTS),i],'sta')
+                cumulative,history,recentweek = build_sta(unavailability[:,:,i],cumulative,history,bias,limit)
+                unavailability[:,:,i] = update_availability(recentweek,unavailability[:,:,i],'sta')
             elif sects[j] == 'opr':
-                cumulative,history,recentweek = build_opr(unavailability[:,:len(WEEK_SHIFTS),i],cumulative,history,bias,limit)
-                unavailability[:,:len(WEEK_SHIFTS),i] = update_availability(recentweek,unavailability[:,:len(WEEK_SHIFTS),i],'opr')
+                cumulative,history,recentweek = build_opr(unavailability[:,:,i],cumulative,history,bias,limit)
+                unavailability[:,:,i] = update_availability(recentweek,unavailability[:,:,i],'opr')
             else:
-                currwk_unavail = unavailability[:,:len(WEEK_SHIFTS),i]
+                currwk_unavail = unavailability[:,:,i]
                 cumulative,history = build_other(currwk_unavail,cumulative,history,bias)
 
             print_results(cumulative,sects[j])
-            print_results(history,sects[j])
+            #print_results(history,sects[j])
 
     return unavailability
 
@@ -1492,26 +1509,26 @@ def build_multi_call(nweeks,sects,limit,unavailability):
             print("===========================================")
             
             if sects[j] == 'st3':      
-                cumulative,history,recentweek = build_st3(unavailability[:,len(WEEK_SHIFTS):,i],cumulative,history,bias,limit) # recentweek is to update_availability matrix
-                unavailability[:,len(WEEK_SHIFTS):,i] = update_call_availability(recentweek,unavailability[:,len(WEEK_SHIFTS):,i],'st3')
+                cumulative,history,recentweek = build_st3(unavailability[:,:,i],cumulative,history,bias,limit) # recentweek is to update_availability matrix
+                unavailability[:,:,i] = update_call_availability(recentweek,unavailability[:,:,i],'st3')
             elif sects[j] == 'swg':
-                cumulative,history,recentweek = build_swg(unavailability[:,len(WEEK_SHIFTS):,i],cumulative,history,bias,limit)
-                unavailability[:,len(WEEK_SHIFTS):,i] = update_call_availability(recentweek,unavailability[:,len(WEEK_SHIFTS):,i],'swg')
+                cumulative,history,recentweek = build_swg(unavailability[:,:,i],cumulative,history,bias,limit)
+                unavailability[:,:,i] = update_call_availability(recentweek,unavailability[:,:,i],'swg')
             elif sects[j] == 'stw':
-                cumulative,history,recentweek = build_stw(unavailability[:,len(WEEK_SHIFTS):,i],cumulative,history,bias,limit)
-                unavailability[:,len(WEEK_SHIFTS):,i] = update_call_availability(recentweek,unavailability[:,len(WEEK_SHIFTS):,i],'stw')
+                cumulative,history,recentweek = build_stw(unavailability[:,:,i],cumulative,history,bias,limit)
+                unavailability[:,:,i] = update_call_availability(recentweek,unavailability[:,:,i],'stw')
             elif sects[j] == 'wsp':
-                cumulative,history,recentweek = build_wsp(unavailability[:,len(WEEK_SHIFTS):,i],cumulative,history,bias,limit)
-                unavailability[:,len(WEEK_SHIFTS):,i] = update_call_availability(recentweek,unavailability[:,len(WEEK_SHIFTS):,i],'wsp')
+                cumulative,history,recentweek = build_wsp(unavailability[:,:,i],cumulative,history,bias,limit)
+                unavailability[:,:,i] = update_call_availability(recentweek,unavailability[:,:,i],'wsp')
             elif sects[j] == 'wmr':
-                cumulative,history,recentweek = build_wmr(unavailability[:,len(WEEK_SHIFTS):,i],cumulative,history,bias,limit)
-                unavailability[:,len(WEEK_SHIFTS):,i] = update_call_availability(recentweek,unavailability[:,len(WEEK_SHIFTS):,i],'wmr')
+                cumulative,history,recentweek = build_wmr(unavailability[:,:,i],cumulative,history,bias,limit)
+                unavailability[:,:,i] = update_call_availability(recentweek,unavailability[:,:,i],'wmr')
             else:
                 currwk_unavail = unavailability[:,:,i]
                 cumulative,history = build_other(currwk_unavail,cumulative,history,bias)
 
             print_call_results(cumulative,sects[j])
-            print_call_results(history,sects[j])
+            #print_call_results(history,sects[j])
 
     return unavailability
 
@@ -1540,7 +1557,7 @@ def update_availability(c,a,s): # c = nstaff x nhds reflecting 1-week (10 shift)
     #print("c_or Shape",c_or.shape)
     #print("a Shape",a.shape)
     for i in range(len(staff)):
-        a[ALL_STAFF.index(staff[i]),:] = a[ALL_STAFF.index(staff[i]),:] | c_or[i]
+        a[ALL_STAFF.index(staff[i]),:len(WEEK_SHIFTS)] = a[ALL_STAFF.index(staff[i]),:len(WEEK_SHIFTS)] | c_or[i]
 
     '''
     # Helpful print debug statements
@@ -1572,7 +1589,7 @@ def update_call_availability(c,a,s): # c = nstaff x nhds reflecting 1-week (10 s
     #print("c_or Shape",c_or.shape)
     #print("a Shape",a.shape)
     for i in range(len(staff)):
-        a[ALL_STAFF.index(staff[i]),:] = a[ALL_STAFF.index(staff[i]),:] | c_or[i]
+        a[ALL_STAFF.index(staff[i]),len(WEEK_SHIFTS):] = a[ALL_STAFF.index(staff[i]),len(WEEK_SHIFTS):] | c_or[i]
 
     '''
     # Helpful print debug statements
@@ -1846,17 +1863,20 @@ def make_stw_hx(cur,cml,his,bis):
     curr_rots = np.zeros((nstaff,nrots,ncshs),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(ncshs):
+        for i in range(CALL_SHIFTS.index('SAT-AM'),ncshs):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
-                    if i == CALL_SHIFTS.index('SAT-AM'):
-                        curr_rots[s,rots.index('STATW_AM'),i] += 1
-                    elif i == CALL_SHIFTS.index('SAT-PM'):
-                        curr_rots[s,rots.index('STATW_PM'),i] += 1
-                    elif i == CALL_SHIFTS.index('SUN-AM'):
-                        curr_rots[s,rots.index('STATW_AM'),i] += 1
-                    elif i == CALL_SHIFTS.index('SUN-PM'):
-                        curr_rots[s,rots.index('STATW_PM'),i] += 1
+                    # The rotation context works with days whereas the CALL_SHIFTS split a morning evening (unlike the weekdays). 
+                    # This is a bit-o-hack to convert the CALL_SHIFT array to the CALLDAYS array for the rotation context 
+                    if i < CALL_SHIFTS.index('SUN-AM'):
+                        day_idx = CALLDAYS.index('SAT')
+                    else:
+                        day_idx = CALLDAYS.index('SUN')
+
+                    if j == shifts.index('STATW_AM'):
+                        curr_rots[s,rots.index('STATW_AM'),day_idx] += 1
+                    elif j == shifts.index('STATW_PM'):
+                        curr_rots[s,rots.index('STATW_PM'),day_idx] += 1
                     else:
                         pass
                         
@@ -1874,7 +1894,6 @@ def make_wsp_hx(cur,cml,his,bis):
 
     for s in range(nstaff):
         for i in range(ncshs):
-            print ("nshifts:", nshifts)
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     if i > CALL_SHIFTS.index('FRI-PM'):
@@ -1923,6 +1942,7 @@ def main():
     time_limit = 100
     day_sections = ['brt','sfl','ner','cht','msk','abd','sta','opr']
     call_sections = ['st3','swg','stw','wsp','wmr']
+    #call_sections = ['stw']
     #sections = ['cht']
     #sections = ['sonoflu']
 
