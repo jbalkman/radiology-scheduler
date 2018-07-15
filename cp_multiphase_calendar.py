@@ -55,13 +55,14 @@ SPLIT_UPPER_HALF
 # OPR = Outpatient Plain Film Radiography
 
 # Shifts - to fill schedule
-ALL_SHIFTS = ['None','UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm','FRE_Sonoflu_AM','FRE_Sonoflu_PM','SLN_Sonoflu_AM','SLN_Sonoflu_PM','MSK_AM','MSK_PM','Neuro_AM','Neuro_PM','Abdomen_AM','Abdomen_PM','Chest/PET_AM','Chest/PET_PM','STAT1_AM','STAT1b_PM','STAT2_PM','OPPR1_AM','OPPR2_AM','OPPR3_PM','OPPR4_PM','STAT3','Swing','STATW_AM','STATW_PM','WUSPR','WMR']
+ALL_SHIFTS = ['----','UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm','FRE_Sonoflu_AM','FRE_Sonoflu_PM','SLN_Sonoflu_AM','SLN_Sonoflu_PM','MSK_AM','MSK_PM','Neuro_AM','Neuro_PM','Abdomen_AM','Abdomen_PM','Chest/PET_AM','Chest/PET_PM','Nucs','STAT1_AM','STAT1b_PM','STAT2_PM','OPPR1_AM','OPPR2_AM','OPPR3_PM','OPPR4_PM','STAT3','Swing','STATW_AM','STATW_PM','WUSPR','WMR','Admin','Vaca','Leave'] # make sure all > 'Admin' are forms of leave
 BRT_SHIFTS = ['UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm']
 SFL_SHIFTS = ['FRE_Sonoflu_AM','FRE_Sonoflu_PM','SLN_Sonoflu_AM','SLN_Sonoflu_PM']
 MSK_SHIFTS = ['MSK_AM','MSK_PM']
 NER_SHIFTS = ['Neuro_AM','Neuro_PM'] 
 ABD_SHIFTS = ['Abdomen_AM','Abdomen_PM']
 CHT_SHIFTS = ['Chest/PET_AM','Chest/PET_PM']
+NUC_SHIFTS = ['Nucs']
 STA_SHIFTS = ['STAT1_AM','STAT1b_PM','STAT2_PM']
 OPR_SHIFTS = ['OPPR1_AM','OPPR2_AM','OPPR3_PM','OPPR4_PM']
 ST3_SHIFTS = ['STAT3']
@@ -77,6 +78,7 @@ MSK_ROTS = ['MSK']
 NER_ROTS = ['Neuro']
 ABD_ROTS = ['Abdomen']
 CHT_ROTS = ['Chest/PET']
+NUC_ROTS = ['Nucs']
 STA_ROTS = ['STAT_AM','STAT_PM']
 OPR_ROTS = ['OPPR_AM','OPPR_PM']
 ST3_ROTS = ['STAT3']
@@ -93,6 +95,7 @@ MSK_STAFF = ['CCM','GJS','GSR','DRL','SJP']
 NER_STAFF = ['EEP','GSR','JFK','SMN','SJP']
 ABD_STAFF = ['BCL','DSL','HSS','JKL','SH']
 CHT_STAFF = ['BCL','GJS','SMN','RV','JKL']
+NUC_STAFF = ['SMN','GSR','HG']
 STA_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH']
 OPR_STAFF = ALL_STAFF
 ST3_STAFF = ['JDB','SDE','GHL','DCN','JKS','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','RV']
@@ -106,7 +109,7 @@ WEEKDAYS = ['MON','TUE','WED','THU','FRI']
 CALLDAYS = ['MON','TUE','WED','THU','FRI','SAT','SUN']
 WEEK_SLOTS = ['MON-AM','MON-PM','TUE-AM','TUE-PM','WED-AM','WED-PM','THU-AM','THU-PM','FRI-AM','FRI-PM']
 CALL_SLOTS = ['MON-PM','TUE-PM','WED-PM','THU-PM','FRI-PM','SAT-AM','SAT-PM','SUN-AM','SUN-PM']
-CALL_SECTS = ['stw','wsp','wmr']
+WKND_SECTS = ['stw','wsp','wmr']
 
 # function currently not used but serves as an example for adding constraints for staff leave/vacation
 # r = staff; a = leave day(s) list; s = solver; l = leave_days variable, st = staff variable; ns = num_shifts
@@ -169,6 +172,11 @@ def get_section_nstaff_nrots_staff_rots(sect):
         num_rots = len(CHT_ROTS)
         staff = CHT_STAFF
         rots = CHT_ROTS
+    elif sect == 'nuc':
+        num_staff = len(NUC_STAFF)
+        num_rots = len(NUC_ROTS)
+        staff = NUC_STAFF
+        rots = NUC_ROTS
     elif sect == 'sta':
         num_staff = len(STA_STAFF)
         num_rots = len(STA_ROTS)
@@ -256,6 +264,12 @@ def get_section_nstaff_nshifts_nrots_shifts_rots(sect):
         num_rots = len(CHT_ROTS)
         shifts = CHT_SHIFTS
         rots = CHT_ROTS
+    elif sect == 'nuc':
+        num_staff = len(NUC_STAFF)
+        num_shifts = len(NUC_SHIFTS)
+        num_rots = len(NUC_ROTS)
+        shifts = NUC_SHIFTS
+        rots = NUC_ROTS
     elif sect == 'sta':
         num_staff = len(STA_STAFF)
         num_shifts = len(STA_SHIFTS)
@@ -339,6 +353,11 @@ def get_section_nstaff_nshifts_staff_shifts(sect):
         num_shifts = len(CHT_SHIFTS)
         shifts = CHT_SHIFTS
         staff = CHT_STAFF
+    elif sect == 'nuc':
+        num_staff = len(NUC_STAFF)
+        num_shifts = len(NUC_SHIFTS)
+        shifts = NUC_SHIFTS
+        staff = NUC_STAFF
     elif sect == 'sta':
         num_staff = len(STA_STAFF)
         num_shifts = len(STA_SHIFTS)
@@ -418,6 +437,9 @@ def init_abd_bias():
 def init_cht_bias():
     return np.zeros((len(CHT_STAFF),len(CHT_ROTS)),dtype='int64') - 2
 
+def init_nuc_bias():
+    return np.zeros((len(NUC_STAFF),len(NUC_ROTS)),dtype='int64') - 1
+
 def init_sta_bias():
     return np.zeros((len(STA_STAFF),len(STA_ROTS)),dtype='int64') - 2
 
@@ -466,6 +488,25 @@ add_history_matrix = np.vectorize(add_history_logic)
 ======================
 '''
 
+def set_weekleave_constraints(cal,initials,wk):
+
+    total_slots = len(WEEK_SLOTS)+len(CALL_SLOTS)
+
+    for j in range(total_slots):
+        cal[ALL_STAFF.index(initials),j,wk] = ALL_SHIFTS.index('Leave')
+
+'''
+def set_dayleave_constraints(slvr,initials,day,wk):
+    total_slots = len(WEEK_SLOTS)+len(CALL_SLOTS)
+
+    
+
+    cal[ALL_STAFF.index(initials),j,wk] = ALL_SHIFTS.index('Leave')
+    
+
+def set_slotleave_contraints(slvr,stf,cal):'''
+
+
 def set_day_calendar_constraints(slvr,stf,cal,sect):
 
     num_slots = len(WEEK_SLOTS)
@@ -475,26 +516,31 @@ def set_day_calendar_constraints(slvr,stf,cal,sect):
     for i in range(num_staff):
         sect_allstaff_idx = ALL_STAFF.index(staff[i])
         for j in range(num_slots):
-            if cal[sect_allstaff_idx,j] > 0 or cal[sect_allstaff_idx,len(WEEK_SLOTS)+j/2] > 0:
+            if cal[sect_allstaff_idx,j] > 0 or cal[sect_allstaff_idx,len(WEEK_SLOTS)+j/2] == ALL_SHIFTS.index('STAT3'): # the second term checks for STAT3 b/c can't work during the day if that's the case
                 for k in range(num_shifts):
                     slvr.Add(stf[(k,j)] != i)
 
 def set_call_calendar_constraints(slvr,stf,cal,sect):
 
     num_slots = len(WEEK_SLOTS)+len(CALL_SLOTS)
-
     num_staff,num_shifts,staff,shifts = get_section_nstaff_nshifts_staff_shifts(sect)
 
     for i in range(num_staff):
+        blocked_wknd = False
         sect_allstaff_idx = ALL_STAFF.index(staff[i])
-        for j in range(len(WEEK_SLOTS),CALL_SLOTS.index('SAT-AM')):
-            if cal[sect_allstaff_idx,j] == ALL_SHIFTS.index('STAT3') or cal[sect_allstaff_idx,j] > 0:
+        for j in range(len(WEEK_SLOTS),num_slots):
+            if sect == 'STAT3' and cal[sect_allstaff_idx,j-len(WEEK_SLOTS)] > 0: # in the case we are setting STAT3 constraints, check for daytime rotations
                 for k in range(num_shifts):
                     slvr.Add(stf[(k,j-len(WEEK_SLOTS))] != i)
-        for j in range(CALL_SLOTS.index('SAT-AM'),num_slots):
-            if cal[sect_allstaff_idx,j] > 0:
-                for k in range(num_shifts):
+            elif sect == 'Swing' and cal[sect_allstaff_idx,j-len(WEEK_SLOTS)] > ALL_SHIFTS.index('Admin') : # > 'Admin' means that all other shift names are forms of day leave
                     slvr.Add(stf[(k,j-len(WEEK_SLOTS))] != i)
+            else: # we are dealing with weekend rotation
+                if cal[sect_allstaff_idx,j] > 0:
+                    blocked_wknd = True
+        if blocked_wknd and sect in WKND_SECTS:
+            for j in range(len(WEEK_SLOTS),CALL_SLOTS.index('SAT-AM')):
+                for k in range(num_shifts):
+                    slvr.Add(stf[(k,j)] != i)
 
 def set_brt_constraints(s,st): # s = solver
 
@@ -670,6 +716,21 @@ def set_cht_constraints(s,st): # s = solver
         s.Add(st[(CHT_SHIFTS.index('Chest/PET_PM'),i*2)] == -1)
         s.Add(st[(CHT_SHIFTS.index('Chest/PET_AM'),i*2+1)] == -1)
 
+def set_nuc_constraints(s,st): # s = solver
+    
+    for i in range(len(WEEK_SLOTS)):
+
+        # No double coverage
+        s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(NUC_SHIFTS))],-1)) # ? whether this is necessary; should revisit
+        
+    for i in range(len(WEEKDAYS)):
+
+        # Shifts that don't fit into context (e.g. Nucs not an AM shift)
+        s.Add(st[(NUC_SHIFTS.index('Nucs'),i*2)] == -1)
+
+        # The PM Nucs shift must be filled
+        s.Add(st[(NUC_SHIFTS.index('Nucs'),i*2+1)] != -1)
+
 def set_sta_constraints(s,st): # s = solver
     
     for i in range(len(WEEK_SLOTS)):
@@ -831,6 +892,8 @@ def create_analysis(collect,stafflookup,cuml,hist,bias,sect):
             updated_cuml,hist_plus = make_abd_hx(curr,cuml,hist,bias)
         elif sect == 'cht':
             updated_cuml,hist_plus = make_cht_hx(curr,cuml,hist,bias)
+        elif sect == 'nuc':
+            updated_cuml,hist_plus = make_nuc_hx(curr,cuml,hist,bias)
         elif sect == 'sta':
             updated_cuml,hist_plus = make_sta_hx(curr,cuml,hist,bias)
         elif sect == 'opr':
@@ -979,30 +1042,10 @@ def print_call_analysis(slvr,collect,stafflookup,anal,sect):
     print()
 
 '''
-=================
- PRINT FUNCTIONS
-=================
+===================
+ RESULTS FUNCTIONS
+===================
 '''
-
-def print_calendar(cal):
-    num_staff, num_slots, num_weeks = cal.shape
-
-    for wk in range(num_weeks):
-        print()
-        print("===========================================")
-        print("          WEEK #",wk)
-        print("===========================================")
-        print()
-        line_header = '{:>18} {:>18} {:>18} {:>18} {:>18} {:>18} {:>18}'.format(CALLDAYS[0],CALLDAYS[1],CALLDAYS[2],CALLDAYS[3],CALLDAYS[4],CALLDAYS[5],CALLDAYS[6])
-        print(line_header)
-        for st in range(num_staff):
-            print(ALL_STAFF[st])
-            line_am = '{:>18} {:>18} {:>18} {:>18} {:>18}'.format(ALL_SHIFTS[cal[st,0,wk]],ALL_SHIFTS[cal[st,2,wk]],ALL_SHIFTS[cal[st,4,wk]],ALL_SHIFTS[cal[st,6,wk]],ALL_SHIFTS[cal[st,8,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-AM'),wk]])
-            line_pm = '{:>18} {:>18} {:>18} {:>18} {:>18}'.format(ALL_SHIFTS[cal[st,1,wk]],ALL_SHIFTS[cal[st,3,wk]],ALL_SHIFTS[cal[st,5,wk]],ALL_SHIFTS[cal[st,7,wk]],ALL_SHIFTS[cal[st,9,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-PM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-PM'),wk]])
-            line_call = '{:>18} {:>18} {:>18} {:>18} {:>18}'.format(ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+0,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+1,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+2,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+3,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+4,wk]])
-            print(line_am)
-            print(line_pm)
-            print(line_call)
 
 def print_results(results,section):
     num_staff,num_rots,staff,rots = get_section_nstaff_nrots_staff_rots(section) 
@@ -1061,6 +1104,86 @@ def print_call_results(results,section):
             for r in range(num_rots):
                 alwk = results[s][r]
                 print(rots[r],int(alwk))
+'''
+====================
+ CALENDAR FUNCTIONS
+====================
+'''
+
+def convert_staff_to_shift_calendar(stfcal):
+
+    num_slots = len(WEEK_SLOTS)+len(CALL_SLOTS)
+    num_weeks = stfcal.shape[2]
+    num_staff = stfcal.shape[0]
+
+    shftcal = np.zeros((len(ALL_SHIFTS),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64')
+    shftcal = shftcal - 1 # -1 means no staff covering
+
+    for week in range(num_weeks):
+        for shift in range(len(ALL_SHIFTS)):
+            for slot in range(num_slots):
+                for stf in range(num_staff):
+                    if stfcal[stf,slot,week] == shift:
+                        shftcal[shift,slot,week] = stf
+
+    return shftcal
+
+def print_shift_calendar(cal):
+    num_shifts, num_slots, num_weeks = cal.shape
+
+    for wk in range(num_weeks):
+        print()
+        print("===========================================")
+        print("          WEEK #",wk)
+        print("===========================================")
+        print()
+        line_header = '{:>18} {:>18} {:>18} {:>18} {:>18} {:>18} {:>18}'.format(CALLDAYS[0],CALLDAYS[1],CALLDAYS[2],CALLDAYS[3],CALLDAYS[4],CALLDAYS[5],CALLDAYS[6])
+        print(line_header)
+        for sh in range(1,num_shifts): # skip 0 b/c it is the "no assigment" indicator
+            print(ALL_SHIFTS[sh])
+            line_am = ""
+            line_pm = ""
+            line_call = ""
+            for sl in range(num_slots):
+                if cal[sh,sl,wk] < 0:
+                    staff = '----'
+                else:
+                    staff = ALL_STAFF[cal[sh,sl,wk]]
+                if sl < len(WEEK_SLOTS):
+                    if sl%2 == 0:
+                        line_am += '{:>18}'.format(staff)
+                    else:
+                        line_pm += '{:>18}'.format(staff)
+                elif sl < len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM'):
+                    line_call += '{:>18}'.format(staff)
+                else:
+                    if sl%2 == 1: # AM wknd slot
+                        line_am += '{:>18}'.format(staff)
+                    else: # PM wknd slot
+                        line_pm += '{:>18}'.format(staff)
+            print(line_am)
+            print(line_pm)
+            print(line_call)
+
+def print_staff_calendar(cal):
+    num_staff, num_slots, num_weeks = cal.shape
+
+    for wk in range(num_weeks):
+        print()
+        print("===========================================")
+        print("          WEEK #",wk)
+        print("===========================================")
+        print()
+        line_header = '{:>18} {:>18} {:>18} {:>18} {:>18} {:>18} {:>18}'.format(CALLDAYS[0],CALLDAYS[1],CALLDAYS[2],CALLDAYS[3],CALLDAYS[4],CALLDAYS[5],CALLDAYS[6])
+        print(line_header)
+        for st in range(num_staff):
+            print(ALL_STAFF[st])
+            line_am = '{:>18} {:>18} {:>18} {:>18} {:>18} {:>18} {:>18}'.format(ALL_SHIFTS[cal[st,0,wk]],ALL_SHIFTS[cal[st,2,wk]],ALL_SHIFTS[cal[st,4,wk]],ALL_SHIFTS[cal[st,6,wk]],ALL_SHIFTS[cal[st,8,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-AM'),wk]])
+            line_pm = '{:>18} {:>18} {:>18} {:>18} {:>18} {:>18} {:>18}'.format(ALL_SHIFTS[cal[st,1,wk]],ALL_SHIFTS[cal[st,3,wk]],ALL_SHIFTS[cal[st,5,wk]],ALL_SHIFTS[cal[st,7,wk]],ALL_SHIFTS[cal[st,9,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-PM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-PM'),wk]])
+            line_call = '{:>18} {:>18} {:>18} {:>18} {:>18}'.format(ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+0,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+1,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+2,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+3,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+4,wk]])
+            print(line_am)
+            print(line_pm)
+            print(line_call)
 
 '''
 =================
@@ -1240,6 +1363,35 @@ def build_cht(cal,cuml,hist,bias,limit):
 
     # Print out the top solution with the least variance
     print_analysis(solver,collector,staff,analysis,'cht')
+
+    return analysis[2],analysis[3],analysis[4]
+
+def build_nuc(cal,cuml,hist,bias,limit):
+    
+    # Sonoflu settings
+    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('nuc')
+    num_slots = len(WEEK_SLOTS)
+    num_days = num_slots/2
+    time_limit = limit
+
+    # Make a solver with random seed
+    solver = make_random_solver()
+
+    # Create staff lookup
+    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+
+    # Constraints
+    set_day_calendar_constraints(solver,staff,cal,'nuc')
+    set_nuc_constraints(solver,staff)
+
+    # Creating decision builder and collector
+    collector = get_collector(solver,staff_flat,time_limit)
+
+    # analyze and sort results based on schedule variance
+    analysis = create_analysis(collector,staff,cuml,hist,bias,'nuc')
+
+    # Print out the top solution with the least variance
+    print_analysis(solver,collector,staff,analysis,'nuc')
 
     return analysis[2],analysis[3],analysis[4]
 
@@ -1467,7 +1619,9 @@ def build_multi_day(nweeks,sects,limit,calendar):
         elif sects[j] == 'cht':
             nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('cht')      
             bias = init_cht_bias()
-            print("CHT staff",nstaff,"CHT nrots",nrots) 
+        elif sects[j] == 'nuc':
+            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('nuc')      
+            bias = init_nuc_bias()
         elif sects[j] == 'sta':
             nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('sta')      
             bias = init_sta_bias()
@@ -1507,6 +1661,9 @@ def build_multi_day(nweeks,sects,limit,calendar):
             elif sects[j] == 'cht':
                 cumulative,history,recentweek = build_cht(calendar[:,:,i],cumulative,history,bias,limit)
                 calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'cht')
+            elif sects[j] == 'nuc':
+                cumulative,history,recentweek = build_nuc(calendar[:,:,i],cumulative,history,bias,limit)
+                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'nuc')
             elif sects[j] == 'sta':
                 cumulative,history,recentweek = build_sta(calendar[:,:,i],cumulative,history,bias,limit)
                 calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'sta')
@@ -1622,7 +1779,7 @@ def all_staff_idx(s):
 '''
 
 def make_brt_hx(cur,cml,his,bis):
-    nhds = len(WEEK_SLOTS)
+    nslts = len(WEEK_SLOTS)
     ndays = len(WEEKDAYS)
 
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('brt')
@@ -1630,7 +1787,7 @@ def make_brt_hx(cur,cml,his,bis):
     curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(nhds):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     if j < 2 and i%2 == 1: # the UNC-Diag AM/PM are both considered UNC-Diag
@@ -1639,7 +1796,7 @@ def make_brt_hx(cur,cml,his,bis):
                         curr_rots[s,rots.index('UNC_Proc'),int(i/2)] += 1
                     elif j == 4: # FRE_Mamm
                         curr_rots[s,rots.index('FRE_Mamm'),int(i/2)] += 1
-                    elif j == 5 : # SLN Mamm
+                    elif j == 5: # SLN Mamm
                         curr_rots[s,rots.index('SLN_Mamm'),int(i/2)] += 1
                     else:
 #raise ValueError('Unresolved shift/halfday combination in make_brt_hx function.',i,j)
@@ -1650,7 +1807,7 @@ def make_brt_hx(cur,cml,his,bis):
     return new_cml,hist_plus
 
 def make_sfl_hx(cur,cml,his,bis):
-    nhds = len(WEEK_SLOTS)
+    nslts = len(WEEK_SLOTS)
     ndays = len(WEEKDAYS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('sfl')
@@ -1658,7 +1815,7 @@ def make_sfl_hx(cur,cml,his,bis):
     curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(nhds):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     if j == shifts.index('FRE_Sonoflu_AM') and i%2 == 0: # the Sonoflu AM/PM are both the same so only need to count the AM rotations
@@ -1675,7 +1832,7 @@ def make_sfl_hx(cur,cml,his,bis):
     return new_cml,hist_plus
 
 def make_msk_hx(cur,cml,his,bis):
-    nhds = len(WEEK_SLOTS)
+    nslts = len(WEEK_SLOTS)
     ndays = len(WEEKDAYS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('msk')
@@ -1683,7 +1840,7 @@ def make_msk_hx(cur,cml,his,bis):
     curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(nhds):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     if j == shifts.index('MSK_AM') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
@@ -1698,7 +1855,7 @@ def make_msk_hx(cur,cml,his,bis):
     return new_cml,hist_plus
 
 def make_abd_hx(cur,cml,his,bis):
-    nhds = len(WEEK_SLOTS)
+    nslts = len(WEEK_SLOTS)
     ndays = len(WEEKDAYS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('abd')
@@ -1706,7 +1863,7 @@ def make_abd_hx(cur,cml,his,bis):
     curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(nhds):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     if j == shifts.index('Abdomen_AM') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
@@ -1721,7 +1878,7 @@ def make_abd_hx(cur,cml,his,bis):
     return new_cml,hist_plus
 
 def make_ner_hx(cur,cml,his,bis):
-    nhds = len(WEEK_SLOTS)
+    nslts = len(WEEK_SLOTS)
     ndays = len(WEEKDAYS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('ner')
@@ -1729,7 +1886,7 @@ def make_ner_hx(cur,cml,his,bis):
     curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(nhds):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     if j == shifts.index('Neuro_AM') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
@@ -1744,14 +1901,14 @@ def make_ner_hx(cur,cml,his,bis):
     return new_cml,hist_plus
 
 def make_cht_hx(cur,cml,his,bis):
-    nhds = len(WEEK_SLOTS)
+    nslts = len(WEEK_SLOTS)
     ndays = len(WEEKDAYS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('cht')
     curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(nhds):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     if j == shifts.index('Chest/PET_AM') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
@@ -1765,8 +1922,29 @@ def make_cht_hx(cur,cml,his,bis):
 
     return new_cml,hist_plus
 
+def make_nuc_hx(cur,cml,his,bis):
+    nslts = len(WEEK_SLOTS)
+    ndays = len(WEEKDAYS)
+    
+    nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('nuc')
+    curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
+
+    for s in range(nstaff):
+        for i in range(nslts):
+            for j in range(nshifts):
+                if cur[s,j,i] > 0:
+                    if j == shifts.index('Nucs') and i%2 == 1: # nucs is a PM rotation only
+                        curr_rots[s,rots.index('Nucs'),int(i/2)] += 1
+                    else:
+                        pass
+
+    new_cml = cml.astype('int64')+curr_rots.astype('int64')
+    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+
+    return new_cml,hist_plus
+
 def make_sta_hx(cur,cml,his,bis):
-    nhds = len(WEEK_SLOTS)
+    nslts = len(WEEK_SLOTS)
     ndays = len(WEEKDAYS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('sta')
@@ -1774,7 +1952,7 @@ def make_sta_hx(cur,cml,his,bis):
     curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(nhds):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     if j == shifts.index('STAT1_AM') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
@@ -1791,7 +1969,7 @@ def make_sta_hx(cur,cml,his,bis):
     return new_cml,hist_plus
 
 def make_opr_hx(cur,cml,his,bis):
-    nhds = len(WEEK_SLOTS)
+    nslts = len(WEEK_SLOTS)
     ndays = len(WEEKDAYS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('opr')
@@ -1799,7 +1977,7 @@ def make_opr_hx(cur,cml,his,bis):
     curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(nhds):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     if j < shifts.index('OPPR3_PM') and i%2 == 0: # the AM shifts are indexes 0,1 and the PM shifts are indexes 2,3
@@ -1816,14 +1994,14 @@ def make_opr_hx(cur,cml,his,bis):
     return new_cml,hist_plus
 
 def make_st3_hx(cur,cml,his,bis):
-    ncshs = len(CALL_SLOTS)
+    nslts = len(CALL_SLOTS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('st3')
 
-    curr_rots = np.zeros((nstaff,nrots,ncshs),dtype='int64')
+    curr_rots = np.zeros((nstaff,nrots,nslts),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(ncshs):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     curr_rots[s,rots.index('STAT3'),i] += 1
@@ -1836,14 +2014,14 @@ def make_st3_hx(cur,cml,his,bis):
     return new_cml,hist_plus
 
 def make_swg_hx(cur,cml,his,bis):
-    ncshs = len(CALL_SLOTS)
+    nslts = len(CALL_SLOTS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('swg')
 
-    curr_rots = np.zeros((nstaff,nrots,ncshs),dtype='int64')
+    curr_rots = np.zeros((nstaff,nrots,nslts),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(ncshs):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     curr_rots[s,rots.index('Swing'),i] += 1
@@ -1856,14 +2034,14 @@ def make_swg_hx(cur,cml,his,bis):
     return new_cml,hist_plus
 
 def make_stw_hx(cur,cml,his,bis):
-    ncshs = len(CALL_SLOTS)
+    nslts = len(CALL_SLOTS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('stw')
 
-    curr_rots = np.zeros((nstaff,nrots,ncshs),dtype='int64')
+    curr_rots = np.zeros((nstaff,nrots,nslts),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(CALL_SLOTS.index('SAT-AM'),ncshs):
+        for i in range(CALL_SLOTS.index('SAT-AM'),nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     # The rotation context works with days whereas the CALL_SLOTS split a morning evening (unlike the weekdays). 
@@ -1886,14 +2064,14 @@ def make_stw_hx(cur,cml,his,bis):
     return new_cml,hist_plus
 
 def make_wsp_hx(cur,cml,his,bis):
-    ncshs = len(CALL_SLOTS)
+    nslts = len(CALL_SLOTS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('wsp')
 
-    curr_rots = np.zeros((nstaff,nrots,ncshs),dtype='int64')
+    curr_rots = np.zeros((nstaff,nrots,nslts),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(ncshs):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     if i > CALL_SLOTS.index('FRI-PM'):
@@ -1907,14 +2085,14 @@ def make_wsp_hx(cur,cml,his,bis):
     return new_cml,hist_plus
 
 def make_wmr_hx(cur,cml,his,bis):
-    ncshs = len(CALL_SLOTS)
+    nslts = len(CALL_SLOTS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('wmr')
 
-    curr_rots = np.zeros((nstaff,nrots,ncshs),dtype='int64')
+    curr_rots = np.zeros((nstaff,nrots,nslts),dtype='int64')
 
     for s in range(nstaff):
-        for i in range(ncshs):
+        for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
                     if i > CALL_SLOTS.index('FRI-PM'):
@@ -1937,11 +2115,11 @@ def make_wmr_hx(cur,cml,his,bis):
 def main():
 
     # Top level settings
-    num_weeks = 1
+    num_weeks = 6
     time_limit = 100
-    day_sections = ['brt','sfl','ner','cht','msk','abd','sta','opr']
-    #day_sections = ['brt']
-    call_sections = []
+    day_sections = ['brt','sfl','ner','cht','nuc','msk','abd','sta','opr']
+    #day_sections = ['nuc']
+    #call_sections = []
     #call_sections = ['wmr']
     call_sections = ['st3','swg','stw','wsp','wmr']
     #call_sections = ['stw']
@@ -1949,18 +2127,23 @@ def main():
     #sections = ['cht']
     #sections = ['sonoflu']
 
-    # Used for keeping track of the current calendar for printing and for calendar
-    calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # calendar matrix is in the "shifts" context
+    # Used for keeping track of the schedule by staff
+    staff_calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
+
+    # Set staff_calendar constraints
+    set_weekleave_constraints(staff_calendar,'CCM',0)
 
     # Build multiphase call schedule
     if call_sections:
-        calendar = build_multi_call(num_weeks,call_sections,time_limit,calendar)
+        staff_calendar = build_multi_call(num_weeks,call_sections,time_limit,staff_calendar)
 
     # Build multiphase weekday schedule
     if day_sections:
-        calendar = build_multi_day(num_weeks,day_sections,time_limit,calendar)
+        staff_calendar = build_multi_day(num_weeks,day_sections,time_limit,staff_calendar)
 
-    print_calendar(calendar)
-        
+    print_staff_calendar(staff_calendar)
+    shift_calendar = convert_staff_to_shift_calendar(staff_calendar)
+    print_shift_calendar(shift_calendar)        
+
 if __name__ == "__main__":
   main()
