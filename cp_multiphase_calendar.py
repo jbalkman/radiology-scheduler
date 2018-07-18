@@ -12,6 +12,10 @@ TODO
 - experiment with sharing of special days, like UNCProcs (still not equally distributed); hierarchy of var?
 - experiment with higher biases and adjust min value; what should the formula be? number of rotations/staff?
 - revisit callback functions for decision tree to implement bias selection at that level
+- proposed rules:
+   1. spread out core rotations better, one person not more than 2-3 times per week
+   2. pools only work so many days per week
+
 '''
 
 '''
@@ -55,7 +59,7 @@ SPLIT_UPPER_HALF
 # OPR = Outpatient Plain Film Radiography
 
 # Shifts - to fill schedule
-ALL_SHIFTS = ['----','UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm','FRE_Sonoflu_AM','FRE_Sonoflu_PM','SLN_Sonoflu_AM','SLN_Sonoflu_PM','MSK_AM','MSK_PM','Neuro_AM','Neuro_PM','Abdomen_AM','Abdomen_PM','Chest/PET_AM','Chest/PET_PM','Nucs','STAT1_AM','STAT1b_PM','STAT2_PM','OPPR1_AM','OPPR2_AM','OPPR3_PM','OPPR4_PM','STAT3','Swing','STATW_AM','STATW_PM','WUSPR','WMR','Admin','Vaca','Leave'] # make sure all > 'Admin' are forms of leave
+ALL_SHIFTS = ['----','UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm','FRE_Sonoflu_AM','FRE_Sonoflu_PM','SLN_Sonoflu_AM','SLN_Sonoflu_PM','MSK_AM','MSK_PM','Neuro_AM','Neuro_PM','Abdomen_AM','Abdomen_PM','Chest/PET_AM','Chest/PET_PM','Nucs','STAT1_AM','STAT1b_PM','STAT2_PM','OPPR1_AM','OPPR2_AM','OPPR3_PM','OPPR4_PM','STAT3','Swing','STATW_AM','STATW_PM','WUSPR','WMR','SCV1_AM','SCV2_AM','SCV3_AM','SCV1_PM','SCV2_PM','Admin','Vaca','Leave'] # make sure all > 'Admin' are forms of leave
 BRT_SHIFTS = ['UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm']
 SFL_SHIFTS = ['FRE_Sonoflu_AM','FRE_Sonoflu_PM','SLN_Sonoflu_AM','SLN_Sonoflu_PM']
 MSK_SHIFTS = ['MSK_AM','MSK_PM']
@@ -70,6 +74,7 @@ SWG_SHIFTS = ['Swing']
 STW_SHIFTS = ['STATW_AM','STATW_PM']
 WSP_SHIFTS = ['WUSPR']
 WMR_SHIFTS = ['WMR']
+SCV_SHIFTS = ['SCV1_AM','SCV2_AM','SCV3_AM','SCV1_PM','SCV2_PM']
 
 # Rotations - to measure equality
 BRT_ROTS = ['UNC_Diag','UNC_Proc','FRE_Mamm','SLN_Mamm']
@@ -86,23 +91,27 @@ SWG_ROTS = ['Swing']
 STW_ROTS = ['STATW_AM','STATW_PM']
 WSP_ROTS = ['WUSPR']
 WMR_ROTS = ['WMR']
+SCV_ROTS = ['SCV']
 
 # Staff Lists
-ALL_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','HG','RV']
+ALL_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','HG','RV','JK','BJK','ATR']
+#ALL_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','SMN'] # used for testing
 BRT_STAFF = ['JDB','SDE','GHL','DCN','JKS']
 SFL_STAFF = ALL_STAFF
-MSK_STAFF = ['CCM','GJS','GSR','DRL','SJP']
-NER_STAFF = ['EEP','GSR','JFK','SMN','SJP']
+MSK_STAFF = ['CCM','GJS','GSR','DRL','SJP','JK']
+NER_STAFF = ['EEP','GSR','JFK','SMN','SJP','BJK','ATR']
 ABD_STAFF = ['BCL','DSL','HSS','JKL','SH']
 CHT_STAFF = ['BCL','GJS','SMN','RV','JKL']
 NUC_STAFF = ['SMN','GSR','HG']
-STA_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH']
+STA_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','JK','BJK','ATR']
 OPR_STAFF = ALL_STAFF
 ST3_STAFF = ['JDB','SDE','GHL','DCN','JKS','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','RV']
+#ST3_STAFF = ALL_STAFF # used for testing
 SWG_STAFF = ALL_STAFF
 STW_STAFF = ST3_STAFF
 WSP_STAFF = ['JDB','SDE','GHL','DCN','JKS','BCL','DSL','HSS','JKL','HG','RV']
 WMR_STAFF = ['GJS','GSR','DRL','SJP','EEP','JFK','SMN','SH']
+SCV_STAFF = ALL_STAFF
 
 # General Use
 WEEKDAYS = ['MON','TUE','WED','THU','FRI']
@@ -212,6 +221,11 @@ def get_section_nstaff_nrots_staff_rots(sect):
         num_rots = len(WMR_ROTS)
         staff = WMR_STAFF
         rots = WMR_ROTS
+    elif sect == 'scv':
+        num_staff = len(SCV_STAFF)
+        num_rots = len(SCV_ROTS)
+        staff = SCV_STAFF
+        rots = SCV_ROTS
     else:
         raise ValueError('Unresolved section name in get_section_nstaff_nrots_staff_rots function.')
     
@@ -312,6 +326,12 @@ def get_section_nstaff_nshifts_nrots_shifts_rots(sect):
         num_rots = len(WMR_ROTS)
         shifts = WMR_SHIFTS
         rots = WMR_ROTS
+    elif sect == 'scv':
+        num_staff = len(SCV_STAFF)
+        num_shifts = len(SCV_SHIFTS)
+        num_rots = len(SCV_ROTS)
+        shifts = SCV_SHIFTS
+        rots = SCV_ROTS
     else:
         raise ValueError('Unresolved section name in get_section_nstaff_nshifts_nrots_shifts_rots function.')
     
@@ -393,6 +413,11 @@ def get_section_nstaff_nshifts_staff_shifts(sect):
         num_shifts = len(WMR_SHIFTS)
         shifts = WMR_SHIFTS
         staff = WMR_STAFF
+    elif sect == 'scv':
+        num_staff = len(SCV_STAFF)
+        num_shifts = len(SCV_SHIFTS)
+        shifts = SCV_SHIFTS
+        staff = SCV_STAFF
     else:
         raise ValueError('Unresolved section name in get_section_nstaff_nshifts_staff_shifts function.')
     
@@ -461,6 +486,9 @@ def init_wsp_bias():
 def init_wmr_bias():
     return np.zeros((len(WMR_STAFF),len(WMR_ROTS)),dtype='int64') - 1
 
+def init_scv_bias():
+    return np.zeros((len(SCV_STAFF),len(SCV_ROTS)),dtype='int64') - 1
+
 def add_history_logic(old,curr):
     '''minimum = -10 # establish a saturation point to prevent runaway values
     if old < 0 and curr > 0:
@@ -524,23 +552,34 @@ def set_call_calendar_constraints(slvr,stf,cal,sect):
 
     num_slots = len(WEEK_SLOTS)+len(CALL_SLOTS)
     num_staff,num_shifts,staff,shifts = get_section_nstaff_nshifts_staff_shifts(sect)
-
+    
+    print("Call calendar constraints for section: ",sect)
     for i in range(num_staff):
         blocked_wknd = False
         sect_allstaff_idx = ALL_STAFF.index(staff[i])
-        for j in range(len(WEEK_SLOTS),num_slots):
-            if sect == 'STAT3' and cal[sect_allstaff_idx,j-len(WEEK_SLOTS)] > 0: # in the case we are setting STAT3 constraints, check for daytime rotations
-                for k in range(num_shifts):
-                    slvr.Add(stf[(k,j-len(WEEK_SLOTS))] != i)
-            elif sect == 'Swing' and cal[sect_allstaff_idx,j-len(WEEK_SLOTS)] > ALL_SHIFTS.index('Admin') : # > 'Admin' means that all other shift names are forms of day leave
-                    slvr.Add(stf[(k,j-len(WEEK_SLOTS))] != i)
-            else: # we are dealing with weekend rotation
+
+        # Handle STAT3 and Swing cases first (check if working day shifts during the week)
+        if sect == 'st3':
+            for j in range(len(WEEK_SLOTS)):
+                if cal[sect_allstaff_idx,j] > 0:
+                    for k in range(num_shifts):
+                        slvr.Add(stf[(k,int(j/2))] != i) # index the PM shift rotations
+        elif sect == 'swg':
+            #print("handling Swing constraints")
+            for j in range(len(WEEK_SLOTS)):
+                if cal[sect_allstaff_idx,j] > ALL_SHIFTS.index('Admin'):
+                    for k in range(num_shifts):
+                        #print("leave Swing constraint:",k,int(j/2))                        
+                        slvr.Add(stf[(k,int(j/2))] != i) # index the PM shift rotations
+        else: # we are dealing with weekend rotation
+            for j in range(len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM'),num_slots):
                 if cal[sect_allstaff_idx,j] > 0:
                     blocked_wknd = True
-        if blocked_wknd and sect in WKND_SECTS:
-            for j in range(len(WEEK_SLOTS),CALL_SLOTS.index('SAT-AM')):
-                for k in range(num_shifts):
-                    slvr.Add(stf[(k,j)] != i)
+            if blocked_wknd and sect in WKND_SECTS:
+                for j in range(CALL_SLOTS.index('SAT-AM'),len(CALL_SLOTS)):
+                    for k in range(num_shifts):
+                        print("leave STATW constraint:",k,j,staff[i])                        
+                        slvr.Add(stf[(k,j)] != i)
 
 def set_brt_constraints(s,st): # s = solver
 
@@ -856,6 +895,27 @@ def set_wmr_constraints(s,st): # s = solver
     s.Add(st[(WMR_SHIFTS.index('WMR'),CALL_SLOTS.index('SAT-PM'))] == st[(WMR_SHIFTS.index('WMR'),CALL_SLOTS.index('SUN-AM'))])
     s.Add(st[(WMR_SHIFTS.index('WMR'),CALL_SLOTS.index('SUN-AM'))] == st[(WMR_SHIFTS.index('WMR'),CALL_SLOTS.index('SUN-PM'))])
 
+def set_scv_constraints(s,st): # s = solver
+
+    for i in range(len(WEEK_SLOTS)):
+
+        # No double coverage
+        s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(SCV_SHIFTS))],-1))
+
+    # On Mondays set having an NEU, MSK, and ABD/CHT SCV 
+    s.Add(s.Max([st[(SCV_SHIFTS.index('SCV1_AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in NER_STAFF]) == 1)
+    s.Add(s.Max([st[(SCV_SHIFTS.index('SCV2_AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
+    s.Add(s.Max([st[(SCV_SHIFTS.index('SCV3_AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in ABD_STAFF]) == 1)
+    
+    for i in range(len(WEEKDAYS)):
+        
+        # Shifts that don't fit into context (e.g. PM on a morning shift)
+        s.Add(st[(SCV_SHIFTS.index('SCV1_PM'),i*2)] == -1)
+        s.Add(st[(SCV_SHIFTS.index('SCV2_PM'),i*2)] == -1)
+        s.Add(st[(SCV_SHIFTS.index('SCV1_AM'),i*2+1)] == -1)
+        s.Add(st[(SCV_SHIFTS.index('SCV2_AM'),i*2+1)] == -1)
+        s.Add(st[(SCV_SHIFTS.index('SCV3_AM'),i*2+1)] == -1)
+                
 '''
 ====================
  ANALYSIS FUNCTIONS
@@ -898,11 +958,14 @@ def create_analysis(collect,stafflookup,cuml,hist,bias,sect):
             updated_cuml,hist_plus = make_sta_hx(curr,cuml,hist,bias)
         elif sect == 'opr':
             updated_cuml,hist_plus = make_opr_hx(curr,cuml,hist,bias)
+        elif sect == 'scv':
+            updated_cuml,hist_plus = make_scv_hx(curr,cuml,hist,bias)
         else:
             raise ValueError('Unresolved section in create_analysis function.')
 
-        # sort by variance of each matrix; 
-        analysis.append((sol,np.var(hist_plus),updated_cuml,hist_plus,curr))
+        # sort matrix by certain criteria
+        #analysis.append((sol,np.var(hist_plus),updated_cuml,hist_plus,curr))
+        analysis.append((sol,np.sum(hist_plus),updated_cuml,hist_plus,curr))
 
     #print("sorting analysis of length", len(analysis))
     # finding the best choice of the array
@@ -941,7 +1004,7 @@ def create_call_analysis(collect,stafflookup,cuml,hist,bias,sect):
         else:
             raise ValueError('Unresolved section in create_call_analysis function.')
 
-        # sort by variance of each matrix; 
+        # sort matrix by certain criteria
         #analysis.append((sol,np.var(hist_plus),updated_cuml,hist_plus,curr))
         analysis.append((sol,np.sum(hist_plus),updated_cuml,hist_plus,curr))
 
@@ -1453,6 +1516,35 @@ def build_opr(cal,cuml,hist,bias,limit):
 
     return analysis[2],analysis[3],analysis[4]
 
+def build_scv(cal,cuml,hist,bias,limit):
+    
+    # Sonoflu settings
+    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('scv')
+    num_slots = len(WEEK_SLOTS)
+    num_days = num_slots/2
+    time_limit = limit
+
+    # Make a solver with random seed
+    solver = make_random_solver()
+
+    # Create staff lookup
+    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+
+    # Constraints
+    set_day_calendar_constraints(solver,staff,cal,'scv')
+    set_scv_constraints(solver,staff)
+
+    # Creating decision builder and collector
+    collector = get_collector(solver,staff_flat,time_limit)
+
+    # analyze and sort results based on schedule variance
+    analysis = create_analysis(collector,staff,cuml,hist,bias,'scv')
+
+    # Print out the top solution with the least variance
+    print_analysis(solver,collector,staff,analysis,'scv')
+
+    return analysis[2],analysis[3],analysis[4]
+
 def build_st3(cal,cuml,hist,bias,limit):
     
     # ST3 settings
@@ -1628,6 +1720,9 @@ def build_multi_day(nweeks,sects,limit,calendar):
         elif sects[j] == 'opr':
             nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('opr')      
             bias = init_opr_bias()
+        elif sects[j] == 'scv':
+            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('scv')      
+            bias = init_scv_bias()
         else:
             nstaff = len(OTHER_STAFF)
             nrots = len(OTHER_ROTS)
@@ -1670,6 +1765,9 @@ def build_multi_day(nweeks,sects,limit,calendar):
             elif sects[j] == 'opr':
                 cumulative,history,recentweek = build_opr(calendar[:,:,i],cumulative,history,bias,limit)
                 calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'opr')
+            elif sects[j] == 'scv':
+                cumulative,history,recentweek = build_scv(calendar[:,:,i],cumulative,history,bias,limit)
+                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'scv')
             else:
                 currwk_cal = calendar[:,:,i]
                 cumulative,history = build_other(currwk_cal,cumulative,history,bias)
@@ -1993,6 +2091,27 @@ def make_opr_hx(cur,cml,his,bis):
 
     return new_cml,hist_plus
 
+def make_scv_hx(cur,cml,his,bis):
+    nslts = len(WEEK_SLOTS)
+    ndays = len(WEEKDAYS)
+    
+    nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots('scv')
+
+    curr_rots = np.zeros((nstaff,nrots,ndays),dtype='int64')
+
+    for s in range(nstaff):
+        for i in range(nslts):
+            for j in range(nshifts):
+                if cur[s,j,i] > 0: # any SCV rotation whether AM/PM counts as one rotation
+                    curr_rots[s,rots.index('SCV'),int(i/2)] += 1
+                else:
+                    pass
+                
+    new_cml = cml.astype('int64')+curr_rots.astype('int64')      
+    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+
+    return new_cml,hist_plus
+
 def make_st3_hx(cur,cml,his,bis):
     nslts = len(CALL_SLOTS)
     
@@ -2115,12 +2234,12 @@ def make_wmr_hx(cur,cml,his,bis):
 def main():
 
     # Top level settings
-    num_weeks = 6
+    num_weeks = 1
     time_limit = 100
-    day_sections = ['brt','sfl','ner','cht','nuc','msk','abd','sta','opr']
-    #day_sections = ['nuc']
+    day_sections = ['nuc','brt','sfl','ner','cht','msk','abd','sta','scv','opr']
+    #day_sections = []
     #call_sections = []
-    #call_sections = ['wmr']
+    #call_sections = ['swg','stw']
     call_sections = ['st3','swg','stw','wsp','wmr']
     #call_sections = ['stw']
     #call_sections = ['swg']
@@ -2132,6 +2251,7 @@ def main():
 
     # Set staff_calendar constraints
     set_weekleave_constraints(staff_calendar,'CCM',0)
+    set_weekleave_constraints(staff_calendar,'SMN',0)
 
     # Build multiphase call schedule
     if call_sections:
