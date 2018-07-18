@@ -516,24 +516,32 @@ add_history_matrix = np.vectorize(add_history_logic)
 ======================
 '''
 
-def set_weekleave_constraints(cal,initials,wk):
+def set_weekleave_constraints(cal,initials,wk,reason):
 
     total_slots = len(WEEK_SLOTS)+len(CALL_SLOTS)
 
     for j in range(total_slots):
-        cal[ALL_STAFF.index(initials),j,wk] = ALL_SHIFTS.index('Leave')
+        cal[ALL_STAFF.index(initials),j,wk] = ALL_SHIFTS.index(reason)
 
-'''
-def set_dayleave_constraints(slvr,initials,day,wk):
-    total_slots = len(WEEK_SLOTS)+len(CALL_SLOTS)
+def set_dayleave_constraints(cal,initials,wk,day,reason):
+    if day < len(WEEKDAYS): # block out a weekday
+        cal[ALL_STAFF.index(initials),day*2,wk] = ALL_SHIFTS.index(reason) # AM shift
+        cal[ALL_STAFF.index(initials),day*2+1,wk] = ALL_SHIFTS.index(reason) # PM shift
+        cal[ALL_STAFF.index(initials),len(WEEK_SLOTS)+day,wk] = ALL_SHIFTS.index(reason) # PM call shift
+    else: # block out the wknd
+        cal[ALL_STAFF.index(initials),len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM'),wk] = ALL_SHIFTS.index(reason) # AM wknd call shift
+        cal[ALL_STAFF.index(initials),len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM')+1,wk] = ALL_SHIFTS.index(reason) # PM wknd call shift
 
-    
-
-    cal[ALL_STAFF.index(initials),j,wk] = ALL_SHIFTS.index('Leave')
-    
-
-def set_slotleave_contraints(slvr,stf,cal):'''
-
+def set_slotleave_constraints(cal,initials,wk,day,slot,reason):
+    if day < len(WEEKDAYS): # block out a weekday
+        if slot == 'AM' or slot == 0:
+            cal[ALL_STAFF.index(initials),day*2,wk] = ALL_SHIFTS.index(reason) # AM shift
+        elif slot == 'PM' or slot == 1:
+            cal[ALL_STAFF.index(initials),day*2+1,wk] = ALL_SHIFTS.index(reason) # PM shift
+        elif slot == 'CALL' or slot == 2:
+            cal[ALL_STAFF.index(initials),len(WEEK_SLOTS)+day,wk] = ALL_SHIFTS.index(reason) # PM call shift
+    else:
+        raise ValueError('Tried to block AM/PM weekend shift')
 
 def set_day_calendar_constraints(slvr,stf,cal,sect):
 
@@ -2250,8 +2258,11 @@ def main():
     staff_calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
 
     # Set staff_calendar constraints
-    set_weekleave_constraints(staff_calendar,'CCM',0)
-    set_weekleave_constraints(staff_calendar,'SMN',0)
+    set_weekleave_constraints(staff_calendar,'CCM',0,'Leave')
+    set_weekleave_constraints(staff_calendar,'SMN',0,'Leave')
+    set_dayleave_constraints(staff_calendar,'JDB',0,0,'Admin')
+    set_dayleave_constraints(staff_calendar,'SDE',0,2,'Admin')
+    set_slotleave_constraints(staff_calendar,'GJS',0,3,0,'Admin')
 
     # Build multiphase call schedule
     if call_sections:
