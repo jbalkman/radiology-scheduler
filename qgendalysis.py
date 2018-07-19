@@ -1,6 +1,7 @@
 import csv
 import numpy as np
 from qgendasets import *
+from calisets import ALL_SHIFTS, ALL_STAFF
 
 # Globals
 OFFSET = 2
@@ -371,13 +372,22 @@ class Dept:
                 print str(r_units)+",",
             print str(t_units)
 
+
+# convert the qgenda name form to the schedule index
+def convert_rotation(r):
+    pass
+
+# convert the qgenda name form to the schedule index
+def convert_staff(s):
+    pass
+
 def qgimport(dept):
     cal = []
     for i in range (len(dept.staff)):
-        s = dept.staff[i]
-
-
-
+        s = convert_staff(dept.staff[i].get_name())
+        for d i range(len(s.sshape[1])):
+            for j in range(s.sshape[0]):
+                rotation = convert_rotation(Rotations[s.schedule[j,d])
     return cal
 
 # Functions
