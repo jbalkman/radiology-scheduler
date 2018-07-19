@@ -1886,7 +1886,7 @@ def main():
 
     # Get the department information from file
     dept = qa.load_data(fname)
-    dept.p_dept_missing_u()
+    calimport = qgimport(dept)
 
     # Used for keeping track of the schedule by staff
     staff_calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
