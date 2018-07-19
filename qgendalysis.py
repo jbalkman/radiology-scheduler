@@ -1,7 +1,7 @@
 import csv
 import numpy as np
 from qgendasets import *
-from calisets import ALL_SHIFTS, ALL_STAFF
+from calisets import ALL_SHIFTS,ALL_STAFF
 
 # Globals
 OFFSET = 2
@@ -14,6 +14,7 @@ DAYS_LINE = 7-OFFSET
 class Staff:
     def __init__(self, r, d, s):
         self.name = r[0]
+        self.initials = self.name[self.name.find("(")+1:self.name.find(")")]
         self.dates = d
         self.startday = s
         self.firsts, = np.where(d == 1)
@@ -30,6 +31,9 @@ class Staff:
     def add_row(self, r):
         for i in range(len(r)-1):
             self.schedule.append(Rotations.index(r[i+1]))
+            
+    def get_dates(self):
+        return self.dates
 
     def finalize(self):
          self.schedule = np.reshape(self.schedule, newshape=(len(self.schedule)/len(self.dates), len(self.dates)))
@@ -101,6 +105,14 @@ class Staff:
         if (((idx+self.startday)%7 == 6) or ((idx+self.startday)%7 == 5)):
             return True
         return False
+    
+    def ismonday(self):
+        return ((idx+self.startday)%7 == 0)
+    
+    def get_firstmonday(self):
+        for d in range(len(self.dates)):
+             if not self.ismonday(d):
+                    return d
 
     def p_wknds(self, m):
         start_idx = self.get_dayidx(m, 1)
@@ -121,6 +133,9 @@ class Staff:
 
     def get_name(self):
         return self.name
+    
+    def get_initials(self):
+        return self.initials
 
     # Get number of units for a given rotation with the following date range (sm = start month, sd = start day, em = end month, ed = end day)
     def get_rotation_u(self, r, sm, sd, em, ed):
@@ -177,7 +192,19 @@ class Dept:
     def __init__(self, f):
         self.fname = f
         self.staff = []
-
+        self.firstmonday = 0
+        self.nwks = 0
+        
+    def finalize(self):
+        if len(self.staff) > 0:
+            # just use the first staff to get certain parameters since they are all the same
+            s = self.staff[0]
+            self.firstmonday = s.get_firstmonday()
+            self.nwks = (len(s.get_dates()) - self.firstmonday - 1)/7
+    
+    def get_nwks(self):
+        return self.nwks
+    
     def add_staff(self, s):
         self.staff.append(s)
     
@@ -372,22 +399,26 @@ class Dept:
                 print str(r_units)+",",
             print str(t_units)
 
-
 # convert the qgenda name form to the schedule index
 def convert_rotation(r):
     pass
 
-# convert the qgenda name form to the schedule index
-def convert_staff(s):
-    pass
-
 def qgimport(dept):
-    cal = []
-    for i in range (len(dept.staff)):
-        s = convert_staff(dept.staff[i].get_name())
-        for d i range(len(s.sshape[1])):
-            for j in range(s.sshape[0]):
-                rotation = convert_rotation(Rotations[s.schedule[j,d])
+    nwks = dept.get_nwks()
+    firstmonday = dept.get_firstmonday()
+    
+    cal = np.zeros(len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),nwks)
+    for i in range(len(dept.staff)):
+        s = dept.staff[i]
+        sidx = ALL_STAFF.index(s.get_initials()) # find index of staff in the calendar
+        for j in range(firstmonday, len(s.sshape[1])):
+            for slt in range(s.sshape[0]):
+                if any(s.schedule[slt,j] in rots for rots in RotationsAM):
+                    cal[sidx,j%7,j/7] = ALL_SHIFTS.index(s.schedule[slt,j])
+                elif any(s.schedule[slt,j] in rots for rots in RotationsPM):
+                    cal[sidx,j%7+1,j/7] = ALL_SHIFTS.index(s.schedule[slt,j])
+                elif any(s.schedule[slt,j] in rots for rots in CallRotations): # this is only for STAT3 need to parse out the others
+                    cal[sidx,len(WEEK_SLOTS)+j%7,j/7] = ALL_SHIFTS.index(s.schedule[slt,j])
     return cal
 
 # Functions
@@ -416,6 +447,7 @@ def load_data(fname):
             elif staff:
                 staff.add_row(row)
             line += 1
+    dept.finalize()                        
     return dept
 
 # MAIN
