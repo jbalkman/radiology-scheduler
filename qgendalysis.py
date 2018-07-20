@@ -1,7 +1,7 @@
 import csv
 import numpy as np
 from qgendasets import *
-from calisets import ALL_SHIFTS,ALL_STAFF
+from schedsets import ALL_SHIFTS,ALL_STAFF,WEEK_SLOTS,CALL_SLOTS
 
 # Globals
 OFFSET = 2
@@ -101,18 +101,21 @@ class Staff:
         for i in range(s[0]):
             print Rotations[self.schedule[i,dayidx]]
 
-    def iswknd(self, idx):
+    def iswknd(self,idx):
         if (((idx+self.startday)%7 == 6) or ((idx+self.startday)%7 == 5)):
             return True
         return False
     
-    def ismonday(self):
-        return ((idx+self.startday)%7 == 0)
+    def ismonday(self,idx):
+        if (idx+self.startday)%7 == 0:
+            return True
+        return False
     
     def get_firstmonday(self):
         for d in range(len(self.dates)):
-             if not self.ismonday(d):
+             if self.ismonday(d):
                     return d
+        return -1000 # barf line
 
     def p_wknds(self, m):
         start_idx = self.get_dayidx(m, 1)
@@ -202,6 +205,9 @@ class Dept:
             self.firstmonday = s.get_firstmonday()
             self.nwks = (len(s.get_dates()) - self.firstmonday - 1)/7
     
+    def get_firstmonday(self):
+        return self.firstmonday
+
     def get_nwks(self):
         return self.nwks
     
@@ -400,25 +406,44 @@ class Dept:
             print str(t_units)
 
 # convert the qgenda name form to the schedule index
-def convert_rotation(r):
-    pass
-
 def qgimport(dept):
-    nwks = dept.get_nwks()
+    nwks = dept.get_nwks()+1 # need to fix the math here for the final week in a year; we have an off by 1 problem
     firstmonday = dept.get_firstmonday()
     
-    cal = np.zeros(len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),nwks)
+    cal = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),nwks),dtype='int64')
     for i in range(len(dept.staff)):
         s = dept.staff[i]
-        sidx = ALL_STAFF.index(s.get_initials()) # find index of staff in the calendar
-        for j in range(firstmonday, len(s.sshape[1])):
-            for slt in range(s.sshape[0]):
-                if any(s.schedule[slt,j] in rots for rots in RotationsAM):
-                    cal[sidx,j%7,j/7] = ALL_SHIFTS.index(s.schedule[slt,j])
-                elif any(s.schedule[slt,j] in rots for rots in RotationsPM):
-                    cal[sidx,j%7+1,j/7] = ALL_SHIFTS.index(s.schedule[slt,j])
-                elif any(s.schedule[slt,j] in rots for rots in CallRotations): # this is only for STAT3 need to parse out the others
-                    cal[sidx,len(WEEK_SLOTS)+j%7,j/7] = ALL_SHIFTS.index(s.schedule[slt,j])
+        initials = s.get_initials()
+        if initials in ALL_STAFF:
+            sidx = ALL_STAFF.index(initials) # find index of staff in the calendar
+            cidx = 0
+            for j in range(firstmonday,s.sshape[1]):
+                for slt in range(s.sshape[0]):
+                    shift = Rotations[s.schedule[slt,j]]
+                    if cidx%7 < 5: # handle weekdays
+                        if ShiftSlots[shift] == Slots.index('AM'):
+                            cal[sidx,(cidx%7)*2,cidx/7] = ALL_SHIFTS.index(shift)
+                        elif ShiftSlots[shift] == Slots.index('PM'):
+                            cal[sidx,(cidx%7)*2+1,cidx/7] = ALL_SHIFTS.index(shift)
+                        elif ShiftSlots[shift] == Slots.index('EVE'):
+                            cal[sidx,len(WEEK_SLOTS)+(cidx%7),cidx/7] = ALL_SHIFTS.index(shift)
+                        elif ShiftSlots[shift] == Slots.index('DAY'):
+                            cal[sidx,(cidx%7)*2,cidx/7] = ALL_SHIFTS.index(shift)
+                            cal[sidx,(cidx%7)*2+1,cidx/7] = ALL_SHIFTS.index(shift)
+                    else: # handle weekends
+                        callSlotStr = ''
+                        if cidx%7 == 5: # saturday
+                            callSlotStr = 'SAT-AM'
+                        else: # must be sunday
+                            callSlotStr = 'SUN-AM'
+                        if ShiftSlots[shift] == Slots.index('WAM'):
+                            cal[sidx,len(WEEK_SLOTS)+CALL_SLOTS.index(callSlotStr),cidx/7] = ALL_SHIFTS.index(shift)
+                        elif ShiftSlots[shift] == Slots.index('WPM'):
+                            cal[sidx,len(WEEK_SLOTS)+CALL_SLOTS.index(callSlotStr)+1,cidx/7] = ALL_SHIFTS.index(shift)
+                        elif ShiftSlots[shift] == Slots.index('DAY'):
+                            cal[sidx,len(WEEK_SLOTS)+CALL_SLOTS.index(callSlotStr),cidx/7] = ALL_SHIFTS.index(shift)
+                            cal[sidx,len(WEEK_SLOTS)+CALL_SLOTS.index(callSlotStr)+1,cidx/7] = ALL_SHIFTS.index(shift)
+                cidx += 1
     return cal
 
 # Functions
@@ -489,4 +514,5 @@ if __name__ == '__main__':
     #print "ADMIN"
     #d.p_dept_staff_u(sm, em, rotlist=['Admin'], sl=staff_list)
     #d.p_staff_rotation_monthly_u(staff, rotation, sm, em)
-    #d.csv_dept_staff_overhead(rotlist=CustomRotations)
+    #d.csv_dept_staff_overhead(rotlist=CustomRotations)import csv
+   

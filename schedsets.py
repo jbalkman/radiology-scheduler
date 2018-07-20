@@ -1,4 +1,3 @@
-
 # Legend
 
 # BRT = Breast Imaging
@@ -11,66 +10,145 @@
 # OPR = Outpatient Plain Film Radiography
 
 # Shifts - to fill schedule
-ALL_SHIFTS = ['----','UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm','FRE_Sonoflu_AM','FRE_Sonoflu_PM','SLN_Sonoflu_AM','SLN_Sonoflu_PM','MSK_AM','MSK_PM','Neuro_AM','Neuro_PM','Abdomen_AM','Abdomen_PM','Chest/PET_AM','Chest/PET_PM','Nucs','STAT1_AM','STAT1b_PM','STAT2_PM','OPPR1_AM','OPPR2_AM','OPPR3_PM','OPPR4_PM','STAT3','Swing','STATW_AM','STATW_PM','WUSPR','WMR','SCV1_AM','SCV2_AM','SCV3_AM','SCV1_PM','SCV2_PM','Admin','Vaca','Leave'] # make sure all > 'Admin' are forms of leave
-BRT_SHIFTS = ['UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm']
-SFL_SHIFTS = ['FRE_Sonoflu_AM','FRE_Sonoflu_PM','SLN_Sonoflu_AM','SLN_Sonoflu_PM']
-MSK_SHIFTS = ['MSK_AM','MSK_PM']
-NER_SHIFTS = ['Neuro_AM','Neuro_PM'] 
-ABD_SHIFTS = ['Abdomen_AM','Abdomen_PM']
-CHT_SHIFTS = ['Chest/PET_AM','Chest/PET_PM']
-NUC_SHIFTS = ['Nucs']
-STA_SHIFTS = ['STAT1_AM','STAT1b_PM','STAT2_PM']
-OPR_SHIFTS = ['OPPR1_AM','OPPR2_AM','OPPR3_PM','OPPR4_PM']
-ST3_SHIFTS = ['STAT3']
-SWG_SHIFTS = ['Swing']
-STW_SHIFTS = ['STATW_AM','STATW_PM']
-WSP_SHIFTS = ['WUSPR']
-WMR_SHIFTS = ['WMR']
-SCV_SHIFTS = ['SCV1_AM','SCV2_AM','SCV3_AM','SCV1_PM','SCV2_PM']
+#ALL_SHIFTS = ['----','UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm','FRE_Sonoflu_AM','FRE_Sonoflu_PM','SLN_Sonoflu_AM','SLN_Sonoflu_PM','MSK_AM','MSK_PM','Neuro_AM','Neuro_PM','Abdomen_AM','Abdomen_PM','Chest/PET_AM','Chest/PET_PM','Nucs','STAT1_AM','STAT1b_PM','STAT2_PM','OPPR1_AM','OPPR2_AM','OPPR3_PM','OPPR4_PM','STAT3','Swing','STATW_AM','STATW_PM','WUSPR','WMR','SCV1_AM','SCV2_AM','SCV3_AM','SCV1_PM','SCV2_PM','Admin','Vaca','Leave'] # make sure all > 'Admin' are forms of leave
+
+ALL_SHIFTS = ("","Vacation",
+             "Admin Day",
+             "Admin AM",
+             "Admin PM",
+             "Leave AM",
+             "Leave PM",
+             "Leave Day",
+             "Flex Vaca Day",
+             "Day Off",
+             "Off AM",
+             "Off PM",
+             "Meeting",
+             "STAT1 8a-12p",
+             "STAT1b 12p-4p",
+             "STAT2 12p-4p",
+             "STAT3 4p-11p",
+             "FluoroCall 8a-1159p",
+             "Swing",
+             "STATWAM 8a-330p",
+             "ER PR 1",
+             "STATWPM 330p-11p",
+             "ER PR 2",
+             "Nightshift 11p-12a",
+             "Nightshift 1201a-8a",
+             "NeuroNH 11p-12a",
+             "NeuroNH 1201a-8a",
+             "Overnight Fluoro/MRI(a) 11p-12a",
+             "Overnight Fluoro/MRI(b) 1201a-8a",
+             "Backup Fluoro Call(a) 11p-12a",
+             "Backup Fluoro Call(b) 1201a-8a",
+             "WMR",
+             "WUSPR",
+             "OPPR1am",
+             "OPPR2am",
+             "OPPR3pm",
+             "OPPR4pm",
+             "TBA",
+             "Sonoflu Backup",
+             "SCVam abd-chest",
+             "SCVam msk-neuro",
+             "SCV AM",
+             "SCV PM",
+             "Abdomen 8a-12p",
+             "Abdomen 12-4p",
+             "Chest/PET 8a-12p",
+             "Chest/PET 12-4p",
+             "MSK 8a-12p",
+             "MSK 12-4p",
+             "Neuro 8a-12p",
+             "Neuro 12-4p",
+             "UCMam Diag 8a-12p",
+             "UCMam Diag 12-4p",
+             "UCMam Proc 8a-12p",
+             "UCMam Proc 12-4p",
+             "FreMam halfday",
+             "SL Mam 8a-12p",
+             "UCMammoBackup",
+             "Nucs 8a-4p",
+             "SL US/Fluoro 8a-4p",
+             "Fre US/Fluoro 8a-4p",
+             "IR:FRE 8a-630p",
+             "IR1:SLN 8a-630p",
+             "IR3:SLN 8a-630p",
+             "IR2:SLN 8a-630p",
+             "IR:Admin",
+             "IR:Leave",
+             "IR:On-Call",
+             "Tumor Board",
+             "ICU Rds",
+             "Holiday",
+             "No Call",
+             "RSO",
+             "Backfill",
+             "DFD",
+             "Not Working",
+             "Manager On-Call",
+             "1-844-230-9729")
+
+BRT_SHIFTS = ('UCMam Diag 8a-12p','UCMam Diag 12-4p','UCMam Proc 8a-12p','UCMam Proc 12-4p','FreMam halfday','SL Mam 8a-12p')
+SFL_SHIFTS = ('SL US/Fluoro 8a-4p','Fre US/Fluoro 8a-4p') # used to be AM/PM, now switched to be single day
+MSK_SHIFTS = ('MSK 8a-12p','MSK 12-4p')
+NER_SHIFTS = ('Neuro 8a-12p','Neuro 12-4p') 
+ABD_SHIFTS = ('Abdomen 8a-12p','Abdomen 12-4p')
+CHT_SHIFTS = ('Chest/PET 8a-12p','Chest/PET 12-4p')
+NUC_SHIFTS = ('Nucs 8a-4p')
+STA_SHIFTS = ('STAT1 8a-12p','STAT1b 12p-4p','STAT2 12p-4p')
+OPR_SHIFTS = ('OPPR1am','OPPR2am','OPPR3pm','OPPR4pm')
+ST3_SHIFTS = ('STAT3')
+SWG_SHIFTS = ('Swing')
+STW_SHIFTS = ('STATWAM 8a-330p','STATWPM 330p-11p')
+WSP_SHIFTS = ('WUSPR')
+WMR_SHIFTS = ('WMR')
+SCV_SHIFTS = ('SCV1_AM','SCV2_AM','SCV3_AM','SCV1_PM','SCV2_PM')
 
 # Rotations - to measure equality
-BRT_ROTS = ['UNC_Diag','UNC_Proc','FRE_Mamm','SLN_Mamm']
-SFL_ROTS = ['FRE_Sonoflu','SLN_Sonoflu']
-MSK_ROTS = ['MSK']
-NER_ROTS = ['Neuro']
-ABD_ROTS = ['Abdomen']
-CHT_ROTS = ['Chest/PET']
-NUC_ROTS = ['Nucs']
-STA_ROTS = ['STAT_AM','STAT_PM']
-OPR_ROTS = ['OPPR_AM','OPPR_PM']
-ST3_ROTS = ['STAT3']
-SWG_ROTS = ['Swing']
-STW_ROTS = ['STATW_AM','STATW_PM']
-WSP_ROTS = ['WUSPR']
-WMR_ROTS = ['WMR']
-SCV_ROTS = ['SCV']
+BRT_ROTS = ('UNC_Diag','UNC_Proc','FRE_Mamm','SLN_Mamm')
+SFL_ROTS = ('FRE_Sonoflu','SLN_Sonoflu')
+MSK_ROTS = ('MSK')
+NER_ROTS = ('Neuro')
+ABD_ROTS = ('Abdomen')
+CHT_ROTS = ('Chest/PET')
+NUC_ROTS = ('Nucs')
+STA_ROTS = ('STAT_AM','STAT_PM')
+OPR_ROTS = ('OPPR_AM','OPPR_PM')
+ST3_ROTS = ('STAT3')
+SWG_ROTS = ('Swing')
+STW_ROTS = ('STATW_AM','STATW_PM')
+WSP_ROTS = ('WUSPR')
+WMR_ROTS = ('WMR')
+SCV_ROTS = ('SCV')
 
 # Staff Lists
-ALL_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','HG','RV','JK','BJK','ATR']
-#ALL_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','SMN'] # used for testing
-BRT_STAFF = ['JDB','SDE','GHL','DCN','JKS']
+ALL_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','HG','RV','JK','BJK','ATR')
+#ALL_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','SMN') # used for testing
+BRT_STAFF = ('JDB','SDE','GHL','DCN','JKS')
 SFL_STAFF = ALL_STAFF
-MSK_STAFF = ['CCM','GJS','GSR','DRL','SJP','JK']
-NER_STAFF = ['EEP','GSR','JFK','SMN','SJP','BJK','ATR']
-ABD_STAFF = ['BCL','DSL','HSS','JKL','SH']
-CHT_STAFF = ['BCL','GJS','SMN','RV','JKL']
-NUC_STAFF = ['SMN','GSR','HG']
-STA_STAFF = ['JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','JK','BJK','ATR']
+MSK_STAFF = ('CCM','GJS','GSR','DRL','SJP','JK')
+NER_STAFF = ('EEP','GSR','JFK','SMN','SJP','BJK','ATR')
+ABD_STAFF = ('BCL','DSL','HSS','JKL','SH')
+CHT_STAFF = ('BCL','GJS','SMN','RV','JKL')
+NUC_STAFF = ('SMN','GSR','HG')
+STA_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','JK','BJK','ATR')
 OPR_STAFF = ALL_STAFF
-ST3_STAFF = ['JDB','SDE','GHL','DCN','JKS','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','RV']
+ST3_STAFF = ('JDB','SDE','GHL','DCN','JKS','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','RV')
 #ST3_STAFF = ALL_STAFF # used for testing
 SWG_STAFF = ALL_STAFF
 STW_STAFF = ST3_STAFF
-WSP_STAFF = ['JDB','SDE','GHL','DCN','JKS','BCL','DSL','HSS','JKL','HG','RV']
-WMR_STAFF = ['GJS','GSR','DRL','SJP','EEP','JFK','SMN','SH']
+WSP_STAFF = ('JDB','SDE','GHL','DCN','JKS','BCL','DSL','HSS','JKL','HG','RV')
+WMR_STAFF = ('GJS','GSR','DRL','SJP','EEP','JFK','SMN','SH')
 SCV_STAFF = ALL_STAFF
 
 # General Use
-WEEKDAYS = ['MON','TUE','WED','THU','FRI']
-CALLDAYS = ['MON','TUE','WED','THU','FRI','SAT','SUN']
-WEEK_SLOTS = ['MON-AM','MON-PM','TUE-AM','TUE-PM','WED-AM','WED-PM','THU-AM','THU-PM','FRI-AM','FRI-PM']
-CALL_SLOTS = ['MON-PM','TUE-PM','WED-PM','THU-PM','FRI-PM','SAT-AM','SAT-PM','SUN-AM','SUN-PM']
-WKND_SECTS = ['stw','wsp','wmr']
+WEEKDAYS = ('MON','TUE','WED','THU','FRI')
+CALLDAYS = ('MON','TUE','WED','THU','FRI','SAT','SUN')
+WEEK_SLOTS = ('MON-AM','MON-PM','TUE-AM','TUE-PM','WED-AM','WED-PM','THU-AM','THU-PM','FRI-AM','FRI-PM')
+CALL_SLOTS = ('MON-PM','TUE-PM','WED-PM','THU-PM','FRI-PM','SAT-AM','SAT-PM','SUN-AM','SUN-PM')
+WKND_SECTS = ('stw','wsp','wmr')
 
 '''
 ===============

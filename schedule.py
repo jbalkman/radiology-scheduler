@@ -4,7 +4,7 @@ from ortools.constraint_solver import pywrapcp
 import numpy as np
 from operator import itemgetter
 import os,time,random
-from settings import *
+from schedsets import *
 import qgendalysis as qa
 
 '''
@@ -181,7 +181,7 @@ def set_day_calendar_constraints(slvr,stf,cal,sect):
     for i in range(num_staff):
         sect_allstaff_idx = ALL_STAFF.index(staff[i])
         for j in range(num_slots):
-            if cal[sect_allstaff_idx,j] > 0 or cal[sect_allstaff_idx,len(WEEK_SLOTS)+j/2] == ALL_SHIFTS.index('STAT3'): # the second term checks for STAT3 b/c can't work during the day if that's the case
+            if cal[sect_allstaff_idx,j] > 0 or cal[sect_allstaff_idx,len(WEEK_SLOTS)+j/2] == ALL_SHIFTS.index('STAT3 4p-11p'): # the second term checks for STAT3 b/c can't work during the day if that's the case
                 for k in range(num_shifts):
                     slvr.Add(stf[(k,j)] != i)
 
@@ -204,7 +204,7 @@ def set_call_calendar_constraints(slvr,stf,cal,sect):
         elif sect == 'swg':
             #print("handling Swing constraints")
             for j in range(len(WEEK_SLOTS)):
-                if cal[sect_allstaff_idx,j] > ALL_SHIFTS.index('Admin'):
+                if cal[sect_allstaff_idx,j] > 0 and cal[sect_allstaff_idx,j] < ALL_SHIFTS.index('Meeting'):
                     for k in range(num_shifts):
                         #print("leave Swing constraint:",k,int(j/2))                        
                         slvr.Add(stf[(k,int(j/2))] != i) # index the PM shift rotations
@@ -228,47 +228,47 @@ def set_brt_constraints(s,st): # s = solver
   for i in range(len(WEEKDAYS)):
 
       # Constraints binding AM/PM rotations
-      s.Add(st[(BRT_SHIFTS.index('UNC_Diag_AM'),i*2)] == st[(BRT_SHIFTS.index('UNC_Diag_PM'),i*2+1)])
-      s.Add(st[(BRT_SHIFTS.index('UNC_Proc_AM'),i*2)] == st[(BRT_SHIFTS.index('UNC_Proc_PM'),i*2+1)])
+      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] == st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2+1)])
+      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] == st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2+1)])
       
-      # Shifts that don't fit into context (e.g. UNC_Diag_PM on a morning shift)
-      s.Add(st[(BRT_SHIFTS.index('UNC_Diag_PM'),i*2)] == -1)
-      s.Add(st[(BRT_SHIFTS.index('UNC_Proc_PM'),i*2)] == -1)
-      s.Add(st[(BRT_SHIFTS.index('UNC_Diag_AM'),i*2+1)] == -1)
-      s.Add(st[(BRT_SHIFTS.index('UNC_Proc_AM'),i*2+1)] == -1)
+      # Shifts that don't fit into context (e.g. UCMam Diag 12-4p on a morning shift)
+      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2)] == -1)
+      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2)] == -1)
+      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2+1)] == -1)
+      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2+1)] == -1)
 
-      s.Add(st[(BRT_SHIFTS.index('UNC_Diag_AM'),i*2)] != -1)
-      s.Add(st[(BRT_SHIFTS.index('UNC_Proc_AM'),i*2)] != -1)
-      s.Add(st[(BRT_SHIFTS.index('UNC_Diag_PM'),i*2+1)] != -1)
-      s.Add(st[(BRT_SHIFTS.index('UNC_Proc_PM'),i*2+1)] != -1)
+      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] != -1)
+      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != -1)
+      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2+1)] != -1)
+      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2+1)] != -1)
 
       # Don't be on the same UNC rotation two days in a row (can relax if short-staffed)
       if i < 4:
-          s.Add(st[(BRT_SHIFTS.index('UNC_Proc_AM'),i*2)] != st[(BRT_SHIFTS.index('UNC_Proc_AM'),i*2+2)])
-          s.Add(st[(BRT_SHIFTS.index('UNC_Diag_AM'),i*2)] != st[(BRT_SHIFTS.index('UNC_Diag_AM'),i*2+2)])
+          s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2+2)])
+          s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] != st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2+2)])
 
   # Blocked Schedules (not all rotations are offered on every shift)
-  s.Add(st[(BRT_SHIFTS.index('SLN_Mamm'),0)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SLN_Mamm'),1)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SLN_Mamm'),2)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('SLN_Mamm'),3)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SLN_Mamm'),4)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SLN_Mamm'),5)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SLN_Mamm'),6)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('SLN_Mamm'),7)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SLN_Mamm'),8)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SLN_Mamm'),9)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),0)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),1)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),2)] != -1)
+  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),3)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),4)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),5)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),6)] != -1)
+  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),7)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),8)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),9)] == -1)
   
-  s.Add(st[(BRT_SHIFTS.index('FRE_Mamm'),0)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('FRE_Mamm'),1)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('FRE_Mamm'),2)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('FRE_Mamm'),3)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('FRE_Mamm'),4)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('FRE_Mamm'),5)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('FRE_Mamm'),6)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('FRE_Mamm'),7)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('FRE_Mamm'),8)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('FRE_Mamm'),9)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),0)] != -1)
+  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),1)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),2)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),3)] != -1)
+  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),4)] != -1)
+  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),5)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),6)] == -1)
+  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),7)] != -1)
+  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),8)] != -1)
+  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),9)] == -1)
 
 def set_sfl_constraints(s,st): # s = solver
     
@@ -283,34 +283,28 @@ def set_sfl_constraints(s,st): # s = solver
     for i in range(len(WEEKDAYS)):
 
         # Constraints binding AM/PM rotations
-        s.Add(st[(SFL_SHIFTS.index('FRE_Sonoflu_AM'),i*2)] == st[(SFL_SHIFTS.index('FRE_Sonoflu_PM'),i*2+1)])
-        s.Add(st[(SFL_SHIFTS.index('SLN_Sonoflu_AM'),i*2)] == st[(SFL_SHIFTS.index('SLN_Sonoflu_PM'),i*2+1)])
+        s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] == st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+1)])
+        s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] == st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2+1)])
 
         # These shifts are real and need to be assigned
-        s.Add(st[(SFL_SHIFTS.index('FRE_Sonoflu_AM'),i*2)] != -1)
-        s.Add(st[(SFL_SHIFTS.index('SLN_Sonoflu_AM'),i*2)] != -1)
-        s.Add(st[(SFL_SHIFTS.index('FRE_Sonoflu_PM'),i*2+1)] != -1)
+        s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != -1)
+        s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] != -1)
+        s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+1)] != -1)
         s.Add(st[(SFL_SHIFTS.index('SLN_Sonoflu_PM'),i*2+1)] != -1)
-
-        # Shifts that don't fit into context (e.g. FRE_Sonoflu_PM on a morning shift)
-        s.Add(st[(SFL_SHIFTS.index('FRE_Sonoflu_PM'),i*2)] == -1)
-        s.Add(st[(SFL_SHIFTS.index('SLN_Sonoflu_PM'),i*2)] == -1)
-        s.Add(st[(SFL_SHIFTS.index('FRE_Sonoflu_AM'),i*2+1)] == -1)
-        s.Add(st[(SFL_SHIFTS.index('SLN_Sonoflu_AM'),i*2+1)] == -1)
 
         # Don't be on Sonoflu 2 days in a row
         if i < 4:
             # for same location
-            s.Add(st[(SFL_SHIFTS.index('FRE_Sonoflu_AM'),i*2)] != st[(SFL_SHIFTS.index('FRE_Sonoflu_AM'),i*2+2)])
-            s.Add(st[(SFL_SHIFTS.index('SLN_Sonoflu_AM'),i*2)] != st[(SFL_SHIFTS.index('SLN_Sonoflu_AM'),i*2+2)])
+            s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+2)])
+            s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] != st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2+2)])
             
             # for different location
-            s.Add(st[(SFL_SHIFTS.index('SLN_Sonoflu_AM'),i*2)] != st[(SFL_SHIFTS.index('FRE_Sonoflu_AM'),i*2+2)])
-            s.Add(st[(SFL_SHIFTS.index('FRE_Sonoflu_AM'),i*2)] != st[(SFL_SHIFTS.index('SLN_Sonoflu_AM'),i*2+2)])
+            s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] != st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+2)])
+            s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2+2)])
 
     # Only MSK person can cover SLN TUE/THU
-    s.Add(s.Max([st[(SFL_SHIFTS.index('SLN_Sonoflu_AM'),WEEK_SLOTS.index('TUE-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
-    s.Add(s.Max([st[(SFL_SHIFTS.index('SLN_Sonoflu_AM'),WEEK_SLOTS.index('THU-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
+    s.Add(s.Max([st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),WEEK_SLOTS.index('TUE-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
+    s.Add(s.Max([st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),WEEK_SLOTS.index('THU-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
 
 def set_msk_constraints(s,st): # s = solver
     
@@ -322,15 +316,15 @@ def set_msk_constraints(s,st): # s = solver
     for i in range(len(WEEKDAYS)):
 
         # Constraints binding AM/PM rotations
-        s.Add(st[(MSK_SHIFTS.index('MSK_AM'),i*2)] == st[(MSK_SHIFTS.index('MSK_PM'),i*2+1)])
+        s.Add(st[(MSK_SHIFTS.index('MSK 8a-12p'),i*2)] == st[(MSK_SHIFTS.index('MSK 12-4p'),i*2+1)])
 
         # These shifts are real and need to be assigned
-        s.Add(st[(MSK_SHIFTS.index('MSK_AM'),i*2)] != -1)
-        s.Add(st[(MSK_SHIFTS.index('MSK_PM'),i*2+1)] != -1)
+        s.Add(st[(MSK_SHIFTS.index('MSK 8a-12p'),i*2)] != -1)
+        s.Add(st[(MSK_SHIFTS.index('MSK 12-4p'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
-        s.Add(st[(MSK_SHIFTS.index('MSK_PM'),i*2)] == -1)
-        s.Add(st[(MSK_SHIFTS.index('MSK_AM'),i*2+1)] == -1)
+        s.Add(st[(MSK_SHIFTS.index('MSK 12-4p'),i*2)] == -1)
+        s.Add(st[(MSK_SHIFTS.index('MSK 8a-12p'),i*2+1)] == -1)
 
 def set_abd_constraints(s,st): # s = solver
     
@@ -342,15 +336,15 @@ def set_abd_constraints(s,st): # s = solver
     for i in range(len(WEEKDAYS)):
 
         # Constraints binding AM/PM rotations
-        s.Add(st[(ABD_SHIFTS.index('Abdomen_AM'),i*2)] == st[(ABD_SHIFTS.index('Abdomen_PM'),i*2+1)])
+        s.Add(st[(ABD_SHIFTS.index('Abdomen 8a-12p'),i*2)] == st[(ABD_SHIFTS.index('Abdomen 12-4p'),i*2+1)])
 
         # These shifts are real and need to be assigned
-        s.Add(st[(ABD_SHIFTS.index('Abdomen_AM'),i*2)] != -1)
-        s.Add(st[(ABD_SHIFTS.index('Abdomen_PM'),i*2+1)] != -1)
+        s.Add(st[(ABD_SHIFTS.index('Abdomen 8a-12p'),i*2)] != -1)
+        s.Add(st[(ABD_SHIFTS.index('Abdomen 12-4p'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
-        s.Add(st[(ABD_SHIFTS.index('Abdomen_PM'),i*2)] == -1)
-        s.Add(st[(ABD_SHIFTS.index('Abdomen_AM'),i*2+1)] == -1)
+        s.Add(st[(ABD_SHIFTS.index('Abdomen 12-4p'),i*2)] == -1)
+        s.Add(st[(ABD_SHIFTS.index('Abdomen 8a-12p'),i*2+1)] == -1)
 
 def set_ner_constraints(s,st): # s = solver
     
@@ -362,15 +356,15 @@ def set_ner_constraints(s,st): # s = solver
     for i in range(len(WEEKDAYS)):
 
         # Constraints binding AM/PM rotations
-        s.Add(st[(NER_SHIFTS.index('Neuro_AM'),i*2)] == st[(NER_SHIFTS.index('Neuro_PM'),i*2+1)])
+        s.Add(st[(NER_SHIFTS.index('Neuro 8a-12p'),i*2)] == st[(NER_SHIFTS.index('Neuro 12-4p'),i*2+1)])
 
         # These shifts are real and need to be assigned
-        s.Add(st[(NER_SHIFTS.index('Neuro_AM'),i*2)] != -1)
-        s.Add(st[(NER_SHIFTS.index('Neuro_PM'),i*2+1)] != -1)
+        s.Add(st[(NER_SHIFTS.index('Neuro 8a-12p'),i*2)] != -1)
+        s.Add(st[(NER_SHIFTS.index('Neuro 12-4p'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
-        s.Add(st[(NER_SHIFTS.index('Neuro_PM'),i*2)] == -1)
-        s.Add(st[(NER_SHIFTS.index('Neuro_AM'),i*2+1)] == -1)
+        s.Add(st[(NER_SHIFTS.index('Neuro 12-4p'),i*2)] == -1)
+        s.Add(st[(NER_SHIFTS.index('Neuro 8a-12p'),i*2+1)] == -1)
 
 def set_cht_constraints(s,st): # s = solver
     
@@ -382,15 +376,15 @@ def set_cht_constraints(s,st): # s = solver
     for i in range(len(WEEKDAYS)):
 
         # Constraints binding AM/PM rotations
-        s.Add(st[(CHT_SHIFTS.index('Chest/PET_AM'),i*2)] == st[(CHT_SHIFTS.index('Chest/PET_PM'),i*2+1)])
+        s.Add(st[(CHT_SHIFTS.index('Chest/PET 8a-12p'),i*2)] == st[(CHT_SHIFTS.index('Chest/PET 12-4p'),i*2+1)])
 
         # These shifts are real and need to be assigned
-        s.Add(st[(CHT_SHIFTS.index('Chest/PET_AM'),i*2)] != -1)
-        s.Add(st[(CHT_SHIFTS.index('Chest/PET_PM'),i*2+1)] != -1)
+        s.Add(st[(CHT_SHIFTS.index('Chest/PET 8a-12p'),i*2)] != -1)
+        s.Add(st[(CHT_SHIFTS.index('Chest/PET 12-4p'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
-        s.Add(st[(CHT_SHIFTS.index('Chest/PET_PM'),i*2)] == -1)
-        s.Add(st[(CHT_SHIFTS.index('Chest/PET_AM'),i*2+1)] == -1)
+        s.Add(st[(CHT_SHIFTS.index('Chest/PET 12-4p'),i*2)] == -1)
+        s.Add(st[(CHT_SHIFTS.index('Chest/PET 8a-12p'),i*2+1)] == -1)
 
 def set_nuc_constraints(s,st): # s = solver
     
@@ -402,10 +396,10 @@ def set_nuc_constraints(s,st): # s = solver
     for i in range(len(WEEKDAYS)):
 
         # Shifts that don't fit into context (e.g. Nucs not an AM shift)
-        s.Add(st[(NUC_SHIFTS.index('Nucs'),i*2)] == -1)
+        s.Add(st[(NUC_SHIFTS.index('Nucs 8a-4p'),i*2)] == -1)
 
         # The PM Nucs shift must be filled
-        s.Add(st[(NUC_SHIFTS.index('Nucs'),i*2+1)] != -1)
+        s.Add(st[(NUC_SHIFTS.index('Nucs 8a-4p'),i*2+1)] != -1)
 
 def set_sta_constraints(s,st): # s = solver
     
@@ -417,21 +411,21 @@ def set_sta_constraints(s,st): # s = solver
     for i in range(len(WEEKDAYS)):
 
         # Constraints binding AM/PM rotations
-        s.Add(st[(STA_SHIFTS.index('STAT1_AM'),i*2)] == st[(STA_SHIFTS.index('STAT1b_PM'),i*2+1)])
+        s.Add(st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2)] == st[(STA_SHIFTS.index('STAT1b 12p-4p'),i*2+1)])
 
         # These shifts are real and need to be assigned
-        s.Add(st[(STA_SHIFTS.index('STAT1_AM'),i*2)] != -1)
-        s.Add(st[(STA_SHIFTS.index('STAT1b_PM'),i*2+1)] != -1)
-        s.Add(st[(STA_SHIFTS.index('STAT2_PM'),i*2+1)] != -1)
+        s.Add(st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2)] != -1)
+        s.Add(st[(STA_SHIFTS.index('STAT1b 12p-4p'),i*2+1)] != -1)
+        s.Add(st[(STA_SHIFTS.index('STAT2 12p-4p'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
-        s.Add(st[(STA_SHIFTS.index('STAT1b_PM'),i*2)] == -1)
-        s.Add(st[(STA_SHIFTS.index('STAT2_PM'),i*2)] == -1)
-        s.Add(st[(STA_SHIFTS.index('STAT1_AM'),i*2+1)] == -1)
+        s.Add(st[(STA_SHIFTS.index('STAT1b 12p-4p'),i*2)] == -1)
+        s.Add(st[(STA_SHIFTS.index('STAT2 12p-4p'),i*2)] == -1)
+        s.Add(st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2+1)] == -1)
 
         # Don't be on all day STAT two days in a row 
         if i < 4:
-            s.Add(st[(STA_SHIFTS.index('STAT1_AM'),i*2)] != st[(STA_SHIFTS.index('STAT1_AM'),i*2+2)])
+            s.Add(st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2)] != st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2+2)])
 
 def set_opr_constraints(s,st): # s = solver
     
@@ -443,16 +437,16 @@ def set_opr_constraints(s,st): # s = solver
     for i in range(len(WEEKDAYS)):
 
         # These shifts are real and need to be assigned
-        s.Add(st[(OPR_SHIFTS.index('OPPR1_AM'),i*2)] != -1)
-        s.Add(st[(OPR_SHIFTS.index('OPPR2_AM'),i*2)] != -1)
-        s.Add(st[(OPR_SHIFTS.index('OPPR3_PM'),i*2+1)] != -1)
-        s.Add(st[(OPR_SHIFTS.index('OPPR4_PM'),i*2+1)] != -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR1am'),i*2)] != -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR2am'),i*2)] != -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR3pm'),i*2+1)] != -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR4pm'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
-        s.Add(st[(OPR_SHIFTS.index('OPPR3_PM'),i*2)] == -1)
-        s.Add(st[(OPR_SHIFTS.index('OPPR4_PM'),i*2)] == -1)
-        s.Add(st[(OPR_SHIFTS.index('OPPR1_AM'),i*2+1)] == -1)
-        s.Add(st[(OPR_SHIFTS.index('OPPR2_AM'),i*2+1)] == -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR3pm'),i*2)] == -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR4pm'),i*2)] == -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR1am'),i*2+1)] == -1)
+        s.Add(st[(OPR_SHIFTS.index('OPPR2am'),i*2+1)] == -1)
 
 def set_st3_constraints(s,st): # s = solver
     
@@ -491,14 +485,14 @@ def set_stw_constraints(s,st): # s = solver
     for i in range(len(CALL_SLOTS)):
             if i < CALL_SLOTS.index('SAT-AM'):             
                 # Shifts that don't fit into context (e.g. STATW on weekdays)
-                s.Add(st[(STW_SHIFTS.index('STATW_AM'),i)] == -1)
-                s.Add(st[(STW_SHIFTS.index('STATW_PM'),i)] == -1)
+                s.Add(st[(STW_SHIFTS.index('STATWAM 8a-330p'),i)] == -1)
+                s.Add(st[(STW_SHIFTS.index('STATWPM 330p-11p'),i)] == -1)
             elif i == CALL_SLOTS.index('SAT-AM') or i == CALL_SLOTS.index('SUN-AM'):
-                s.Add(st[(STW_SHIFTS.index('STATW_AM'),i)] != -1)
-                s.Add(st[(STW_SHIFTS.index('STATW_PM'),i)] == -1)
+                s.Add(st[(STW_SHIFTS.index('STATWAM 8a-330p'),i)] != -1)
+                s.Add(st[(STW_SHIFTS.index('STATWPM 330p-11p'),i)] == -1)
             else:
-                s.Add(st[(STW_SHIFTS.index('STATW_AM'),i)] == -1)
-                s.Add(st[(STW_SHIFTS.index('STATW_PM'),i)] != -1)
+                s.Add(st[(STW_SHIFTS.index('STATWAM 8a-330p'),i)] == -1)
+                s.Add(st[(STW_SHIFTS.index('STATWPM 330p-11p'),i)] != -1)
 
 def set_wsp_constraints(s,st): # s = solver
     
@@ -868,19 +862,20 @@ def print_shift_calendar(cal):
 def print_staff_calendar(cal):
     num_staff, num_slots, num_weeks = cal.shape
 
-    for wk in range(num_weeks):
+    #for wk in range(num_weeks):
+    for wk in range(2): # for testing just print the first few weeks
         print()
         print("===========================================")
         print("          WEEK #",wk)
         print("===========================================")
         print()
-        line_header = '{:>18} {:>18} {:>18} {:>18} {:>18} {:>18} {:>18}'.format(CALLDAYS[0],CALLDAYS[1],CALLDAYS[2],CALLDAYS[3],CALLDAYS[4],CALLDAYS[5],CALLDAYS[6])
+        line_header = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(CALLDAYS[0],CALLDAYS[1],CALLDAYS[2],CALLDAYS[3],CALLDAYS[4],CALLDAYS[5],CALLDAYS[6])
         print(line_header)
         for st in range(num_staff):
             print(ALL_STAFF[st])
-            line_am = '{:>18} {:>18} {:>18} {:>18} {:>18} {:>18} {:>18}'.format(ALL_SHIFTS[cal[st,0,wk]],ALL_SHIFTS[cal[st,2,wk]],ALL_SHIFTS[cal[st,4,wk]],ALL_SHIFTS[cal[st,6,wk]],ALL_SHIFTS[cal[st,8,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-AM'),wk]])
-            line_pm = '{:>18} {:>18} {:>18} {:>18} {:>18} {:>18} {:>18}'.format(ALL_SHIFTS[cal[st,1,wk]],ALL_SHIFTS[cal[st,3,wk]],ALL_SHIFTS[cal[st,5,wk]],ALL_SHIFTS[cal[st,7,wk]],ALL_SHIFTS[cal[st,9,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-PM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-PM'),wk]])
-            line_call = '{:>18} {:>18} {:>18} {:>18} {:>18}'.format(ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+0,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+1,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+2,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+3,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+4,wk]])
+            line_am = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,0,wk]],ALL_SHIFTS[cal[st,2,wk]],ALL_SHIFTS[cal[st,4,wk]],ALL_SHIFTS[cal[st,6,wk]],ALL_SHIFTS[cal[st,8,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-AM'),wk]])
+            line_pm = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,1,wk]],ALL_SHIFTS[cal[st,3,wk]],ALL_SHIFTS[cal[st,5,wk]],ALL_SHIFTS[cal[st,7,wk]],ALL_SHIFTS[cal[st,9,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-PM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-PM'),wk]])
+            line_call = '{:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+0,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+1,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+2,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+3,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+4,wk]])
             print(line_am)
             print(line_pm)
             print(line_call)
@@ -1553,9 +1548,9 @@ def make_sfl_hx(cur,cml,his,bis):
         for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
-                    if j == shifts.index('FRE_Sonoflu_AM') and i%2 == 0: # the Sonoflu AM/PM are both the same so only need to count the AM rotations
+                    if j == shifts.index('Fre US/Fluoro 8a-4p') and i%2 == 0: # the Sonoflu AM/PM are both the same so only need to count the AM rotations
                         curr_rots[s,rots.index('FRE_Sonoflu'),int(i/2)] += 1
-                    elif j == shifts.index('SLN_Sonoflu_AM') and i%2 == 0: # the Sonoflu AM/PM are both the same so only need to count the AM rotations
+                    elif j == shifts.index('SL US/Fluoro 8a-4p') and i%2 == 0: # the Sonoflu AM/PM are both the same so only need to count the AM rotations
                         curr_rots[s,rots.index('SLN_Sonoflu'),int(i/2)] += 1
                     else:
                         pass
@@ -1886,29 +1881,29 @@ def main():
 
     # Get the department information from file
     dept = qa.load_data(fname)
-    calimport = qgimport(dept)
+    staff_calendar = qa.qgimport(dept).astype('int64')
 
     # Used for keeping track of the schedule by staff
-    staff_calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
+    #staff_calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
 
     # Set staff_calendar constraints
-    set_staffweek(staff_calendar,'CCM',0,'Leave')
+    '''set_staffweek(staff_calendar,'CCM',0,'Leave')
     set_staffweek(staff_calendar,'SMN',0,'Leave')
     set_staffday(staff_calendar,'JDB',0,0,'Admin')
     set_staffday(staff_calendar,'SDE',0,2,'Admin')
-    set_staffshift(staff_calendar,'GJS',0,3,0,'Admin')
+    set_staffshift(staff_calendar,'GJS',0,3,0,'Admin')'''
 
     # Build multiphase call schedule
-    if call_sections:
+    '''if call_sections:
         staff_calendar = build_multi_call(num_weeks,call_sections,time_limit,staff_calendar)
 
     # Build multiphase weekday schedule
     if day_sections:
-        staff_calendar = build_multi_day(num_weeks,day_sections,time_limit,staff_calendar)
+        staff_calendar = build_multi_day(num_weeks,day_sections,time_limit,staff_calendar)'''
 
     print_staff_calendar(staff_calendar)
-    shift_calendar = convert_staff_to_shift_calendar(staff_calendar)
-    print_shift_calendar(shift_calendar)        
+    #shift_calendar = convert_staff_to_shift_calendar(staff_calendar)
+    #print_shift_calendar(shift_calendar)        
 
 if __name__ == "__main__":
   main()
