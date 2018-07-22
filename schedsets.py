@@ -52,8 +52,11 @@ ALL_SHIFTS = ("","Vacation",
              "Sonoflu Backup",
              "SCVam abd-chest",
              "SCVam msk-neuro",
-             "SCV AM",
-             "SCV PM",
+             "SCV1 AM",
+             "SCV1 PM",
+             "SCV2 AM",
+             "SCV2 PM",
+             "SCV3 AM",
              "Abdomen 8a-12p",
              "Abdomen 12-4p",
              "Chest/PET 8a-12p",
@@ -96,52 +99,58 @@ MSK_SHIFTS = ('MSK 8a-12p','MSK 12-4p')
 NER_SHIFTS = ('Neuro 8a-12p','Neuro 12-4p') 
 ABD_SHIFTS = ('Abdomen 8a-12p','Abdomen 12-4p')
 CHT_SHIFTS = ('Chest/PET 8a-12p','Chest/PET 12-4p')
-NUC_SHIFTS = ('Nucs 8a-4p')
+NUC_SHIFTS = ('Nucs 8a-4p',)
 STA_SHIFTS = ('STAT1 8a-12p','STAT1b 12p-4p','STAT2 12p-4p')
 OPR_SHIFTS = ('OPPR1am','OPPR2am','OPPR3pm','OPPR4pm')
-ST3_SHIFTS = ('STAT3')
-SWG_SHIFTS = ('Swing')
+ST3_SHIFTS = ('STAT3',)
+SWG_SHIFTS = ('Swing',)
 STW_SHIFTS = ('STATWAM 8a-330p','STATWPM 330p-11p')
-WSP_SHIFTS = ('WUSPR')
-WMR_SHIFTS = ('WMR')
-SCV_SHIFTS = ('SCV1_AM','SCV2_AM','SCV3_AM','SCV1_PM','SCV2_PM')
+WSP_SHIFTS = ('WUSPR',)
+WMR_SHIFTS = ('WMR',)
+SCV_SHIFTS = ('SCV1 AM','SCV2 AM','SCV3 AM','SCV1 PM','SCV2 PM')
+EVE_SHIFTS = ('STAT3 4p-11p','Nightshift 11p-12a','Nightshift 1201a-8a','NeuroNH 11p-12a','NeuroNH 1201a-8a')
 
 # Rotations - to measure equality
 BRT_ROTS = ('UNC_Diag','UNC_Proc','FRE_Mamm','SLN_Mamm')
 SFL_ROTS = ('FRE_Sonoflu','SLN_Sonoflu')
-MSK_ROTS = ('MSK')
-NER_ROTS = ('Neuro')
-ABD_ROTS = ('Abdomen')
-CHT_ROTS = ('Chest/PET')
-NUC_ROTS = ('Nucs')
+MSK_ROTS = ('MSK',)
+NER_ROTS = ('Neuro',)
+ABD_ROTS = ('Abdomen',)
+CHT_ROTS = ('Chest/PET',)
+NUC_ROTS = ('Nucs',)
 STA_ROTS = ('STAT_AM','STAT_PM')
 OPR_ROTS = ('OPPR_AM','OPPR_PM')
-ST3_ROTS = ('STAT3')
-SWG_ROTS = ('Swing')
+ST3_ROTS = ('STAT3',)
+SWG_ROTS = ('Swing',)
 STW_ROTS = ('STATW_AM','STATW_PM')
-WSP_ROTS = ('WUSPR')
-WMR_ROTS = ('WMR')
-SCV_ROTS = ('SCV')
+WSP_ROTS = ('WUSPR',)
+WMR_ROTS = ('WMR',)
+SCV_ROTS = ('SCV',)
+
 
 # Staff Lists
-ALL_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','HG','RV','JK','BJK','ATR')
+ALL_STAFF = ('JDB','SDE','HG','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','ATR','SXK','BJK','JK')
 #ALL_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','SMN') # used for testing
-BRT_STAFF = ('JDB','SDE','GHL','DCN','JKS')
-SFL_STAFF = ALL_STAFF
-MSK_STAFF = ('CCM','GJS','GSR','DRL','SJP','JK')
-NER_STAFF = ('EEP','GSR','JFK','SMN','SJP','BJK','ATR')
-ABD_STAFF = ('BCL','DSL','HSS','JKL','SH')
+BRT_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM')
+SFL_STAFF = ('JDB','SDE','HG','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','JK')
+MSK_STAFF = ('CCM','GJS','GSr','DRL','SJP','JK')
+MSV_STAFF = ('CCM','GJS','GSr','DRL','SJP')
+NER_STAFF = ('EEP','GSr','JFK','SMN','SJP','BJK','ATR')
+NSV_STAFF = ('EEP','GSr','JFK','SMN','SJP')
+ABD_STAFF = ('BCL','DSL','HSS','JKL','SH','ATR')
+ASV_STAFF = ('BCL','DSL','HSS','JKL','SH')
 CHT_STAFF = ('BCL','GJS','SMN','RV','JKL')
-NUC_STAFF = ('SMN','GSR','HG')
-STA_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','JK','BJK','ATR')
+NUC_STAFF = ('SMN','GSr','HG')
+STA_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSr','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','JK','BJK','ATR')
 OPR_STAFF = ALL_STAFF
-ST3_STAFF = ('JDB','SDE','GHL','DCN','JKS','GJS','GSR','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','RV')
+ST3_STAFF = ('JDB','SDE','GHL','DCN','JKS','GJS','GSr','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','RV')
 #ST3_STAFF = ALL_STAFF # used for testing
 SWG_STAFF = ALL_STAFF
 STW_STAFF = ST3_STAFF
 WSP_STAFF = ('JDB','SDE','GHL','DCN','JKS','BCL','DSL','HSS','JKL','HG','RV')
-WMR_STAFF = ('GJS','GSR','DRL','SJP','EEP','JFK','SMN','SH')
-SCV_STAFF = ALL_STAFF
+WMR_STAFF = ('GJS','GSr','DRL','SJP','EEP','JFK','SMN','SH')
+SCV_STAFF = ALL_STAFF #('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM')
+LCM_STAFF = ('CCM','ATR','SXK','BJK','JK')
 
 # General Use
 WEEKDAYS = ('MON','TUE','WED','THU','FRI')

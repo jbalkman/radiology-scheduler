@@ -10,7 +10,6 @@ import qgendalysis as qa
 '''
 TODO
 ====
-- improve multiphase print statements for rigorous testing
 - experiment with sharing of special days, like UNCProcs (still not equally distributed); hierarchy of var?
 - experiment with higher biases and adjust min value; what should the formula be? number of rotations/staff?
 - revisit callback functions for decision tree to implement bias selection at that level
@@ -74,49 +73,100 @@ def create_staff_lookup(solver,num_hdays,num_shifts,num_staff):
 '''
 
 def init_brt_bias():
-    return np.zeros((len(BRT_STAFF),len(BRT_ROTS)),dtype='int64') - 2 # here the bias is -2 for all rotations; may need to be less for rotations that are less frequent (e.g. -1 for SLN_Mamm)
+    bias = np.zeros((len(BRT_STAFF),len(BRT_ROTS)),dtype='int64') + 1 # here the bias is -2 for all rotations; may need to be less for rotations that are less frequent (e.g. -1 for SLN_Mamm)
+
+    for i in range(len(LCM_STAFF)):
+        if LCM_STAFF[i] in BRT_STAFF:
+            bias[BRT_STAFF.index(LCM_STAFF[i]),:] = bias[BRT_STAFF.index(LCM_STAFF[i]),:] - 3
+    return bias
 
 def init_sfl_bias():
-    return np.zeros((len(SFL_STAFF),len(SFL_ROTS)),dtype='int64') - 2
+    bias = np.zeros((len(SFL_STAFF),len(SFL_ROTS)),dtype='int64') + 1
+
+    for i in range(len(LCM_STAFF)):
+        if LCM_STAFF[i] in SFL_STAFF:
+            bias[SFL_STAFF.index(LCM_STAFF[i]),:] = bias[SFL_STAFF.index(LCM_STAFF[i]),:] - 3
+    return bias
 
 def init_msk_bias():
-    return np.zeros((len(MSK_STAFF),len(MSK_ROTS)),dtype='int64') - 2
+    bias = np.zeros((len(MSK_STAFF),len(MSK_ROTS)),dtype='int64') + 1
+
+    for i in range(len(LCM_STAFF)):
+        if LCM_STAFF[i] in MSK_STAFF:
+            bias[MSK_STAFF.index(LCM_STAFF[i]),:] = bias[MSK_STAFF.index(LCM_STAFF[i]),:] - 3
+    return bias
 
 def init_ner_bias():
-    return np.zeros((len(NER_STAFF),len(NER_ROTS)),dtype='int64') - 2
+    bias = np.zeros((len(NER_STAFF),len(NER_ROTS)),dtype='int64') + 1
+
+    for i in range(len(LCM_STAFF)):
+        if LCM_STAFF[i] in NER_STAFF:
+            bias[NER_STAFF.index(LCM_STAFF[i]),:] = bias[NER_STAFF.index(LCM_STAFF[i]),:] - 3
+    return bias
 
 def init_abd_bias():
-    return np.zeros((len(ABD_STAFF),len(ABD_ROTS)),dtype='int64') - 2
+    bias = np.zeros((len(ABD_STAFF),len(ABD_ROTS)),dtype='int64') + 1
+
+    for i in range(len(LCM_STAFF)):
+        if LCM_STAFF[i] in ABD_STAFF:
+            bias[ABD_STAFF.index(LCM_STAFF[i]),:] = bias[ABD_STAFF.index(LCM_STAFF[i]),:] - 3
+
+    return bias
 
 def init_cht_bias():
-    return np.zeros((len(CHT_STAFF),len(CHT_ROTS)),dtype='int64') - 2
+    bias = np.zeros((len(CHT_STAFF),len(CHT_ROTS)),dtype='int64') + 1
+
+    for i in range(len(LCM_STAFF)):
+        if LCM_STAFF[i] in CHT_STAFF:
+            bias[CHT_STAFF.index(LCM_STAFF[i]),:] = bias[CHT_STAFF.index(LCM_STAFF[i]),:] - 3
+    return bias
 
 def init_nuc_bias():
-    return np.zeros((len(NUC_STAFF),len(NUC_ROTS)),dtype='int64') - 1
+    bias = np.zeros((len(NUC_STAFF),len(NUC_ROTS)),dtype='int64') + 1
+
+    for i in range(len(LCM_STAFF)):
+        if LCM_STAFF[i] in NUC_STAFF:
+            bias[NUC_STAFF.index(LCM_STAFF[i]),:] = bias[NUC_STAFF.index(LCM_STAFF[i]),:] - 3
+    return bias
 
 def init_sta_bias():
-    return np.zeros((len(STA_STAFF),len(STA_ROTS)),dtype='int64') - 2
+    bias = np.zeros((len(STA_STAFF),len(STA_ROTS)),dtype='int64') + 1
+
+    for i in range(len(LCM_STAFF)):
+        if LCM_STAFF[i] in STA_STAFF:
+            bias[STA_STAFF.index(LCM_STAFF[i]),:] = bias[STA_STAFF.index(LCM_STAFF[i]),:] - 3
+    return bias
 
 def init_opr_bias():
-    return np.zeros((len(OPR_STAFF),len(OPR_ROTS)),dtype='int64') - 2
+    bias = np.zeros((len(OPR_STAFF),len(OPR_ROTS)),dtype='int64') + 1
+
+    for i in range(len(LCM_STAFF)):
+        if LCM_STAFF[i] in OPR_STAFF:
+            bias[OPR_STAFF.index(LCM_STAFF[i]),:] = bias[OPR_STAFF.index(LCM_STAFF[i]),:] - 10
+    return bias
 
 def init_st3_bias():
-    return np.zeros((len(ST3_STAFF),len(ST3_ROTS)),dtype='int64') - 1
+    return np.zeros((len(ST3_STAFF),len(ST3_ROTS)),dtype='int64') + 1
 
 def init_swg_bias():
-    return np.zeros((len(SWG_STAFF),len(SWG_ROTS)),dtype='int64') - 1
+    return np.zeros((len(SWG_STAFF),len(SWG_ROTS)),dtype='int64') + 1
 
 def init_stw_bias():
-    return np.zeros((len(STW_STAFF),len(STW_ROTS)),dtype='int64') - 1
+    return np.zeros((len(STW_STAFF),len(STW_ROTS)),dtype='int64') + 1
 
 def init_wsp_bias():
-    return np.zeros((len(WSP_STAFF),len(WSP_ROTS)),dtype='int64') - 1
+    return np.zeros((len(WSP_STAFF),len(WSP_ROTS)),dtype='int64') + 1
 
 def init_wmr_bias():
-    return np.zeros((len(WMR_STAFF),len(WMR_ROTS)),dtype='int64') - 1
+    return np.zeros((len(WMR_STAFF),len(WMR_ROTS)),dtype='int64') + 1
 
 def init_scv_bias():
-    return np.zeros((len(SCV_STAFF),len(SCV_ROTS)),dtype='int64') - 1
+    bias = np.zeros((len(SCV_STAFF),len(SCV_ROTS)),dtype='int64') + 1
+
+    for i in range(len(LCM_STAFF)):
+        if LCM_STAFF[i] in SCV_STAFF:
+            bias[SCV_STAFF.index(LCM_STAFF[i]),:] = bias[SCV_STAFF.index(LCM_STAFF[i]),:] - 15
+    return bias
 
 def add_history_logic(old,curr):
     '''minimum = -10 # establish a saturation point to prevent runaway values
@@ -129,14 +179,22 @@ def add_history_logic(old,curr):
     else:
         return old'''
 
-    if old < 0 and curr > 0:
+    '''if old < 0 and curr > 0:
         #return int(old/2)
-        return 2
+        return 1
     elif curr > 0:
         return (old+1)
     else:
-        return old
+        return old'''
 
+    maxneg = -30
+
+    if curr > 0:
+        return 0
+    elif old < maxneg:
+        return maxneg+1
+    return old
+    
 add_history_matrix = np.vectorize(add_history_logic)
 
 '''
@@ -154,9 +212,10 @@ def set_staffweek(cal,initials,wk,reason):
 
 def set_staffday(cal,initials,wk,day,reason):
     if day < len(WEEKDAYS): # block out a weekday
-        cal[ALL_STAFF.index(initials),day*2,wk] = ALL_SHIFTS.index(reason) # AM shift
-        cal[ALL_STAFF.index(initials),day*2+1,wk] = ALL_SHIFTS.index(reason) # PM shift
-        cal[ALL_STAFF.index(initials),len(WEEK_SLOTS)+day,wk] = ALL_SHIFTS.index(reason) # PM call shift
+        if cal[ALL_STAFF.index(initials),day*2,wk] == 0: # anchors the entire day off the morning; may or may not be appropriate; prevents overwrites (Admin overwrite Vacation) 
+            cal[ALL_STAFF.index(initials),day*2,wk] = ALL_SHIFTS.index(reason) # AM shift
+            cal[ALL_STAFF.index(initials),day*2+1,wk] = ALL_SHIFTS.index(reason) # PM shift
+            cal[ALL_STAFF.index(initials),len(WEEK_SLOTS)+day,wk] = ALL_SHIFTS.index(reason) # PM call shift
     else: # block out the wknd
         cal[ALL_STAFF.index(initials),len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM'),wk] = ALL_SHIFTS.index(reason) # AM wknd call shift
         cal[ALL_STAFF.index(initials),len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM')+1,wk] = ALL_SHIFTS.index(reason) # PM wknd call shift
@@ -172,8 +231,14 @@ def set_staffshift(cal,initials,wk,day,slot,reason):
     else:
         raise ValueError('Tried to block AM/PM weekend shift')
 
-def set_day_calendar_constraints(slvr,stf,cal,sect):
+'''def set_staff_constraint(slvr,rad):
+    num_slots = len(WEEK_SLOTS)
+    num_shifts = len(ALL_SHIFTS)
 
+    for k in range(num_shifts):
+        slvr.Add(len(stf[(k,j)] == ALL_STAFF.index(r) for j in range(num_slots) for k in range(num_shifts)) > 5)'''
+
+def set_day_calendar_constraints(slvr,stf,cal,sect):
     num_slots = len(WEEK_SLOTS)
 
     num_staff,num_shifts,staff,shifts = get_section_nstaff_nshifts_staff_shifts(sect)
@@ -181,9 +246,11 @@ def set_day_calendar_constraints(slvr,stf,cal,sect):
     for i in range(num_staff):
         sect_allstaff_idx = ALL_STAFF.index(staff[i])
         for j in range(num_slots):
-            if cal[sect_allstaff_idx,j] > 0 or cal[sect_allstaff_idx,len(WEEK_SLOTS)+j/2] == ALL_SHIFTS.index('STAT3 4p-11p'): # the second term checks for STAT3 b/c can't work during the day if that's the case
+            if cal[sect_allstaff_idx,j] > 0 or any([cal[sect_allstaff_idx,len(WEEK_SLOTS)+j/2] == ALL_SHIFTS.index(EVE_SHIFTS[k]) for k in range(len(EVE_SHIFTS))]):
                 for k in range(num_shifts):
                     slvr.Add(stf[(k,j)] != i)
+            elif ALL_SHIFTS[cal[sect_allstaff_idx,j]] in shifts:
+                slvr.Add(stf[(shifts.index(ALL_SHIFTS[cal[sect_allstaff_idx,j]]),j)] == i)
 
 def set_call_calendar_constraints(slvr,stf,cal,sect):
 
@@ -230,6 +297,11 @@ def set_brt_constraints(s,st): # s = solver
       # Constraints binding AM/PM rotations
       s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] == st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2+1)])
       s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] == st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2+1)])
+
+      # CCM doesn't go to UNC
+      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] != BRT_STAFF.index('CCM'))
+      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != BRT_STAFF.index('CCM'))
+      s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),i*2)] != BRT_STAFF.index('CCM'))
       
       # Shifts that don't fit into context (e.g. UCMam Diag 12-4p on a morning shift)
       s.Add(st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2)] == -1)
@@ -243,9 +315,9 @@ def set_brt_constraints(s,st): # s = solver
       s.Add(st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2+1)] != -1)
 
       # Don't be on the same UNC rotation two days in a row (can relax if short-staffed)
-      if i < 4:
-          s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2+2)])
-          s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] != st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2+2)])
+      #if i < 4:
+      #    s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2+2)])
+      #    s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] != st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2+2)])
 
   # Blocked Schedules (not all rotations are offered on every shift)
   s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),0)] == -1)
@@ -290,7 +362,7 @@ def set_sfl_constraints(s,st): # s = solver
         s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != -1)
         s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] != -1)
         s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+1)] != -1)
-        s.Add(st[(SFL_SHIFTS.index('SLN_Sonoflu_PM'),i*2+1)] != -1)
+        s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2+1)] != -1)
 
         # Don't be on Sonoflu 2 days in a row
         if i < 4:
@@ -302,9 +374,15 @@ def set_sfl_constraints(s,st): # s = solver
             s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] != st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+2)])
             s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2+2)])
 
+        # HG shouldn't go to SLN
+        s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] != SFL_STAFF.index('HG'))
+
     # Only MSK person can cover SLN TUE/THU
     s.Add(s.Max([st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),WEEK_SLOTS.index('TUE-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
     s.Add(s.Max([st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),WEEK_SLOTS.index('THU-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
+
+    # Constraint that HG on FRE fluoro more than once per week
+    #s.Add(np.sum(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] == SFL_STAFF.index('HG') for i in range(len(WEEKDAYS))) > 1)
 
 def set_msk_constraints(s,st): # s = solver
     
@@ -427,12 +505,22 @@ def set_sta_constraints(s,st): # s = solver
         if i < 4:
             s.Add(st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2)] != st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2+2)])
 
-def set_opr_constraints(s,st): # s = solver
+def set_opr_constraints(s,st,cal): # s = solver
     
+    # Handle special cases for HG
+    hg_idx = ALL_STAFF.index('HG')
+
     for i in range(len(WEEK_SLOTS)):
 
         # No double coverage
         s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(OPR_SHIFTS))],-1))
+
+        # If HG works Nucs in the afternoon, put OPPR in the AM
+        if cal[hg_idx,i] == 0: # if HG not scheduled for the morning
+            if i%2+1 == 1: # AM case
+                s.Add(s.Max([st[(k,i)] == hg_idx for k in range(0,2)]) == 1) # the range specificies the AM OPPR
+            else: # PM case
+                s.Add(s.Max([st[(k,i)] == hg_idx for k in range(2,4)]) == 1) # the range specificies the PM OPPR
         
     for i in range(len(WEEKDAYS)):
 
@@ -534,18 +622,18 @@ def set_scv_constraints(s,st): # s = solver
         s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(SCV_SHIFTS))],-1))
 
     # On Mondays set having an NEU, MSK, and ABD/CHT SCV 
-    s.Add(s.Max([st[(SCV_SHIFTS.index('SCV1_AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in NER_STAFF]) == 1)
-    s.Add(s.Max([st[(SCV_SHIFTS.index('SCV2_AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
-    s.Add(s.Max([st[(SCV_SHIFTS.index('SCV3_AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in ABD_STAFF]) == 1)
+    s.Add(s.Max([st[(SCV_SHIFTS.index('SCV1 AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in NER_STAFF]) == 1)
+    s.Add(s.Max([st[(SCV_SHIFTS.index('SCV2 AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in MSK_STAFF+ABD_STAFF]) == 1)
+    #s.Add(s.Max([st[(SCV_SHIFTS.index('SCV3 AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in ABD_STAFF]) == 1)
     
     for i in range(len(WEEKDAYS)):
         
         # Shifts that don't fit into context (e.g. PM on a morning shift)
-        s.Add(st[(SCV_SHIFTS.index('SCV1_PM'),i*2)] == -1)
-        s.Add(st[(SCV_SHIFTS.index('SCV2_PM'),i*2)] == -1)
-        s.Add(st[(SCV_SHIFTS.index('SCV1_AM'),i*2+1)] == -1)
-        s.Add(st[(SCV_SHIFTS.index('SCV2_AM'),i*2+1)] == -1)
-        s.Add(st[(SCV_SHIFTS.index('SCV3_AM'),i*2+1)] == -1)
+        s.Add(st[(SCV_SHIFTS.index('SCV1 PM'),i*2)] == -1)
+        s.Add(st[(SCV_SHIFTS.index('SCV2 PM'),i*2)] == -1)
+        s.Add(st[(SCV_SHIFTS.index('SCV1 AM'),i*2+1)] == -1)
+        s.Add(st[(SCV_SHIFTS.index('SCV2 AM'),i*2+1)] == -1)
+        s.Add(st[(SCV_SHIFTS.index('SCV3 AM'),i*2+1)] == -1)
                 
 '''
 ====================
@@ -562,6 +650,8 @@ def create_analysis(collect,stafflookup,cuml,hist,bias,sect):
     num_staff,num_shifts,staff,shifts = get_section_nstaff_nshifts_staff_shifts(sect)
 
     analysis = []
+    lowestVal = 100 # some large positive number
+    bestSol = []
     num_solutions = collect.SolutionCount()
     print("number of solutions:",num_solutions)
     for sol in range(num_solutions):
@@ -596,13 +686,21 @@ def create_analysis(collect,stafflookup,cuml,hist,bias,sect):
 
         # sort matrix by certain criteria
         #analysis.append((sol,np.var(hist_plus),updated_cuml,hist_plus,curr))
-        analysis.append((sol,np.sum(hist_plus),updated_cuml,hist_plus,curr))
+        #analysis.append((sol,np.sum(hist_plus),updated_cuml,hist_plus,curr))
+        if np.sum(hist_plus) < lowestVal:
+            lowestVal = np.sum(hist_plus)
+            bestSol = (sol,np.sum(hist_plus),updated_cuml,hist_plus,curr)
 
     #print("sorting analysis of length", len(analysis))
     # finding the best choice of the array
     #analysis.sort(key=lambda x:x[1])
-    return analysis[analysis.index(max(analysis,key=itemgetter(1)))]
+    #bs = analysis[analysis.index(max(analysis,key=itemgetter(1)))]
+    #bs = analysis[analysis.index(min(analysis,key=itemgetter(1)))]
+    
+    print("Bias Matrix =",bestSol[3])    
 
+    #return bs
+    return bestSol
     #return analysis
 
 def create_call_analysis(collect,stafflookup,cuml,hist,bias,sect):
@@ -827,9 +925,9 @@ def print_shift_calendar(cal):
 
     for wk in range(num_weeks):
         print()
-        print("===========================================")
-        print("          WEEK #",wk)
-        print("===========================================")
+        print("                     ===========================================")
+        print("                                      WEEK #",int(wk+1))
+        print("                     ===========================================")
         print()
         line_header = '{:>18} {:>18} {:>18} {:>18} {:>18} {:>18} {:>18}'.format(CALLDAYS[0],CALLDAYS[1],CALLDAYS[2],CALLDAYS[3],CALLDAYS[4],CALLDAYS[5],CALLDAYS[6])
         print(line_header)
@@ -863,11 +961,11 @@ def print_staff_calendar(cal):
     num_staff, num_slots, num_weeks = cal.shape
 
     #for wk in range(num_weeks):
-    for wk in range(2): # for testing just print the first few weeks
+    for wk in range(num_weeks): # for testing just print the first few weeks
         print()
-        print("===========================================")
-        print("          WEEK #",wk)
-        print("===========================================")
+        print("                     ===========================================")
+        print("                                      WEEK #",int(wk+1))
+        print("                     ===========================================")
         print()
         line_header = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(CALLDAYS[0],CALLDAYS[1],CALLDAYS[2],CALLDAYS[3],CALLDAYS[4],CALLDAYS[5],CALLDAYS[6])
         print(line_header)
@@ -1135,7 +1233,7 @@ def build_opr(cal,cuml,hist,bias,limit):
 
     # Constraints
     set_day_calendar_constraints(solver,staff,cal,'opr')
-    set_opr_constraints(solver,staff)
+    set_opr_constraints(solver,staff,cal)
 
     # Creating decision builder and collector
     collector = get_collector(solver,staff_flat,time_limit)
@@ -1529,10 +1627,11 @@ def make_brt_hx(cur,cml,his,bis):
                     elif j == 5: # SLN Mamm
                         curr_rots[s,rots.index('SLN_Mamm'),int(i/2)] += 1
                     else:
-#raise ValueError('Unresolved shift/halfday combination in make_brt_hx function.',i,j)
                         pass
+
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1557,7 +1656,8 @@ def make_sfl_hx(cur,cml,his,bis):
                         #raise ValueError('Unresolved shift/halfday combination in make_sfl_hx function.')
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1573,14 +1673,15 @@ def make_msk_hx(cur,cml,his,bis):
         for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
-                    if j == shifts.index('MSK_AM') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                    if j == shifts.index('MSK 8a-12p') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
                         curr_rots[s,rots.index('MSK'),int(i/2)] += 1
                     else:
                         pass
                         #raise ValueError('Unresolved shift/halfday combination in make_msk_hx function.')
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1596,14 +1697,16 @@ def make_abd_hx(cur,cml,his,bis):
         for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
-                    if j == shifts.index('Abdomen_AM') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                    if j == shifts.index('Abdomen 8a-12p') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
                         curr_rots[s,rots.index('Abdomen'),int(i/2)] += 1
                     else:
                         pass
                         #raise ValueError('Unresolved shift/halfday combination in make_abd_hx function.')
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
+    #hist_plus = np.multiply(np.sum(curr_rots,axis=2),bis)
 
     return new_cml,hist_plus
 
@@ -1619,14 +1722,15 @@ def make_ner_hx(cur,cml,his,bis):
         for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
-                    if j == shifts.index('Neuro_AM') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                    if j == shifts.index('Neuro 8a-12p') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
                         curr_rots[s,rots.index('Neuro'),int(i/2)] += 1
                     else:
                         pass
                         #raise ValueError('Unresolved shift/halfday combination in make_ner_hx function.')
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1641,14 +1745,15 @@ def make_cht_hx(cur,cml,his,bis):
         for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
-                    if j == shifts.index('Chest/PET_AM') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                    if j == shifts.index('Chest/PET 8a-12p') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
                         curr_rots[s,rots.index('Chest/PET'),int(i/2)] += 1
                     else:
                         pass
                         #raise ValueError('Unresolved shift/halfday combination in make_cht_hx function.')
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1663,13 +1768,14 @@ def make_nuc_hx(cur,cml,his,bis):
         for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
-                    if j == shifts.index('Nucs') and i%2 == 1: # nucs is a PM rotation only
+                    if j == shifts.index('Nucs 8a-4p') and i%2 == 1: # nucs is a PM rotation only
                         curr_rots[s,rots.index('Nucs'),int(i/2)] += 1
                     else:
                         pass
 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1685,16 +1791,17 @@ def make_sta_hx(cur,cml,his,bis):
         for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
-                    if j == shifts.index('STAT1_AM') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                    if j == shifts.index('STAT1 8a-12p') and i%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
                         curr_rots[s,rots.index('STAT_AM'),int(i/2)] += 1
-                    elif (j == shifts.index('STAT1b_PM') or j == shifts.index('STAT2_PM')) and i%2 == 1:
+                    elif (j == shifts.index('STAT1b 12p-4p') or j == shifts.index('STAT2 12p-4p')) and i%2 == 1:
                         curr_rots[s,rots.index('STAT_PM'),int(i/2)] += 1
                     else:
                         pass
                         #raise ValueError('Unresolved shift/halfday combination in make_sta_hx function.')
                         
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1710,16 +1817,17 @@ def make_opr_hx(cur,cml,his,bis):
         for i in range(nslts):
             for j in range(nshifts):
                 if cur[s,j,i] > 0:
-                    if j < shifts.index('OPPR3_PM') and i%2 == 0: # the AM shifts are indexes 0,1 and the PM shifts are indexes 2,3
+                    if j < shifts.index('OPPR3pm') and i%2 == 0: # the AM shifts are indexes 0,1 and the PM shifts are indexes 2,3
                         curr_rots[s,rots.index('OPPR_AM'),int(i/2)] += 1
-                    elif j > shifts.index('OPPR2_AM') and i%2 == 1: 
+                    elif j > shifts.index('OPPR2am') and i%2 == 1: 
                         curr_rots[s,rots.index('OPPR_PM'),int(i/2)] += 1
                     else:
                         pass
                         #raise ValueError('Unresolved shift/halfday combination in make_opr_hx function.')
                         
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1740,7 +1848,8 @@ def make_scv_hx(cur,cml,his,bis):
                     pass
                 
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1760,7 +1869,8 @@ def make_st3_hx(cur,cml,his,bis):
                     pass
                         
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1780,7 +1890,8 @@ def make_swg_hx(cur,cml,his,bis):
                     pass
                         
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1802,15 +1913,16 @@ def make_stw_hx(cur,cml,his,bis):
                     else:
                         day_idx = CALLDAYS.index('SUN')
 
-                    if j == shifts.index('STATW_AM'):
+                    if j == shifts.index('STATWAM 8a-330p'):
                         curr_rots[s,rots.index('STATW_AM'),day_idx] += 1
-                    elif j == shifts.index('STATW_PM'):
+                    elif j == shifts.index('STATWPM 330p-11p'):
                         curr_rots[s,rots.index('STATW_PM'),day_idx] += 1
                     else:
                         pass
                         
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1831,7 +1943,8 @@ def make_wsp_hx(cur,cml,his,bis):
                         pass
                         
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1853,7 +1966,8 @@ def make_wmr_hx(cur,cml,his,bis):
                         
     new_cml = cml.astype('int64')+curr_rots.astype('int64')      
     #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
-    hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    #hist_plus = add_history_matrix(his,np.sum(curr_rots,axis=2).astype('int64'))+bis
+    hist_plus = add_history_matrix(his+bis,np.sum(curr_rots,axis=2).astype('int64'))
 
     return new_cml,hist_plus
 
@@ -1866,18 +1980,19 @@ def make_wmr_hx(cur,cml,his,bis):
 def main():
 
     # Top level settings
-    num_weeks = 1
-    time_limit = 100
-    day_sections = ['nuc','brt','sfl','ner','cht','msk','abd','sta','scv','opr']
+    num_weeks = 4
+    time_limit = 1000
+    day_sections = ['brt','cht','nuc','sfl','abd','msk','ner','sta','scv','opr']
+    #day_sections = ['opr']
     #day_sections = []
     #call_sections = []
     #call_sections = ['swg','stw']
-    call_sections = ['st3','swg','stw','wsp','wmr']
+    #call_sections = ['st3','swg','stw','wsp','wmr']
     #call_sections = ['stw']
     #call_sections = ['swg']
     #sections = ['cht']
     #sections = ['sonoflu']
-    fname = '/Users/jasonbalkman/Documents/KAISER/SCHEDULE_ANALYSIS/DATA/Staff_2017.csv'
+    fname = '/Users/jasonbalkman/Documents/KAISER/SCHEDULE_ANALYSIS/DATA/Staff_Aug2018.csv'
 
     # Get the department information from file
     dept = qa.load_data(fname)
@@ -1887,19 +2002,25 @@ def main():
     #staff_calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
 
     # Set staff_calendar constraints
-    '''set_staffweek(staff_calendar,'CCM',0,'Leave')
-    set_staffweek(staff_calendar,'SMN',0,'Leave')
+    '''set_staffweek(staff_calendar,'CCM',0,'Leave Day')
+    set_staffweek(staff_calendar,'SMN',0,'Leave Day')
     set_staffday(staff_calendar,'JDB',0,0,'Admin')
     set_staffday(staff_calendar,'SDE',0,2,'Admin')
     set_staffshift(staff_calendar,'GJS',0,3,0,'Admin')'''
+    for i in range(num_weeks):
+        set_staffday(staff_calendar,'GJS',i,4,'Admin Day')
+        set_staffday(staff_calendar,'GJS',i,2,'Admin Day')
+        set_staffday(staff_calendar,'RV',i,4,'Day Off')
+        set_staffday(staff_calendar,'RV',i,2,'Day Off')
+    set_staffshift(staff_calendar,'EEP',3,0,1,'OPPR4pm')
 
     # Build multiphase call schedule
-    '''if call_sections:
-        staff_calendar = build_multi_call(num_weeks,call_sections,time_limit,staff_calendar)
+    #if call_sections:
+    #    staff_calendar = build_multi_call(num_weeks,call_sections,time_limit,staff_calendar)
 
     # Build multiphase weekday schedule
     if day_sections:
-        staff_calendar = build_multi_day(num_weeks,day_sections,time_limit,staff_calendar)'''
+        staff_calendar = build_multi_day(num_weeks,day_sections,time_limit,staff_calendar)
 
     print_staff_calendar(staff_calendar)
     #shift_calendar = convert_staff_to_shift_calendar(staff_calendar)

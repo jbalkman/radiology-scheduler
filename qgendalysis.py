@@ -17,7 +17,7 @@ class Staff:
         self.initials = self.name[self.name.find("(")+1:self.name.find(")")]
         self.dates = d
         self.startday = s
-        self.firsts, = np.where(d == 1)
+        self.firsts = np.where(d == 1)
         self.schedule = []
         self.add_row(r)
         self.tunits = 0
@@ -130,9 +130,11 @@ class Staff:
                     print Rotations[self.schedule[i,d]]
 
     def get_dayidx(self, m, d):
-        start_idx = self.firsts[m-1]
-        day = start_idx + (d-1)
-        return day
+        if len(self.firsts) > 1:
+            start_idx = self.firsts[m-1]
+            day = start_idx + (d-1)
+            return day
+        return 0
 
     def get_name(self):
         return self.name
