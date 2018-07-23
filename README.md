@@ -1,9 +1,9 @@
 # radiology-scheduler
 Constraint Programming Solution for Private Practice Radiology Group
 - multiphasic scheduling on week-by-week basis (num weeks configurable)
-- balances workload based on historical data by minimizing schedule matrix variance between staff
-- bias towards scheduling persons who have not worked certain rotations after extended periods of time
-- random seed determines thousands of potential schedules which are then sorted to minimize variance
+- balances workload based on historical data and using random seed for rotation selection
+- semi-automated integration with qgenda to accept CSV import files
+- configurable bias matrix for preferential scheduling 
 - increase time limit on schedule generation to consider more potential schedules (increases run time)
 - global lists define subspecialty staff and all rotations
-- see ExampleOutput.txt for random scheduling for single week of multiple rotations
+- see ExampleOutput.txt for random scheduling for single month of multiple rotations
