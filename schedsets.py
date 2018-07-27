@@ -93,6 +93,43 @@ ALL_SHIFTS = ("","Vacation",
              "Manager On-Call",
              "1-844-230-9729")
 
+AM_SHIFTS = ("STAT1 8a-12p",
+             "OPPR1am",
+             "OPPR2am",
+             "SCV1 AM",
+             "SCV2 AM",
+             "Abdomen 8a-12p",
+             "Chest/PET 8a-12p",
+             "MSK 8a-12p",
+             "Neuro 8a-12p",
+             "UCMam Diag 8a-12p",
+             "UCMam Proc 8a-12p",
+             "FreMam halfday")
+
+PM_SHIFTS = ("STAT2 12p-4p",
+             "STAT1b 12p-4p",
+             "Nucs 8a-4p",
+             "OPPR3pm",
+             "OPPR4pm",
+             "SCV1 PM",
+             "SCV2 PM",
+             "SCV3 PM",
+             "Abdomen 12-4p",
+             "Chest/PET 12-4p",
+             "MSK 12-4p",
+             "Neuro 12-4p",
+             "UCMam Diag 12-4p",
+             "UCMam Proc 12-4p",
+             "FreMam halfday")
+
+DAY_SHIFTS = ("SL US/Fluoro 8a-4p",
+             "Fre US/Fluoro 8a-4p",
+             "Abdomen 8a-12p",
+             "Chest/PET 8a-12p",
+             "MSK 8a-12p",
+             "Neuro 8a-12p",
+             "STAT1 8a-12p")
+
 BRT_SHIFTS = ('UCMam Diag 8a-12p','UCMam Diag 12-4p','UCMam Proc 8a-12p','UCMam Proc 12-4p','FreMam halfday','SL Mam 8a-12p')
 SFL_SHIFTS = ('SL US/Fluoro 8a-4p','Fre US/Fluoro 8a-4p') # used to be AM/PM, now switched to be single day
 MSK_SHIFTS = ('MSK 8a-12p','MSK 12-4p')
@@ -149,8 +186,9 @@ SWG_STAFF = ALL_STAFF
 STW_STAFF = ST3_STAFF
 WSP_STAFF = ('JDB','SDE','GHL','DCN','JKS','BCL','DSL','HSS','JKL','HG','RV')
 WMR_STAFF = ('GJS','GSr','DRL','SJP','EEP','JFK','SMN','SH')
-SCV_STAFF = ALL_STAFF #('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM')
+SCV_STAFF = ('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','ATR','BJK','JK') #('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM')
 LCM_STAFF = ('CCM','ATR','SXK','BJK','JK')
+POOLS = ('CCM','ATR','SXK','BJK','JK')
 
 # General Use
 WEEKDAYS = ('MON','TUE','WED','THU','FRI')
@@ -159,11 +197,27 @@ WEEK_SLOTS = ('MON-AM','MON-PM','TUE-AM','TUE-PM','WED-AM','WED-PM','THU-AM','TH
 CALL_SLOTS = ('MON-PM','TUE-PM','WED-PM','THU-PM','FRI-PM','SAT-AM','SAT-PM','SUN-AM','SUN-PM')
 WKND_SECTS = ('stw','wsp','wmr')
 
+# For Pools
+CCM_SHIFTS = SFL_SHIFTS+MSK_SHIFTS+STA_SHIFTS+OPR_SHIFTS
+JK_SHIFTS = SFL_SHIFTS+MSK_SHIFTS+STA_SHIFTS+OPR_SHIFTS
+
 '''
 ===============
  GET FUNCTIONS
 ===============
 '''
+
+def get_staff_shifts(staff):
+    shifts = []
+
+    if staff == 'CCM':
+        shifts = CCM_SHIFTS
+    elif staff == 'JK':
+        shifts = JK_SHIFTS
+    else:
+        pass
+
+    return shifts
 
 def get_section_nstaff_nrots_staff_rots(sect):
 
@@ -444,6 +498,35 @@ def get_section_nstaff_nshifts_staff_shifts(sect):
     
     return num_staff,num_shifts,staff,shifts
 
+def get_collector_obj(slvr,flat,limit,pcounts):
+
+    # Create the decision builder.
+    print("creating decision builder...")
+    time_limit_ms = slvr.TimeLimit(limit)
+    db = slvr.Phase(flat, slvr.CHOOSE_RANDOM, slvr.ASSIGN_RANDOM_VALUE)
+
+    # Create the solution collector.
+    print("creating collector...")
+    solution = slvr.Assignment()
+    solution.Add(flat)
+
+    # Objective
+    #objective = slvr.Minimize(pcounts, 1)
+    objective = slvr.Minimize(pcounts, 1)
+    solution.Add(pcounts)
+
+    # Create collector
+    #collector = slvr.AllSolutionCollector(solution)
+    collector = slvr.LastSolutionCollector(solution)
+    slvr.Solve(db,[time_limit_ms, collector, objective])
+
+    num_solutions = collector.SolutionCount()
+    '''print("number of solutions:",num_solutions)
+    for sol in range(num_solutions):
+        print("Solution",sol,collector.Value(sol,pcounts))'''
+ 
+    return collector
+
 def get_collector(slvr,flat,limit):
 
     # Create the decision builder.
@@ -455,6 +538,9 @@ def get_collector(slvr,flat,limit):
     print("creating collector...")
     solution = slvr.Assignment()
     solution.Add(flat)
+
+    # Create collector
     collector = slvr.AllSolutionCollector(solution)
     slvr.Solve(db,[time_limit_ms, collector])
+ 
     return collector

@@ -10,12 +10,10 @@ import qgendalysis as qa
 '''
 TODO
 ====
-- experiment with sharing of special days, like UNCProcs (still not equally distributed); hierarchy of var?
-- experiment with higher biases and adjust min value; what should the formula be? number of rotations/staff?
+- schdeuling per day ALL_STAFF shifts like OPPR
 - revisit callback functions for decision tree to implement bias selection at that level
-- proposed rules:
-   1. spread out core rotations better, one person not more than 2-3 times per week
-   2. pools only work so many days per week
+- finish pool constraint implementation
+- handle holdiays
 
 '''
 
@@ -33,7 +31,7 @@ CHOOSE_MIN_SIZE_LOWEST_MAX
 CHOOSE_MIN_SIZE_HIGHEST_MAX
 CHOOSE_LOWEST_MIN
 CHOOSE_HIGHEST_MAX
-CHOOSE_MIN_SIZE
+CHOOSE_MIN_SIZEXF
 CHOOSE_MAX_SIZE
 CHOOSE_MAX_REGRET
 CHOOSE_PATH
@@ -56,15 +54,67 @@ def leave(r,a,s,st,ns):
         s.Add(s.Max([st[(k,d*2)] == rad for k in range(ns)]) == 0)
         s.Add(s.Max([st[(k,d*2+1)] == rad for k in range(ns)]) == 0)
 
+'''
+=====================
+ CP SOLVER VARIABLES
+=====================
+'''
+
 def create_staff_lookup(solver,num_hdays,num_shifts,num_staff):
     staff = {}
     
+    # the staff matrix returns staff for a given slot and given shift
     for i in range(num_hdays):
         for j in range(num_shifts):
             staff[(j,i)] = solver.IntVar(-1, num_staff - 1, "staff(%i,%i)" % (j, i)) # -1 is an escape where shift to not applicable to time of day
     staff_flat = [staff[(j, i)] for j in range(num_shifts) for i in range(num_hdays)]
 
     return staff, staff_flat
+
+def create_staff_counts_lookup(solver,num_hdays,section):
+    staff = {}
+    
+    num_staff,num_shifts,staff_tup,shifts_tup = get_section_nstaff_nshifts_staff_shifts(section)
+
+    # the staff matrix returns staff for a given slot and given shift
+    for i in range(num_hdays):
+        for j in range(num_shifts):
+            staff[(j,i)] = solver.IntVar(-1, num_staff - 1, "staff(%i,%i)" % (j, i)) # -1 is an escape where shift to not applicable to time of day
+
+    staff_flat = [staff[(j, i)] for j in range(num_shifts) for i in range(num_hdays)]
+
+    max_val = 100 # just set very high
+    #scounts = [solver.IntVar(0, max_val, "scount[%i]" % s) for s in range(num_staff)] # overall staff counts (shift slots during the period)
+    #pcounts = [solver.IntVar(0, max_val, "pcount[%i]" % s) for s in range(num_staff)] # overall staff counts (shift slots during the period)
+    #pcounts = solver.IntVar(0, max_val, "pcounts")
+    
+    '''for s in range(num_staff):
+        print("curr staff:",s)
+        #scounts[s] = solver.Sum([solver.IsEqualCstVar(staff[(i,j)],ALL_STAFF.index(staff_tup[s])) for i in range(num_hdays) for j in range(num_shifts)])
+        scounts[s] = solver.Sum([solver.IsEqualCstVar(staff[(i,j)],ALL_STAFF.index(staff_tup[s])) for i in range(1) for j in range(1)])'''
+    
+    poolidx = [staff_tup.index(i) for i in staff_tup if i in POOLS]
+    #print("poolidx",poolidx)
+    pcounts = solver.Sum([solver.IsMemberVar(staff[(j,i)],poolidx) for i in range(num_hdays) for j in range(num_shifts)])
+    
+    #staffidx = [solver.IntVar(0, len(ALL_STAFF), "staffidx(%i)" % (i)) for i in range(num_staff)]
+    #pcounts = solver.Sum([solver.ScalProd(scounts[s],solver.IsMemberVar(ALL_STAFF.index(staff_tup[s]),POOLS)) for s in range(num_staff)]) # overall pool counts
+
+    return staff, staff_flat, pcounts
+
+def create_shifts_lookup(solver,nweeks,pools):
+    shifts = {}
+    
+    for p in range(len(pools)):
+        nshifts = len(ALL_SHIFTS)
+        #print("Number of possible shifts:",nshifts)
+        for w in range(nweeks):
+            for s in range(len(WEEK_SLOTS)):
+                #print("Creating variables for j,k,l tuple:",pools[p][0],p,w,s)
+                shifts[(p,w,s)] = solver.IntVar(-1, nshifts, "shifts(%i,%i,%i)" % (p,w,s)) # -1 is an escape; 1 is for PM shift
+    shifts_flat = [shifts[(p,w,s)] for p in range(len(pools)) for w in range(nweeks) for s in range(len(WEEK_SLOTS))]
+
+    return shifts, shifts_flat
 
 '''
 ================
@@ -238,6 +288,76 @@ def set_staffshift(cal,initials,wk,day,slot,reason):
     for k in range(num_shifts):
         slvr.Add(len(stf[(k,j)] == ALL_STAFF.index(r) for j in range(num_slots) for k in range(num_shifts)) > 5)'''
 
+def set_pool_constraints(slvr,pools,nweeks,shifts,cal):
+
+    for w in range(nweeks):
+        for s in range(len(WEEK_SLOTS)):
+            slvr.Add(slvr.AllDifferentExcept([shifts[(p,w,s)] for p in range(len(pools))],-1))
+
+    for p in range(len(pools)):
+        #print("ABD AM:",CCM_SHIFTS.index('MSK 8a-12p'))
+        staffShifts = get_staff_shifts(pools[p][0])
+        dayShifts = set(DAY_SHIFTS).intersection(set(staffShifts))
+        amShifts = set(AM_SHIFTS).intersection(set(staffShifts))
+        pmShifts = set(PM_SHIFTS).intersection(set(staffShifts))
+        #for r in amShifts: print(r)
+        nshifts = len(staffShifts)
+        for w in range(nweeks):
+            for d in range(len(WEEKDAYS)):
+                if (w,d) in pools[p][1]:                    
+                    # These slots need to be filled
+                    slvr.AddConstraint(shifts[(p,w,d*2)] != -1)
+                    slvr.AddConstraint(shifts[(p,w,d*2+1)] != -1)
+
+                    # Arrange possible assignments
+                    #slvr.AddConstraint(slvr.AllowedAssignments(all_vars, one_day_tuples))
+
+                    # Only assign AM shifts to AM slots; same for PM shifts
+                    slvr.Add(slvr.Max([shifts[(p,w,d*2)] == ALL_SHIFTS.index(r) for r in amShifts]) == 1)
+                    slvr.Add(slvr.Max([shifts[(p,w,d*2+1)] == ALL_SHIFTS.index(r) for r in pmShifts]) == 1)
+
+                    if 'MSK 8a-12p' in dayShifts:
+                        AMeqMSK = slvr.IsEqualCstVar(shifts[(p,w,d*2)],ALL_SHIFTS.index('MSK 8a-12p'));
+                        PMeqMSK = slvr.IsEqualCstVar(shifts[(p,w,d*2+1)],ALL_SHIFTS.index('MSK 12-4p'));
+                        slvr.AddConstraint(AMeqMSK == PMeqMSK)
+                    
+                    if 'STAT1 8a-12p' in dayShifts:
+                        AMeqSTA = slvr.IsEqualCstVar(shifts[(p,w,d*2)],ALL_SHIFTS.index('STAT1 8a-12p'));
+                        PMeqSTA = slvr.IsEqualCstVar(shifts[(p,w,d*2+1)],ALL_SHIFTS.index('STAT1b 12p-4p'));
+                        slvr.AddConstraint(AMeqSTA == PMeqSTA)
+
+                    if 'Abdomen 8a-12p' in dayShifts:
+                        AMeqABD = slvr.IsEqualCstVar(shifts[(p,w,d*2)],ALL_SHIFTS.index('Abdomen 8a-12p'));
+                        PMeqABD = slvr.IsEqualCstVar(shifts[(p,w,d*2+1)],ALL_SHIFTS.index('Abdomen 8a-12p'));
+                        slvr.AddConstraint(AMeqABD == PMeqABD)
+
+                    if 'Chest/PET 8a-12p' in dayShifts:
+                        AMeqCHT = slvr.IsEqualCstVar(shifts[(p,w,d*2)],ALL_SHIFTS.index('Chest/PET 8a-12p'));
+                        PMeqCHT = slvr.IsEqualCstVar(shifts[(p,w,d*2+1)],ALL_SHIFTS.index('Chest/PET 12-4p'));
+                        slvr.AddConstraint(AMeqCHT == PMeqCHT)
+
+                    if 'Neuro 8a-12p' in dayShifts:
+                        AMeqNER = slvr.IsEqualCstVar(shifts[(p,w,d*2)],ALL_SHIFTS.index('Neuro 8a-12p'));
+                        PMeqNER = slvr.IsEqualCstVar(shifts[(p,w,d*2+1)],ALL_SHIFTS.index('Neuro 12-4p'));
+                        slvr.AddConstraint(AMeqNER == PMeqNER)
+
+                    if 'SL US/Fluoro 8a-4p' in dayShifts:
+                        AMeqSSFL = slvr.IsEqualCstVar(shifts[(p,w,d*2)],ALL_SHIFTS.index('SL US/Fluoro 8a-4p'));
+                        PMeqSSFL = slvr.IsEqualCstVar(shifts[(p,w,d*2)],ALL_SHIFTS.index('SL US/Fluoro 8a-4p'));
+                        slvr.AddConstraint(AMeqSSFL == PMeqSSFL)
+
+                    if 'Fre US/Fluoro 8a-4p' in dayShifts:
+                        AMeqFSFL = slvr.IsEqualCstVar(shifts[(p,w,d*2)],ALL_SHIFTS.index('Fre US/Fluoro 8a-4p'));
+                        PMeqFSFL = slvr.IsEqualCstVar(shifts[(p,w,d*2+1)],ALL_SHIFTS.index('Fre US/Fluoro 8a-4p'));
+                        slvr.AddConstraint(AMeqFSFL == PMeqFSFL)
+                else:
+                    #if the person isn't assigned to work elsewhere in the same week by default block out their schedule
+                    if any(w == week[0] for week in pools[p][1]):
+                        cal[ALL_STAFF.index(pools[p][0]),d*2,w] = ALL_SHIFTS.index('Day Off') # AM shift
+                        cal[ALL_STAFF.index(pools[p][0]),d*2+1,w] = ALL_SHIFTS.index('Day Off') # PM shift
+                    slvr.Add(shifts[(p,w,d*2)] == -1) # if not a required shift by the pool set to -1
+                    slvr.Add(shifts[(p,w,d*2+1)] == -1) # if not a required shift by the pool set to -1
+
 def set_day_calendar_constraints(slvr,stf,cal,sect):
     num_slots = len(WEEK_SLOTS)
 
@@ -246,11 +366,18 @@ def set_day_calendar_constraints(slvr,stf,cal,sect):
     for i in range(num_staff):
         sect_allstaff_idx = ALL_STAFF.index(staff[i])
         for j in range(num_slots):
+            # first check if certain staff is already working during the day or on nights
             if cal[sect_allstaff_idx,j] > 0 or any([cal[sect_allstaff_idx,len(WEEK_SLOTS)+j/2] == ALL_SHIFTS.index(EVE_SHIFTS[k]) for k in range(len(EVE_SHIFTS))]):
-                for k in range(num_shifts):
-                    slvr.Add(stf[(k,j)] != i)
-            elif ALL_SHIFTS[cal[sect_allstaff_idx,j]] in shifts:
-                slvr.Add(stf[(shifts.index(ALL_SHIFTS[cal[sect_allstaff_idx,j]]),j)] == i)
+                # if that certain staff is already assigned a shift within this section, make that a constrainst in the solution
+                if ALL_SHIFTS[cal[sect_allstaff_idx,j]] in shifts:
+                    #if sect == 'msk':
+                    #    print("Staff",ALL_STAFF[ALL_STAFF.index(staff[i])],"covering shift",ALL_SHIFTS[cal[sect_allstaff_idx,j]])
+                    slvr.Add(stf[(shifts.index(ALL_SHIFTS[cal[sect_allstaff_idx,j]]),j)] == i)     
+                # just make them unavailable for any of the possible section shifts
+                else:
+                    for k in range(num_shifts):
+                        slvr.Add(stf[(k,j)] != i)
+
 
 def set_call_calendar_constraints(slvr,stf,cal,sect):
 
@@ -697,7 +824,7 @@ def create_analysis(collect,stafflookup,cuml,hist,bias,sect):
     #bs = analysis[analysis.index(max(analysis,key=itemgetter(1)))]
     #bs = analysis[analysis.index(min(analysis,key=itemgetter(1)))]
     
-    print("Bias Matrix =",bestSol[3])    
+    #print("Bias Matrix =",bestSol[3])    
 
     #return bs
     return bestSol
@@ -896,6 +1023,20 @@ def print_call_results(results,section):
             for r in range(num_rots):
                 alwk = results[s][r]
                 print(rots[r],int(alwk))
+
+def print_pool_results(collect,shifts,pools,nweeks):
+
+    num_solutions = collect.SolutionCount()
+    print("number of solutions:",num_solutions)
+
+    for sol in range(num_solutions):
+        print("Solution #",sol)
+        for p in range(len(pools)):
+            for w in range(nweeks):
+                for s in range(len(WEEK_SLOTS)):
+                    sh = collect.Value(sol,shifts[(p,w,s)])
+                    print("Staff",pools[p][0],"week",w,"AM/PM",s,"shift",sh)
+
 '''
 ====================
  CALENDAR FUNCTIONS
@@ -978,6 +1119,27 @@ def print_staff_calendar(cal):
             print(line_pm)
             print(line_call)
 
+def print_csv_staff_calendar(cal):
+    num_staff, num_slots, num_weeks = cal.shape
+
+    #for wk in range(num_weeks):
+    for wk in range(num_weeks): # for testing just print the first few weeks
+        print()
+        print("                     ===========================================")
+        print("                                      WEEK #",int(wk+1))
+        print("                     ===========================================")
+        print()
+        line_header = ',{:>0},{:>0},{:>0},{:>0},{:>0},{:>0},{:>0}'.format(CALLDAYS[0],CALLDAYS[1],CALLDAYS[2],CALLDAYS[3],CALLDAYS[4],CALLDAYS[5],CALLDAYS[6])
+        print(line_header)
+        for st in range(num_staff):
+            #print(ALL_STAFF[st])
+            line_am = '{:>0},{:>0},{:>0},{:>0},{:>0},{:>0},{:>0},{:>0}'.format(ALL_STAFF[st],ALL_SHIFTS[cal[st,0,wk]],ALL_SHIFTS[cal[st,2,wk]],ALL_SHIFTS[cal[st,4,wk]],ALL_SHIFTS[cal[st,6,wk]],ALL_SHIFTS[cal[st,8,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-AM'),wk]])
+            line_pm = ',{:>0},{:>0},{:>0},{:>0},{:>0},{:>0},{:>0}'.format(ALL_SHIFTS[cal[st,1,wk]],ALL_SHIFTS[cal[st,3,wk]],ALL_SHIFTS[cal[st,5,wk]],ALL_SHIFTS[cal[st,7,wk]],ALL_SHIFTS[cal[st,9,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-PM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-PM'),wk]])
+            line_call = ',{:>0},{:>0},{:>0},{:>0},{:>0}'.format(ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+0,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+1,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+2,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+3,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+4,wk]])
+            print(line_am)
+            print(line_pm)
+            print(line_call)
+
 '''
 =================
  BUILD FUNCTIONS
@@ -996,20 +1158,21 @@ def build_brt(cal,cuml,hist,bias,limit):
     solver = make_random_solver()
 
     # Create staff lookup
-    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'brt')
 
     # Constraints
     set_day_calendar_constraints(solver,staff,cal,'brt')
     set_brt_constraints(solver,staff)
 
     # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
+    collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
 
     # analyze and sort results based on schedule variance
     analysis = create_analysis(collector,staff,cuml,hist,bias,'brt')
 
     # Print out the top solution with the least variance
-    print_analysis(solver,collector,staff,analysis,'brt')
+    #print_analysis(solver,collector,staff,analysis,'brt')
 
     return analysis[2],analysis[3],analysis[4]
     
@@ -1025,20 +1188,22 @@ def build_sfl(cal,cuml,hist,bias,limit):
     solver = make_random_solver()
 
     # Create staff lookup
-    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'sfl')
 
     # Constraints
     set_day_calendar_constraints(solver,staff,cal,'sfl')
     set_sfl_constraints(solver,staff)
 
     # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
+    #collector = get_collector(solver,staff_flat,time_limit)
+    collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
 
     # analyze and sort results based on schedule variance
     analysis = create_analysis(collector,staff,cuml,hist,bias,'sfl')
 
     # Print out the top solution with the least variance
-    print_analysis(solver,collector,staff,analysis,'sfl')
+    #print_analysis(solver,collector,staff,analysis,'sfl')
 
     return analysis[2],analysis[3],analysis[4]
 
@@ -1055,20 +1220,22 @@ def build_msk(cal,cuml,hist,bias,limit):
     solver = make_random_solver()
 
     # Create staff lookup
-    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'msk')
 
     # Constraints
     set_day_calendar_constraints(solver,staff,cal,'msk')
     set_msk_constraints(solver,staff)
 
     # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
+    #collector = get_collector(solver,staff_flat,time_limit)
+    collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
 
     # analyze and sort results based on schedule variance
     analysis = create_analysis(collector,staff,cuml,hist,bias,'msk')
 
     # Print out the top solution with the least variance
-    print_analysis(solver,collector,staff,analysis,'msk')
+    #print_analysis(solver,collector,staff,analysis,'msk')
 
     return analysis[2],analysis[3],analysis[4]
 
@@ -1084,20 +1251,21 @@ def build_ner(cal,cuml,hist,bias,limit):
     solver = make_random_solver()
 
     # Create staff lookup
-    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'ner')
 
     # Constraints
     set_day_calendar_constraints(solver,staff,cal,'ner')
     set_ner_constraints(solver,staff)
 
     # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
+    collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
 
     # analyze and sort results based on schedule variance
     analysis = create_analysis(collector,staff,cuml,hist,bias,'ner')
 
     # Print out the top solution with the least variance
-    print_analysis(solver,collector,staff,analysis,'ner')
+    #print_analysis(solver,collector,staff,analysis,'ner')
 
     return analysis[2],analysis[3],analysis[4]
 
@@ -1113,20 +1281,21 @@ def build_abd(cal,cuml,hist,bias,limit):
     solver = make_random_solver()
 
     # Create staff lookup
-    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'abd')
 
     # Constraints
     set_day_calendar_constraints(solver,staff,cal,'abd')
     set_abd_constraints(solver,staff)
 
     # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
+    collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
 
     # analyze and sort results based on schedule variance
     analysis = create_analysis(collector,staff,cuml,hist,bias,'abd')
 
     # Print out the top solution with the least variance
-    print_analysis(solver,collector,staff,analysis,'abd')
+    #print_analysis(solver,collector,staff,analysis,'abd')
 
     return analysis[2],analysis[3],analysis[4]
 
@@ -1142,20 +1311,21 @@ def build_cht(cal,cuml,hist,bias,limit):
     solver = make_random_solver()
 
     # Create staff lookup
-    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'cht')
 
     # Constraints
     set_day_calendar_constraints(solver,staff,cal,'cht')
     set_cht_constraints(solver,staff)
 
     # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
+    collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
 
     # analyze and sort results based on schedule variance
     analysis = create_analysis(collector,staff,cuml,hist,bias,'cht')
 
     # Print out the top solution with the least variance
-    print_analysis(solver,collector,staff,analysis,'cht')
+    #print_analysis(solver,collector,staff,analysis,'cht')
 
     return analysis[2],analysis[3],analysis[4]
 
@@ -1171,20 +1341,21 @@ def build_nuc(cal,cuml,hist,bias,limit):
     solver = make_random_solver()
 
     # Create staff lookup
-    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'nuc')
 
     # Constraints
     set_day_calendar_constraints(solver,staff,cal,'nuc')
     set_nuc_constraints(solver,staff)
 
     # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
+    collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
 
     # analyze and sort results based on schedule variance
     analysis = create_analysis(collector,staff,cuml,hist,bias,'nuc')
 
     # Print out the top solution with the least variance
-    print_analysis(solver,collector,staff,analysis,'nuc')
+    #print_analysis(solver,collector,staff,analysis,'nuc')
 
     return analysis[2],analysis[3],analysis[4]
 
@@ -1200,20 +1371,21 @@ def build_sta(cal,cuml,hist,bias,limit):
     solver = make_random_solver()
 
     # Create staff lookup
-    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'sta')
 
     # Constraints
     set_day_calendar_constraints(solver,staff,cal,'sta')
     set_sta_constraints(solver,staff)
 
     # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
+    collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
 
     # analyze and sort results based on schedule variance
     analysis = create_analysis(collector,staff,cuml,hist,bias,'sta')
 
     # Print out the top solution with the least variance
-    print_analysis(solver,collector,staff,analysis,'sta')
+    #print_analysis(solver,collector,staff,analysis,'sta')
 
     return analysis[2],analysis[3],analysis[4]
 
@@ -1229,20 +1401,21 @@ def build_opr(cal,cuml,hist,bias,limit):
     solver = make_random_solver()
 
     # Create staff lookup
-    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'opr')
 
     # Constraints
     set_day_calendar_constraints(solver,staff,cal,'opr')
     set_opr_constraints(solver,staff,cal)
 
     # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
+    collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
 
     # analyze and sort results based on schedule variance
     analysis = create_analysis(collector,staff,cuml,hist,bias,'opr')
 
     # Print out the top solution with the least variance
-    print_analysis(solver,collector,staff,analysis,'opr')
+    #print_analysis(solver,collector,staff,analysis,'opr')
 
     return analysis[2],analysis[3],analysis[4]
 
@@ -1258,20 +1431,21 @@ def build_scv(cal,cuml,hist,bias,limit):
     solver = make_random_solver()
 
     # Create staff lookup
-    staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
+    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'scv')
 
     # Constraints
     set_day_calendar_constraints(solver,staff,cal,'scv')
     set_scv_constraints(solver,staff)
 
     # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
+    collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
 
     # analyze and sort results based on schedule variance
     analysis = create_analysis(collector,staff,cuml,hist,bias,'scv')
 
     # Print out the top solution with the least variance
-    print_analysis(solver,collector,staff,analysis,'scv')
+    #print_analysis(solver,collector,staff,analysis,'scv')
 
     return analysis[2],analysis[3],analysis[4]
 
@@ -1418,6 +1592,28 @@ def build_wmr(cal,cuml,hist,bias,limit):
 def build_other(cal,cuml,hist,bias):
     return cuml, hist
 
+def build_pool_days(pools,nweeks,calendar,limit):
+    
+    time_limit = limit
+
+    # Make a solver with random seed
+    solver = make_random_solver()
+
+    # Create shifts lookup
+    shifts, shifts_flat = create_shifts_lookup(solver,nweeks,pools)
+    
+    # Constraints
+    set_pool_constraints(solver,pools,nweeks,shifts,calendar)
+
+    # Creating decision builder and collector
+    collector = get_collector(solver,shifts_flat,time_limit)
+
+    # Print results
+    #print_pool_results(collector,shifts,pools,nweeks)
+    calendar = update_pool_calendar(collector,calendar,shifts,nweeks,pools)
+    
+    return calendar
+
 def build_multi_day(nweeks,sects,limit,calendar):
     
     ndays = len(WEEKDAYS)
@@ -1502,7 +1698,7 @@ def build_multi_day(nweeks,sects,limit,calendar):
                 currwk_cal = calendar[:,:,i]
                 cumulative,history = build_other(currwk_cal,cumulative,history,bias)
 
-            print_results(cumulative,sects[j])
+            #print_results(cumulative,sects[j])
             #print_results(history,sects[j])
 
     return calendar
@@ -1586,7 +1782,21 @@ def update_call_calendar(cur,cal,sct): # c = nstaff x nhds reflecting 1-week (10
                     cal[ALL_STAFF.index(staff[st]),len(WEEK_SLOTS)+sl] = ALL_SHIFTS.index(shifts[sh])
     return cal 
 
-        
+def update_pool_calendar(collect,cal,shifts,nweeks,pools):
+    #staff_calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
+
+    num_solutions = collect.SolutionCount()
+    
+    for p in range(len(pools)):
+        for w in range(nweeks):
+            for s in range(len(WEEK_SLOTS)):
+                curshift = collect.Value(0,shifts[(p,w,s)]) # just use solution 0 for now
+                if curshift != -1:
+                    #print("found pool shift",curshift,"for staff",pools[p][0])
+                    staffidx = ALL_STAFF.index(pools[p][0])
+                    cal[staffidx,s,w] = curshift
+    return cal 
+
 def make_random_solver():
     # Creates the solver
     solver = pywrapcp.Solver("Schedule Solution")
@@ -1981,11 +2191,11 @@ def main():
 
     # Top level settings
     num_weeks = 4
-    time_limit = 1000
-    day_sections = ['brt','cht','nuc','sfl','abd','msk','ner','sta','scv','opr']
-    #day_sections = ['opr']
+    time_limit = 100000
+    day_sections = ['brt','cht','nuc','msk','sfl','abd','ner','sta','scv','opr']
+    #day_sections = ['brt']
     #day_sections = []
-    #call_sections = []
+    #call_sections = [
     #call_sections = ['swg','stw']
     #call_sections = ['st3','swg','stw','wsp','wmr']
     #call_sections = ['stw']
@@ -1994,25 +2204,26 @@ def main():
     #sections = ['sonoflu']
     fname = '/Users/jasonbalkman/Documents/KAISER/SCHEDULE_ANALYSIS/DATA/Staff_Aug2018.csv'
 
+    # Used for keeping track of the schedule by staff; overwritten by qa.qgimport
+    #staff_calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
+
     # Get the department information from file
     dept = qa.load_data(fname)
     staff_calendar = qa.qgimport(dept).astype('int64')
 
-    # Used for keeping track of the schedule by staff
-    #staff_calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
+    # Set schedules by certain days to work (such as for pools)
+    #pooldays = [('CCM',((0,0),(0,2),(0,4)))]
+    #pooldays = [('CCM',((0,0),(0,2),(0,4))),
+                #('JK',((0,1),(0,3)))]
+    #staff_calendar = build_pool_days(pooldays,num_weeks,staff_calendar,time_limit)
 
     # Set staff_calendar constraints
-    '''set_staffweek(staff_calendar,'CCM',0,'Leave Day')
-    set_staffweek(staff_calendar,'SMN',0,'Leave Day')
-    set_staffday(staff_calendar,'JDB',0,0,'Admin')
-    set_staffday(staff_calendar,'SDE',0,2,'Admin')
-    set_staffshift(staff_calendar,'GJS',0,3,0,'Admin')'''
     for i in range(num_weeks):
         set_staffday(staff_calendar,'GJS',i,4,'Admin Day')
         set_staffday(staff_calendar,'GJS',i,2,'Admin Day')
         set_staffday(staff_calendar,'RV',i,4,'Day Off')
         set_staffday(staff_calendar,'RV',i,2,'Day Off')
-    set_staffshift(staff_calendar,'EEP',3,0,1,'OPPR4pm')
+    #set_staffshift(staff_calendar,'EEP',3,0,1,'OPPR4pm')
 
     # Build multiphase call schedule
     #if call_sections:
@@ -2023,7 +2234,7 @@ def main():
         staff_calendar = build_multi_day(num_weeks,day_sections,time_limit,staff_calendar)
 
     print_staff_calendar(staff_calendar)
-    #shift_calendar = convert_staff_to_shift_calendar(staff_calendar)
+    #print_csv_staff_calendar(staff_calendar)
     #print_shift_calendar(shift_calendar)        
 
 if __name__ == "__main__":
