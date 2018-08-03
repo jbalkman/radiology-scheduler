@@ -164,7 +164,6 @@ WSP_ROTS = ('WUSPR',)
 WMR_ROTS = ('WMR',)
 SCV_ROTS = ('SCV',)
 
-
 # Staff Lists
 ALL_STAFF = ('JDB','SDE','HG','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','ATR','SXK','BJK','JK')
 #ALL_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','SMN') # used for testing
@@ -498,27 +497,34 @@ def get_section_nstaff_nshifts_staff_shifts(sect):
     
     return num_staff,num_shifts,staff,shifts
 
-def get_collector_obj(slvr,flat,limit,pcounts):
+def get_collector_obj(slvr,v_staff_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat,v_tcost,tlimit):
 
     # Create the decision builder.
     print("creating decision builder...")
-    time_limit_ms = slvr.TimeLimit(limit)
-    db = slvr.Phase(flat, slvr.CHOOSE_RANDOM, slvr.ASSIGN_RANDOM_VALUE)
+    db = slvr.Phase(v_staff_flat, slvr.CHOOSE_RANDOM, slvr.ASSIGN_RANDOM_VALUE)
 
     # Create the solution collector.
     print("creating collector...")
     solution = slvr.Assignment()
-    solution.Add(flat)
+    solution.Add(v_staff_flat)
+    solution.Add(v_rots_flat)
+    solution.Add(v_cntr_flat)
+    solution.Add(v_rotprod_flat)
+    solution.Add(v_tcost)
 
     # Objective
     #objective = slvr.Minimize(pcounts, 1)
-    objective = slvr.Minimize(pcounts, 1)
-    solution.Add(pcounts)
+    objective = slvr.Minimize(v_tcost, 1)
 
     # Create collector
     #collector = slvr.AllSolutionCollector(solution)
     collector = slvr.LastSolutionCollector(solution)
-    slvr.Solve(db,[time_limit_ms, collector, objective])
+
+    if tlimit > 0:
+        time_limit_ms = slvr.TimeLimit(tlimit)
+        slvr.Solve(db,[time_limit_ms, collector, objective])
+    else:        
+        slvr.Solve(db,[collector, objective])
 
     num_solutions = collector.SolutionCount()
     '''print("number of solutions:",num_solutions)
@@ -527,11 +533,10 @@ def get_collector_obj(slvr,flat,limit,pcounts):
  
     return collector
 
-def get_collector(slvr,flat,limit):
+def get_collector(slvr,flat,tlimit):
 
     # Create the decision builder.
     print("creating decision builder...")
-    time_limit_ms = slvr.TimeLimit(limit)
     db = slvr.Phase(flat, slvr.CHOOSE_RANDOM, slvr.ASSIGN_RANDOM_VALUE)
 
     # Create the solution collector.
@@ -541,6 +546,11 @@ def get_collector(slvr,flat,limit):
 
     # Create collector
     collector = slvr.AllSolutionCollector(solution)
-    slvr.Solve(db,[time_limit_ms, collector])
- 
+
+    if tlimit > 0:
+        time_limit_ms = slvr.TimeLimit(tlimit)
+        slvr.Solve(db,[time_limit_ms, collector])
+    else:        
+        slvr.Solve(db,[collector, objective])
+
     return collector
