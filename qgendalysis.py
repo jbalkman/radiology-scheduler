@@ -419,6 +419,8 @@ def qgimport(dept):
         if initials in ALL_STAFF:
             sidx = ALL_STAFF.index(initials) # find index of staff in the calendar
             cidx = 0
+
+            # j = the day; slt = which slot for a single day (AM/PM, etc)
             for j in range(firstmonday,s.sshape[1]):
                 for slt in range(s.sshape[0]):
                     shift = Rotations[s.schedule[slt,j]]
@@ -432,6 +434,10 @@ def qgimport(dept):
                         elif ShiftSlots[shift] == Slots.index('DAY'):
                             cal[sidx,(cidx%7)*2,cidx/7] = ALL_SHIFTS.index(shift)
                             cal[sidx,(cidx%7)*2+1,cidx/7] = ALL_SHIFTS.index(shift)
+                        elif ShiftSlots[shift] == Slots.index('WAM'):
+                            cal[sidx,(cidx%7)*2,cidx/7] = ALL_SHIFTS.index(shift)
+                        elif ShiftSlots[shift] == Slots.index('WPM'):
+                            cal[sidx,(cidx%7)*2+1,cidx/7] = ALL_SHIFTS.index(shift)
                     else: # handle weekends
                         callSlotStr = ''
                         if cidx%7 == 5: # saturday
@@ -440,12 +446,12 @@ def qgimport(dept):
                             callSlotStr = 'SUN-AM'
                         if ShiftSlots[shift] == Slots.index('WAM'):
                             cal[sidx,len(WEEK_SLOTS)+CALL_SLOTS.index(callSlotStr),cidx/7] = ALL_SHIFTS.index(shift)
-                        elif ShiftSlots[shift] == Slots.index('WPM'):
+                        elif ShiftSlots[shift] == Slots.index('WPM') or ShiftSlots[shift] == Slots.index('EVE'):
                             cal[sidx,len(WEEK_SLOTS)+CALL_SLOTS.index(callSlotStr)+1,cidx/7] = ALL_SHIFTS.index(shift)
                         elif ShiftSlots[shift] == Slots.index('DAY'):
                             cal[sidx,len(WEEK_SLOTS)+CALL_SLOTS.index(callSlotStr),cidx/7] = ALL_SHIFTS.index(shift)
                             cal[sidx,len(WEEK_SLOTS)+CALL_SLOTS.index(callSlotStr)+1,cidx/7] = ALL_SHIFTS.index(shift)
-                cidx += 1
+                cidx += 1 # this represents the day
     return cal
 
 # Functions

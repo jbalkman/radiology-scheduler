@@ -10,10 +10,14 @@ import qgendalysis as qa
 '''
 TODO
 ====
-- schdeuling per day ALL_STAFF shifts like OPPR
-- revisit callback functions for decision tree to implement bias selection at that level
-- finish pool constraint implementation
-- handle holdiays
+- vacation preference scheduling
+- handle holidays
+- weighted factor to include X weeks of history (in addition to counter cost minimization)
+- force certain number of rotations for certain staff (HG Sonoflu); handle using the bias?
+- fix "rotation" counting in the set_rotation_constraints function to be by the day for day shifts instead of by the AM/PM
+- consolidate rotations OPPR, Sonoflu (don't need to split these into separate rotations, except OPPR is a halfday and Sonoflu is a whole day)
+- prevent sequenstering of favored rotations
+- use cumulative matrix to have some sort of moving avg that equalizes rotations (input to bias?)
 
 '''
 
@@ -54,6 +58,15 @@ def leave(r,a,s,st,ns):
         s.Add(s.Max([st[(k,d*2)] == rad for k in range(ns)]) == 0)
         s.Add(s.Max([st[(k,d*2+1)] == rad for k in range(ns)]) == 0)
 
+def juggle_sections(original,failed):
+    fail_idx = original.index(failed)
+
+    if fail_idx > 0:
+        original[fail_idx-1], original[fail_idx] = original[fail_idx], original[fail_idx-1]
+        return original
+    else:
+        sys.exit("Failed on the first section indicating strict constraint problem.")
+        
 '''
 =====================
  CP SOLVER VARIABLES
@@ -108,7 +121,7 @@ def create_variables(solver,num_hdays,section):
     v_cntr = {}
     v_rotprod = {}
 
-    v_tcost = solver.IntVar(-1000, 1000, "v_tcost")
+    v_tcost = solver.IntVar(-500,500, "v_tcost")
 
     num_staff,num_shifts,staff_tup,shifts_tup = get_section_nstaff_nshifts_staff_shifts(section)
     _,_,num_rots,_,rots_tup = get_section_nstaff_nshifts_nrots_shifts_rots(section)
@@ -141,17 +154,17 @@ def create_variables(solver,num_hdays,section):
         #scounts[s] = solver.Sum([solver.IsEqualCstVar(staff[(i,j)],ALL_STAFF.index(staff_tup[s])) for i in range(num_hdays) for j in range(num_shifts)])
         scounts[s] = solver.Sum([solver.IsEqualCstVar(staff[(i,j)],ALL_STAFF.index(staff_tup[s])) for i in range(1) for j in range(1)])'''
     
-    poolidx = [staff_tup.index(i) for i in staff_tup if i in POOLS]
+    poolidx = [staff_tup.index(i) for i in staff_tup if i in LCM_STAFF]
     v_pcounts = solver.Sum([solver.IsMemberVar(v_staff[(j,i)],poolidx) for i in range(num_hdays) for j in range(num_shifts)])
 
     #print("poolidx",poolidx)
     
     #staffidx = [solver.IntVar(0, len(ALL_STAFF), "staffidx(%i)" % (i)) for i in range(num_staff)]
-    #pcounts = solver.Sum([solver.ScalProd(scounts[s],solver.IsMemberVar(ALL_STAFF.index(staff_tup[s]),POOLS)) for s in range(num_staff)]) # overall pool counts
+    #pcounts = solver.Sum([solver.ScalProd(scounts[s],solver.IsMemberVar(ALL_STAFF.index(staff_tup[s]),LCM_STAFF)) for s in range(num_staff)]) # overall pool counts
 
     return v_staff,v_staff_flat,v_rots,v_rots_flat,v_cntr,v_cntr_flat,v_rotprod,v_rotprod_flat,v_tcost,v_pcounts
 
-def create_shifts_lookup(solver,nweeks,pools):
+def create_pool_shifts(solver,nweeks,pools):
     shifts = {}
     
     for p in range(len(pools)):
@@ -171,6 +184,45 @@ def create_shifts_lookup(solver,nweeks,pools):
 ================
 '''
 
+def get_bias(section):
+
+    if section == 'brt':
+        nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('brt')            
+        bias = init_brt_bias()
+    elif section == 'sfl':
+        nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('sfl')      
+        bias = init_sfl_bias()
+    elif section == 'msk':
+        nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('msk')      
+        bias = init_msk_bias()
+    elif section == 'ner':
+        nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('ner')      
+        bias = init_ner_bias()
+    elif section == 'abd':
+        nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('abd')      
+        bias = init_abd_bias()
+    elif section == 'cht':
+        nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('cht')      
+        bias = init_cht_bias()
+    elif section == 'nuc':
+        nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('nuc')      
+        bias = init_nuc_bias()
+    elif section == 'sta':
+        nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('sta')      
+        bias = init_sta_bias()
+    elif section == 'opr':
+        nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('opr')      
+        bias = init_opr_bias()
+    elif section == 'scv':
+        nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('scv')      
+        bias = init_scv_bias()
+    else:
+        nstaff = len(OTHER_STAFF)
+        nrots = len(OTHER_ROTS)
+        bias = init_other_bias()
+        
+    return bias
+
 def init_brt_bias():
     bias = np.zeros((len(BRT_STAFF),len(BRT_ROTS)),dtype='int64') + 1 # here the bias is -2 for all rotations; may need to be less for rotations that are less frequent (e.g. -1 for SLN_Mamm)
 
@@ -181,6 +233,9 @@ def init_brt_bias():
 
 def init_sfl_bias():
     bias = np.zeros((len(SFL_STAFF),len(SFL_ROTS)),dtype='int64') + 1
+
+    # bias HG towards fluoro
+    bias[SFL_STAFF.index('HG'),:] = bias[SFL_STAFF.index('HG'),:] + 3
 
     for i in range(len(LCM_STAFF)):
         if LCM_STAFF[i] in SFL_STAFF:
@@ -309,6 +364,14 @@ def set_staffweek(cal,initials,wk,reason):
     for j in range(total_slots):
         cal[ALL_STAFF.index(initials),j,wk] = ALL_SHIFTS.index(reason)
 
+def set_holidays(cal,holidays):
+    pass
+
+def get_holidays(cal):
+    indices = np.argwhere(cal==ALL_SHIFTS.index('Holiday'))
+    holidays = np.unique(indices[:,1]/2) # divide by 2 to get the days instead of slots
+    return holidays
+
 def set_staffday(cal,initials,wk,day,reason):
     if day < len(WEEKDAYS): # block out a weekday
         if cal[ALL_STAFF.index(initials),day*2,wk] == 0: # anchors the entire day off the morning; may or may not be appropriate; prevents overwrites (Admin overwrite Vacation) 
@@ -334,6 +397,7 @@ def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_tcost
     nslts = len(WEEK_SLOTS)
     
     nstaff,nshifts,nrots,shifts,rots = get_section_nstaff_nshifts_nrots_shifts_rots(sect)
+    _,_,staff_tup,_ = get_section_nstaff_nshifts_staff_shifts(sect)
 
     # Flattened matrixes
     v_staff_flat = [v_staff[(shf,slt)] for shf in range(nshifts) for slt in range(nslts)]
@@ -349,6 +413,7 @@ def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_tcost
             solver.Add(v_rots[(stf,rots.index('UNC_Proc'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('UCMam Proc 8a-12p')*nslts+i],stf) for i in range(nslts)]))
             solver.Add(v_rots[(stf,rots.index('FRE_Mamm'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('FreMam halfday')*nslts+i],stf) for i in range(nslts)]))
             solver.Add(v_rots[(stf,rots.index('SLN_Mamm'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('SL Mam 8a-12p')*nslts+i],stf) for i in range(nslts)]))
+            solver.Add(v_rots[(stf,rots.index('TB'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('UCMam Proc 8a-12p')*nslts],stf)]))
 
             # power constraint that limits number of each rotation that staff takes
             for rot in range(nrots):
@@ -356,12 +421,23 @@ def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_tcost
 
     elif sect == 'sfl':
         for stf in range(nstaff):
-            solver.Add(v_rots[(stf,rots.index('SLN_Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('SL US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]))
+            #slnSflIdx = [solver.IsEqualCstVar(v_staff_flat[shifts.index('SL US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]
+            #freSflIdx = [solver.IsEqualCstVar(v_staff_flat[shifts.index('Fre US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]
+            #solver.Add(v_rots[(stf,rots.index('Sonoflu'))] == solver.Sum(slnSflIdx+freSflIdx))
             solver.Add(v_rots[(stf,rots.index('FRE_Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('Fre US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]))
+            solver.Add(v_rots[(stf,rots.index('SLN_Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('SL US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]))
+            #solver.Add(v_rots[(stf,rots.index('Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[i],stf) for i in range(0,len(SFL_SHIFTS)*nslts,2)]))
 
             # power constraint that limits number of each rotation that staff takes
             for rot in range(nrots):
-                solver.Add(v_rots[(stf,rot)] < 3)
+                solver.Add(v_rots[(stf,rot)] < 5)
+
+        # have HG on at least 2 Sonoflu rotations per week
+        # but NEED TO HANDLE CASE WHEN HG ON VACATION
+        #solver.Add(v_rots[(staff_tup.index('HG'),rots.index('FRE_Sonoflu'))] > 1) # careful b/c we are counting by AM/PM shift instead of day until fixed
+
+        #solver.Add(v_rots[(staff_tup.index('HG'),rots.index('Sonoflu'))] > 1) # careful b/c we are counting by AM/PM shift instead of day until fixed
+        #solver.Add(v_rots[(staff_tup.index('HG'),rots.index('Sonoflu'))] < 5) # careful b/c we are counting by AM/PM shift instead of day until fixed
 
     elif sect == 'msk':
         for stf in range(nstaff):
@@ -385,7 +461,7 @@ def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_tcost
             
             # power constraint that limits number of each rotation that staff takes
             for rot in range(nrots):
-                solver.Add(v_rots[(stf,rot)] < 3)
+                solver.Add(v_rots[(stf,rot)] < 4)
  
     elif sect == 'cht':
         for stf in range(nstaff):
@@ -441,7 +517,7 @@ def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_tcost
         solver.Add(v_rotprod_flat[i] == solver.IsLessOrEqualCstVar(v_rots_flat[i],0))
         scaling_factor = 1
         solver.Add(v_cntr_flat[i] == v_rotprod_flat[i]*(int((cnt_flat[i]+bis_flat[i])/scaling_factor)))
-    solver.Add(v_tcost == solver.Sum(v_cntr_flat[i] for i in range(nrots*nstaff)))
+    solver.Add(v_tcost == solver.Sum([v_cntr_flat[i] for i in range(nrots*nstaff)]))
     
     return v_tcost
 
@@ -452,7 +528,7 @@ def set_pool_constraints(solver,pools,nweeks,shifts,cal):
             solver.Add(solver.AllDifferentExcept([shifts[(p,w,s)] for p in range(len(pools))],-1))
 
     for p in range(len(pools)):
-        #print("ABD AM:",CCM_SHIFTS.index('MSK 8a-12p'))
+        #print("ABD AM:",CCM_SHIFTS.index('MSK 8a-12p')
         staffShifts = get_staff_shifts(pools[p][0])
         dayShifts = set(DAY_SHIFTS).intersection(set(staffShifts))
         amShifts = set(AM_SHIFTS).intersection(set(staffShifts))
@@ -569,67 +645,73 @@ def set_call_calendar_constraints(solver,stf,cal,sect):
                         print("leave STATW constraint:",k,j,staff[i])                        
                         solver.Add(stf[(k,j)] != i)
 
-def set_brt_constraints(s,st): # s = solver
+def set_brt_constraints(s,st,cal,holidays): # s = solver
 
-  for i in range(len(WEEK_SLOTS)):
+    for i in range(len(WEEK_SLOTS)):
+                
+        # No double coverage
+        s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(BRT_SHIFTS))],-1))
 
-      # No double coverage
-      s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(BRT_SHIFTS))],-1))
+    for i in range(len(WEEKDAYS)):
+
+        # Constraints binding AM/PM rotations
+        s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] == st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2+1)])
+        s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] == st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2+1)])
+        
+        # CCM doesn't go to UNC
+        s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] != BRT_STAFF.index('CCM'))
+        s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != BRT_STAFF.index('CCM'))
+        s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),i*2)] != BRT_STAFF.index('CCM'))
       
-  for i in range(len(WEEKDAYS)):
+        # Shifts that don't fit into context (e.g. UCMam Diag 12-4p on a morning shift)
+        s.Add(st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2)] == -1)
+        s.Add(st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2)] == -1)
+        s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2+1)] == -1)
+        s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2+1)] == -1)
 
-      # Constraints binding AM/PM rotations
-      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] == st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2+1)])
-      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] == st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2+1)])
-
-      # CCM doesn't go to UNC
-      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] != BRT_STAFF.index('CCM'))
-      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != BRT_STAFF.index('CCM'))
-      s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),i*2)] != BRT_STAFF.index('CCM'))
-      
-      # Shifts that don't fit into context (e.g. UCMam Diag 12-4p on a morning shift)
-      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2)] == -1)
-      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2)] == -1)
-      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2+1)] == -1)
-      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2+1)] == -1)
-
-      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] != -1)
-      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != -1)
-      s.Add(st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2+1)] != -1)
-      s.Add(st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2+1)] != -1)
-
-      # Don't be on the same UNC rotation two days in a row (can relax if short-staffed)
-      #if i < 4:
-      #    s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2+2)])
-      #    s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] != st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2+2)])
-
-  # Blocked Schedules (not all rotations are offered on every shift)
-  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),0)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),1)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),2)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),3)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),4)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),5)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),6)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),7)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),8)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),9)] == -1)
-  
-  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),0)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),1)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),2)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),3)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),4)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),5)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),6)] == -1)
-  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),7)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),8)] != -1)
-  s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),9)] == -1)
-
-def set_sfl_constraints(s,st): # s = solver
+    # Shifts that don't fit into context
+    s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),0)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),1)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),3)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),4)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),5)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),7)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),8)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),9)] == -1)
     
-    # Don't cover the same Sonoflu shift in 1 week
-    s.Add(s.AllDifferent([st[(j*2,i*2)] for j in range(len(SFL_SHIFTS)/2) for i in range(len(WEEKDAYS))]))
+    s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),1)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),2)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),5)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),6)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),9)] == -1)
+            
+    for i in range(len(WEEKDAYS)):
+            
+        # Real shifts unless it's a holiday
+        if i not in holidays:
+            s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] != -1)
+            s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != -1)
+            s.Add(st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2+1)] != -1)
+            s.Add(st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2+1)] != -1)
+
+    if 1 not in holidays: s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),2)] != -1)
+    if 3 not in holidays: s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),6)] != -1)
+    
+    if 0 not in holidays: s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),0)] != -1)
+    if 1 not in holidays: s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),3)] != -1)
+    if 2 not in holidays: s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),4)] != -1)
+    if 3 not in holidays: s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),7)] != -1)
+    if 4 not in holidays: s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),8)] != -1)
+    
+    # Don't be on the same UNC rotation two days in a row (can relax if short-staffed)
+    #if i < 4:
+    #    s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2+2)])
+    #    s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] != st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2+2)])
+
+def set_sfl_constraints(s,st,cal,holidays): # s = solver
+    
+    # Don't cover the same Sonoflu shift in 1 week; this was originally put in in but not sure I understand purpose
+    #s.Add(s.AllDifferent([st[(j*2,i*2)] for j in range(len(SFL_SHIFTS)/2) for i in range(len(WEEKDAYS))]))
 
     for i in range(len(WEEK_SLOTS)):
 
@@ -642,11 +724,12 @@ def set_sfl_constraints(s,st): # s = solver
         s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] == st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+1)])
         s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] == st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2+1)])
 
-        # These shifts are real and need to be assigned
-        s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != -1)
-        s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] != -1)
-        s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+1)] != -1)
-        s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2+1)] != -1)
+        # These shifts are real and need to be assigned unless it's a holiday
+        if i not in holidays:
+            s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != -1)
+            s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] != -1)
+            s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+1)] != -1)
+            s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2+1)] != -1)
 
         # Don't be on Sonoflu 2 days in a row
         if i < 4:
@@ -658,19 +741,16 @@ def set_sfl_constraints(s,st): # s = solver
             s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] != st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+2)])
             s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2+2)])
 
-        # HG shouldn't go to SLN
+        # HG doesn't go to SLN
         s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] != SFL_STAFF.index('HG'))
 
-    # Only MSK person can cover SLN TUE
-    s.Add(s.Max([st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),WEEK_SLOTS.index('TUE-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
+    # Only MSK person can cover SLN TUE unless it's a holiday then doesn't matter
+    if WEEKDAYS.index('TUE') not in holidays: s.Add(s.Max([st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),WEEK_SLOTS.index('TUE-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
 
-    # Only MSK person can cover FRE THU
-    s.Add(s.Max([st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),WEEK_SLOTS.index('THU-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
+    # Only MSK person can cover FRE THU unless it's a holiday then doesn't matter
+    if WEEKDAYS.index('THU') not in holidays: s.Add(s.Max([st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),WEEK_SLOTS.index('THU-AM'))] == SFL_STAFF.index(rad) for rad in MSK_STAFF]) == 1)
 
-    # Constraint that HG on FRE fluoro more than once per week
-    #s.Add(np.sum(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] == SFL_STAFF.index('HG') for i in range(len(WEEKDAYS))) > 1)
-
-def set_msk_constraints(s,st): # s = solver
+def set_msk_constraints(s,st,cal,holidays): # s = solver
     
     for i in range(len(WEEK_SLOTS)):
 
@@ -681,16 +761,17 @@ def set_msk_constraints(s,st): # s = solver
 
         # Constraints binding AM/PM rotations
         s.Add(st[(MSK_SHIFTS.index('MSK 8a-12p'),i*2)] == st[(MSK_SHIFTS.index('MSK 12-4p'),i*2+1)])
-
-        # These shifts are real and need to be assigned
-        s.Add(st[(MSK_SHIFTS.index('MSK 8a-12p'),i*2)] != -1)
-        s.Add(st[(MSK_SHIFTS.index('MSK 12-4p'),i*2+1)] != -1)
+        
+        # These shifts are real and need to be assigned unless a holiday
+        if i not in holidays:
+            s.Add(st[(MSK_SHIFTS.index('MSK 8a-12p'),i*2)] != -1)
+            s.Add(st[(MSK_SHIFTS.index('MSK 12-4p'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(MSK_SHIFTS.index('MSK 12-4p'),i*2)] == -1)
         s.Add(st[(MSK_SHIFTS.index('MSK 8a-12p'),i*2+1)] == -1)
 
-def set_abd_constraints(s,st): # s = solver
+def set_abd_constraints(s,st,cal,holidays): # s = solver
     
     for i in range(len(WEEK_SLOTS)):
 
@@ -702,15 +783,16 @@ def set_abd_constraints(s,st): # s = solver
         # Constraints binding AM/PM rotations
         s.Add(st[(ABD_SHIFTS.index('Abdomen 8a-12p'),i*2)] == st[(ABD_SHIFTS.index('Abdomen 12-4p'),i*2+1)])
 
-        # These shifts are real and need to be assigned
-        s.Add(st[(ABD_SHIFTS.index('Abdomen 8a-12p'),i*2)] != -1)
-        s.Add(st[(ABD_SHIFTS.index('Abdomen 12-4p'),i*2+1)] != -1)
+        # These shifts are real and need to be assigned unless a holiday
+        if i not in holidays:
+            s.Add(st[(ABD_SHIFTS.index('Abdomen 8a-12p'),i*2)] != -1)
+            s.Add(st[(ABD_SHIFTS.index('Abdomen 12-4p'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(ABD_SHIFTS.index('Abdomen 12-4p'),i*2)] == -1)
         s.Add(st[(ABD_SHIFTS.index('Abdomen 8a-12p'),i*2+1)] == -1)
 
-def set_ner_constraints(s,st): # s = solver
+def set_ner_constraints(s,st,cal,holidays): # s = solver
     
     for i in range(len(WEEK_SLOTS)):
 
@@ -722,15 +804,16 @@ def set_ner_constraints(s,st): # s = solver
         # Constraints binding AM/PM rotations
         s.Add(st[(NER_SHIFTS.index('Neuro 8a-12p'),i*2)] == st[(NER_SHIFTS.index('Neuro 12-4p'),i*2+1)])
 
-        # These shifts are real and need to be assigned
-        s.Add(st[(NER_SHIFTS.index('Neuro 8a-12p'),i*2)] != -1)
-        s.Add(st[(NER_SHIFTS.index('Neuro 12-4p'),i*2+1)] != -1)
+        # These shifts are real and need to be assigned unless a holiday
+        if i not in holidays:
+            s.Add(st[(NER_SHIFTS.index('Neuro 8a-12p'),i*2)] != -1)
+            s.Add(st[(NER_SHIFTS.index('Neuro 12-4p'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(NER_SHIFTS.index('Neuro 12-4p'),i*2)] == -1)
         s.Add(st[(NER_SHIFTS.index('Neuro 8a-12p'),i*2+1)] == -1)
 
-def set_cht_constraints(s,st): # s = solver
+def set_cht_constraints(s,st,cal,holidays): # s = solver
     
     for i in range(len(WEEK_SLOTS)):
 
@@ -742,15 +825,16 @@ def set_cht_constraints(s,st): # s = solver
         # Constraints binding AM/PM rotations
         s.Add(st[(CHT_SHIFTS.index('Chest/PET 8a-12p'),i*2)] == st[(CHT_SHIFTS.index('Chest/PET 12-4p'),i*2+1)])
 
-        # These shifts are real and need to be assigned
-        s.Add(st[(CHT_SHIFTS.index('Chest/PET 8a-12p'),i*2)] != -1)
-        s.Add(st[(CHT_SHIFTS.index('Chest/PET 12-4p'),i*2+1)] != -1)
+        # These shifts are real and need to be assigned unless a holiday
+        if i not in holidays:
+            s.Add(st[(CHT_SHIFTS.index('Chest/PET 8a-12p'),i*2)] != -1)
+            s.Add(st[(CHT_SHIFTS.index('Chest/PET 12-4p'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(CHT_SHIFTS.index('Chest/PET 12-4p'),i*2)] == -1)
         s.Add(st[(CHT_SHIFTS.index('Chest/PET 8a-12p'),i*2+1)] == -1)
 
-def set_nuc_constraints(s,st): # s = solver
+def set_nuc_constraints(s,st,cal,holidays): # s = solver
     
     for i in range(len(WEEK_SLOTS)):
 
@@ -762,10 +846,11 @@ def set_nuc_constraints(s,st): # s = solver
         # Shifts that don't fit into context (e.g. Nucs not an AM shift)
         s.Add(st[(NUC_SHIFTS.index('Nucs 8a-4p'),i*2)] == -1)
 
-        # The PM Nucs shift must be filled
-        s.Add(st[(NUC_SHIFTS.index('Nucs 8a-4p'),i*2+1)] != -1)
+        # The PM Nucs shift must be filled unless it's a holiday
+        if i not in holidays:
+            s.Add(st[(NUC_SHIFTS.index('Nucs 8a-4p'),i*2+1)] != -1)
 
-def set_sta_constraints(s,st): # s = solver
+def set_sta_constraints(s,st,cal,holidays): # s = solver
     
     for i in range(len(WEEK_SLOTS)):
 
@@ -777,10 +862,11 @@ def set_sta_constraints(s,st): # s = solver
         # Constraints binding AM/PM rotations
         s.Add(st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2)] == st[(STA_SHIFTS.index('STAT1b 12p-4p'),i*2+1)])
 
-        # These shifts are real and need to be assigned
-        s.Add(st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2)] != -1)
-        s.Add(st[(STA_SHIFTS.index('STAT1b 12p-4p'),i*2+1)] != -1)
-        s.Add(st[(STA_SHIFTS.index('STAT2 12p-4p'),i*2+1)] != -1)
+        # These shifts are real and need to be assigned unless it's a holiday
+        if i not in holidays:
+            s.Add(st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2)] != -1)
+            s.Add(st[(STA_SHIFTS.index('STAT1b 12p-4p'),i*2+1)] != -1)
+            s.Add(st[(STA_SHIFTS.index('STAT2 12p-4p'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(STA_SHIFTS.index('STAT1b 12p-4p'),i*2)] == -1)
@@ -791,7 +877,7 @@ def set_sta_constraints(s,st): # s = solver
         if i < 4:
             s.Add(st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2)] != st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2+2)])
 
-def set_opr_constraints(s,st,cal): # s = solver
+def set_opr_constraints(s,st,cal,holidays): # s = solver
     
     # Handle special cases for HG
     hg_idx = ALL_STAFF.index('HG')
@@ -810,11 +896,12 @@ def set_opr_constraints(s,st,cal): # s = solver
         
     for i in range(len(WEEKDAYS)):
 
-        # These shifts are real and need to be assigned
-        s.Add(st[(OPR_SHIFTS.index('OPPR1am'),i*2)] != -1)
-        s.Add(st[(OPR_SHIFTS.index('OPPR2am'),i*2)] != -1)
-        s.Add(st[(OPR_SHIFTS.index('OPPR3pm'),i*2+1)] != -1)
-        s.Add(st[(OPR_SHIFTS.index('OPPR4pm'),i*2+1)] != -1)
+        # These shifts are real and need to be assigned unless it's a holiday
+        if i not in holidays:
+            s.Add(st[(OPR_SHIFTS.index('OPPR1am'),i*2)] != -1)
+            s.Add(st[(OPR_SHIFTS.index('OPPR2am'),i*2)] != -1)
+            s.Add(st[(OPR_SHIFTS.index('OPPR3pm'),i*2+1)] != -1)
+            s.Add(st[(OPR_SHIFTS.index('OPPR4pm'),i*2+1)] != -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(OPR_SHIFTS.index('OPPR3pm'),i*2)] == -1)
@@ -831,7 +918,7 @@ def set_st3_constraints(s,st): # s = solver
     for i in range(len(CALL_SLOTS)):
 
         if i < CALL_SLOTS.index('SAT-AM'): 
-            # These shifts are real and need to be assigned (MON-FRI STAT3)
+            # These shifts are real and need to be assigned (MON-FRI STAT3); figure out how to handle the holiday
             s.Add(st[(ST3_SHIFTS.index('STAT3'),i)] != -1)
         else:
             # Shifts that don't fit into context (e.g. STAT3 not on weekends)
@@ -900,16 +987,16 @@ def set_wmr_constraints(s,st): # s = solver
     s.Add(st[(WMR_SHIFTS.index('WMR'),CALL_SLOTS.index('SAT-PM'))] == st[(WMR_SHIFTS.index('WMR'),CALL_SLOTS.index('SUN-AM'))])
     s.Add(st[(WMR_SHIFTS.index('WMR'),CALL_SLOTS.index('SUN-AM'))] == st[(WMR_SHIFTS.index('WMR'),CALL_SLOTS.index('SUN-PM'))])
 
-def set_scv_constraints(s,st): # s = solver
+def set_scv_constraints(s,st,cal,holidays): # s = solver
 
     for i in range(len(WEEK_SLOTS)):
 
         # No double coverage
         s.Add(s.AllDifferentExcept([st[(j,i)] for j in range(len(SCV_SHIFTS))],-1))
 
-    # On Mondays set having an NEU, MSK, and ABD/CHT SCV 
-    s.Add(s.Max([st[(SCV_SHIFTS.index('SCV1 AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in NER_STAFF]) == 1)
-    s.Add(s.Max([st[(SCV_SHIFTS.index('SCV2 AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in MSK_STAFF+ABD_STAFF]) == 1)
+    # On Mondays set having an NEU, MSK, and ABD/CHT SCV unless it's a holiday 
+    if WEEKDAYS.index('MON') not in holidays: s.Add(s.Max([st[(SCV_SHIFTS.index('SCV1 AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in NER_STAFF]) == 1)
+    if WEEKDAYS.index('MON') not in holidays: s.Add(s.Max([st[(SCV_SHIFTS.index('SCV2 AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in MSK_STAFF+ABD_STAFF]) == 1)
     #s.Add(s.Max([st[(SCV_SHIFTS.index('SCV3 AM'),WEEK_SLOTS.index('MON-AM'))] == SCV_STAFF.index(rad) for rad in ABD_STAFF]) == 1)
     
     for i in range(len(WEEKDAYS)):
@@ -920,7 +1007,19 @@ def set_scv_constraints(s,st): # s = solver
         s.Add(st[(SCV_SHIFTS.index('SCV1 AM'),i*2+1)] == -1)
         s.Add(st[(SCV_SHIFTS.index('SCV2 AM'),i*2+1)] == -1)
         s.Add(st[(SCV_SHIFTS.index('SCV3 AM'),i*2+1)] == -1)
-                
+
+        # don't assign real SCV shifts if it's a holiday 
+        if i in holidays:
+            s.Add(st[(SCV_SHIFTS.index('SCV1 PM'),i*2+1)] == -1)
+            s.Add(st[(SCV_SHIFTS.index('SCV2 PM'),i*2+1)] == -1)
+            s.Add(st[(SCV_SHIFTS.index('SCV1 AM'),i*2)] == -1)
+            s.Add(st[(SCV_SHIFTS.index('SCV2 AM'),i*2)] == -1)
+            s.Add(st[(SCV_SHIFTS.index('SCV3 AM'),i*2)] == -1)
+
+   
+def set_holiday_constraint(s,st,day):
+    pass
+             
 '''
 ====================
  ANALYSIS FUNCTIONS
@@ -963,11 +1062,12 @@ def update_counter(collect,v_staff,v_rots,v_rotprod,v_cntr,cuml,cntr,bias,sect):
 
                 cntr[j,i] = collect.Value(best_solution,v_cntr[(j,i)])
                 cuml[j,i] += collect.Value(best_solution,v_rots[(j,i)])
-    else:
-        print("No solution found.")
 
-    # not updating cumulative b/c it's complex dealing with ndays and not sure if necessary
-    return cuml,cntr,curr
+        # not updating cumulative b/c it's complex dealing with ndays and not sure if necessary
+        return (True, cuml,cntr,curr)
+    else:
+        print("No solution found for section",sect)
+        return (False, sect)
 
 def create_analysis(collect,stafflookup,cuml,cntr,bias,sect):
     print("creating analysis...")
@@ -1351,7 +1451,7 @@ def print_shift_calendar(cal):
             print(line_pm)
             print(line_call)
 
-def print_staff_calendar(cal):
+def print_calendar(cal):
     num_staff, num_slots, num_weeks = cal.shape
 
     #for wk in range(num_weeks):
@@ -1410,34 +1510,35 @@ def build_generic(cal,cuml,cntr,bias,section,limit):
     # Make a solver with random seed
     solver = make_random_solver()
 
-    # Create staff lookup
-    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
-    #staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,section)
+    # Create constraint variables
     v_staff,v_staff_flat,v_rots,v_rots_flat,v_cntr,v_cntr_flat,v_rotprod,v_rotprod_flat,v_tcost,v_pcounts = create_variables(solver,num_slots,section)
 
     # Constraints
     set_day_calendar_constraints(solver,v_staff,cal,section)
 
+    # Handle holidays
+    holidays = get_holidays(cal)
+
     if section == 'brt':      
-        set_brt_constraints(solver,v_staff)
+        set_brt_constraints(solver,v_staff,cal,holidays)
     elif section == 'sfl':
-        set_sfl_constraints(solver,v_staff)
+        set_sfl_constraints(solver,v_staff,cal,holidays)
     elif section == 'msk':
-        set_msk_constraints(solver,v_staff)  
+        set_msk_constraints(solver,v_staff,cal,holidays)  
     elif section == 'ner':
-        set_ner_constraints(solver,v_staff)  
+        set_ner_constraints(solver,v_staff,cal,holidays)  
     elif section == 'abd':
-        set_abd_constraints(solver,v_staff)  
+        set_abd_constraints(solver,v_staff,cal,holidays)  
     elif section == 'cht':
-        set_cht_constraints(solver,v_staff)  
+        set_cht_constraints(solver,v_staff,cal,holidays)  
     elif section == 'nuc':
-        set_nuc_constraints(solver,v_staff)  
+        set_nuc_constraints(solver,v_staff,cal,holidays)  
     elif section == 'sta':
-        set_sta_constraints(solver,v_staff)  
+        set_sta_constraints(solver,v_staff,cal,holidays)  
     elif section == 'opr':
-        set_opr_constraints(solver,v_staff,cal)  
+        set_opr_constraints(solver,v_staff,cal,holidays)  
     elif section == 'scv':
-        set_scv_constraints(solver,v_staff)  
+        set_scv_constraints(solver,v_staff,cal,holidays)  
     else:
         pass
 
@@ -1450,339 +1551,14 @@ def build_generic(cal,cuml,cntr,bias,section,limit):
     #print_solution(solver,collector,v_staff,v_rots,section)
 
     # analyze and sort results based on schedule variance
-    #analysis = create_analysis(collector,staff,cuml,cntr,bias,section)
-    cuml,cntr,currwk = update_counter(collector,v_staff,v_rots,v_rotprod,v_cntr,cuml,cntr,bias,section)
-
-    # Print out the top solution with the least variance
-    #print_analysis(solver,collector,staff,analysis,section)
-    #print_counter(cuml,cntr,currwk,section)
-                   
-    # Use with create analysis
-    #return analysis[2],analysis[3],analysis[4]
-    
-    # Use with update counter
-    return cuml,cntr,currwk
-
-def build_brt(cal,cuml,cntr,bias,limit):
-
-    # Breast settings
-    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('brt')
-    num_slots = len(WEEK_SLOTS)
-    num_days = num_slots/2
-    time_limit = limit
-
-    # Make a solver with random seed
-    solver = make_random_solver()
-
-    # Create staff lookup
-    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
-    #staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'brt')
-    v_staff,v_staff_flat,v_rots,v_rots_flat,v_cntr,v_cntr_flat,v_rotprod,v_rotprod_flat,v_tcost,v_pcounts = create_variables(solver,num_slots,'brt')
-
-    # Constraints
-    set_day_calendar_constraints(solver,v_staff,cal,'brt')
-    set_brt_constraints(solver,v_staff)
-    v_tcost = set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_tcost,cntr,bias,'brt')
-
-    # Creating decision builder and collector
-    collector = get_collector_obj(solver,v_staff_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat,v_tcost,time_limit)
-
-    # test printing the results
-    #print_solution(solver,collector,v_staff,v_rots,'brt')
-
-    # analyze and sort results based on schedule variance
-    #analysis = create_analysis(collector,staff,cuml,cntr,bias,'brt')
-    cuml,cntr,currwk = update_counter(collector,v_staff,v_rots,v_rotprod,v_cntr,cuml,cntr,bias,'brt')
-
-    # Print out the top solution with the least variance
-    #print_analysis(solver,collector,staff,analysis,'brt')
-    print_counter(cuml,cntr,currwk,'brt')
-                   
-    # Use with create analysis
-    #return analysis[2],analysis[3],analysis[4]
-    
-    # Use with update counter
-    return cuml,cntr,currwk
-
-def build_sfl(cal,cuml,cntr,bias,limit):
-    
-    # Sonoflu settings
-    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('sfl')
-    num_slots = len(WEEK_SLOTS)
-    num_days = num_slots/2
-    time_limit = limit
-
-    # Make a solver with random seed
-    solver = make_random_solver()
-
-    # Create staff lookup
-    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
-    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'sfl')
-
-    # Constraints
-    set_day_calendar_constraints(solver,staff,cal,'sfl')
-    set_sfl_constraints(solver,staff)
-
-    # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
-    #collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
-
-    # analyze and sort results based on schedule variance
-    analysis = create_analysis(collector,staff,cuml,cntr,bias,'sfl')
-
-    # Print out the top solution with the least variance
-    #print_analysis(solver,collector,staff,analysis,'sfl')
-
-    return analysis[2],analysis[3],analysis[4]
-
-def build_msk(cal,cuml,cntr,bias,limit):
-    
-    # Sonoflu settings
-    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('msk')
-
-    num_slots = len(WEEK_SLOTS)
-    num_days = num_slots/2
-    time_limit = limit
-
-    # Make a solver with random seed
-    solver = make_random_solver()
-
-    # Create staff lookup
-    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
-    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'msk')
-
-    # Constraints
-    set_day_calendar_constraints(solver,staff,cal,'msk')
-    set_msk_constraints(solver,staff)
-
-    # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
-    #collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
-
-    # analyze and sort results based on schedule variance
-    analysis = create_analysis(collector,staff,cuml,cntr,bias,'msk')
-
-    # Print out the top solution with the least variance
-    #print_analysis(solver,collector,staff,analysis,'msk')
-
-    return analysis[2],analysis[3],analysis[4]
-
-def build_ner(cal,cuml,cntr,bias,limit):
-    
-    # Sonoflu settings
-    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('ner')
-    num_slots = len(WEEK_SLOTS)
-    num_days = num_slots/2
-    time_limit = limit
-
-    # Make a solver with random seed
-    solver = make_random_solver()
-
-    # Create staff lookup
-    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
-    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'ner')
-
-    # Constraints
-    set_day_calendar_constraints(solver,staff,cal,'ner')
-    set_ner_constraints(solver,staff)
-
-    # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
-    #collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
-
-    # analyze and sort results based on schedule variance
-    analysis = create_analysis(collector,staff,cuml,cntr,bias,'ner')
-
-    # Print out the top solution with the least variance
-    #print_analysis(solver,collector,staff,analysis,'ner')
-
-    return analysis[2],analysis[3],analysis[4]
-
-def build_abd(cal,cuml,cntr,bias,limit):
-    
-    # Sonoflu settings
-    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('abd')
-    num_slots = len(WEEK_SLOTS)
-    num_days = num_slots/2
-    time_limit = limit
-
-    # Make a solver with random seed
-    solver = make_random_solver()
-
-    # Create staff lookup
-    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
-    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'abd')
-
-    # Constraints
-    set_day_calendar_constraints(solver,staff,cal,'abd')
-    set_abd_constraints(solver,staff)
-
-    # Creating decision builder and collector
-    collector = get_collector(solver,staff_flat,time_limit)
-    #collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
-
-    # analyze and sort results based on schedule variance
-    analysis = create_analysis(collector,staff,cuml,cntr,bias,'abd')
-
-    # Print out the top solution with the least variance
-    #print_analysis(solver,collector,staff,analysis,'abd')
-
-    return analysis[2],analysis[3],analysis[4]
-
-def build_cht(cal,cuml,cntr,bias,limit):
-    
-    # Sonoflu settings
-    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('cht')
-    num_slots = len(WEEK_SLOTS)
-    num_days = num_slots/2
-    time_limit = limit
-
-    # Make a solver with random seed
-    solver = make_random_solver()
-
-    # Create staff lookup
-    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
-    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'cht')
-
-    # Constraints
-    set_day_calendar_constraints(solver,staff,cal,'cht')
-    set_cht_constraints(solver,staff)
-
-    # Creating decision builder and collector
-    #collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
-    collector = get_collector(solver,staff_flat,time_limit)
-
-    # analyze and sort results based on schedule variance
-    analysis = create_analysis(collector,staff,cuml,cntr,bias,'cht')
-
-    # Print out the top solution with the least variance
-    #print_analysis(solver,collector,staff,analysis,'cht')
-
-    return analysis[2],analysis[3],analysis[4]
-
-def build_nuc(cal,cuml,cntr,bias,limit):
-    
-    # Sonoflu settings
-    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('nuc')
-    num_slots = len(WEEK_SLOTS)
-    num_days = num_slots/2
-    time_limit = limit
-
-    # Make a solver with random seed
-    solver = make_random_solver()
-
-    # Create staff lookup
-    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
-    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'nuc')
-
-    # Constraints
-    set_day_calendar_constraints(solver,staff,cal,'nuc')
-    set_nuc_constraints(solver,staff)
-
-    # Creating decision builder and collector
-    #collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
-    collector = get_collector(solver,staff_flat,time_limit)
-
-    # analyze and sort results based on schedule variance
-    analysis = create_analysis(collector,staff,cuml,cntr,bias,'nuc')
-
-    # Print out the top solution with the least variance
-    #print_analysis(solver,collector,staff,analysis,'nuc')
-
-    return analysis[2],analysis[3],analysis[4]
-
-def build_sta(cal,cuml,cntr,bias,limit):
-    
-    # Sonoflu settings
-    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('sta')
-    num_slots = len(WEEK_SLOTS)
-    num_days = num_slots/2
-    time_limit = limit
-
-    # Make a solver with random seed
-    solver = make_random_solver()
-
-    # Create staff lookup
-    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
-    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'sta')
-
-    # Constraints
-    set_day_calendar_constraints(solver,staff,cal,'sta')
-    set_sta_constraints(solver,staff)
-
-    # Creating decision builder and collector
-    #collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
-    collector = get_collector(solver,staff_flat,time_limit)
-
-    # analyze and sort results based on schedule variance
-    analysis = create_analysis(collector,staff,cuml,cntr,bias,'sta')
-
-    # Print out the top solution with the least variance
-    #print_analysis(solver,collector,staff,analysis,'sta')
-
-    return analysis[2],analysis[3],analysis[4]
-
-def build_opr(cal,cuml,cntr,bias,limit):
-    
-    # Sonoflu settings
-    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('opr')
-    num_slots = len(WEEK_SLOTS)
-    num_days = num_slots/2
-    time_limit = limit
-
-    # Make a solver with random seed
-    solver = make_random_solver()
-
-    # Create staff lookup
-    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
-    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'opr')
-
-    # Constraints
-    set_day_calendar_constraints(solver,staff,cal,'opr')
-    set_opr_constraints(solver,staff,cal)
-
-    # Creating decision builder and collector
-    #collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
-    collector = get_collector(solver,staff_flat,time_limit)
-
-    # analyze and sort results based on schedule variance
-    analysis = create_analysis(collector,staff,cuml,cntr,bias,'opr')
-
-    # Print out the top solution with the least variance
-    #print_analysis(solver,collector,staff,analysis,'opr')
-
-    return analysis[2],analysis[3],analysis[4]
-
-def build_scv(cal,cuml,cntr,bias,limit):
-    
-    # Sonoflu settings
-    num_staff,num_shifts,_,_ = get_section_nstaff_nshifts_staff_shifts('scv')
-    num_slots = len(WEEK_SLOTS)
-    num_days = num_slots/2
-    time_limit = limit
-
-    # Make a solver with random seed
-    solver = make_random_solver()
-
-    # Create staff lookup
-    #staff, staff_flat = create_staff_lookup(solver,num_slots,num_shifts,num_staff)
-    staff, staff_flat, pcounts = create_staff_counts_lookup(solver,num_slots,'scv')
-
-    # Constraints
-    set_day_calendar_constraints(solver,staff,cal,'scv')
-    set_scv_constraints(solver,staff)
-
-    # Creating decision builder and collector
-    #collector = get_collector_obj(solver,staff_flat,time_limit,pcounts)
-    collector = get_collector(solver,staff_flat,time_limit)
-
-    # analyze and sort results based on schedule variance
-    analysis = create_analysis(collector,staff,cuml,cntr,bias,'scv')
-
-    # Print out the top solution with the least variance
-    #print_analysis(solver,collector,staff,analysis,'scv')
-
-    return analysis[2],analysis[3],analysis[4]
+    counter_result = update_counter(collector,v_staff,v_rots,v_rotprod,v_cntr,cuml,cntr,bias,section)
+    if counter_result[0] is True:
+        cuml,cntr,currwk = counter_result[1], counter_result[2], counter_result[3] 
+
+        # Use with update counter
+        return (True,cuml,cntr,currwk)
+    else:
+        return (False, section)
 
 def build_st3(cal,cuml,cntr,bias,limit):
     
@@ -1924,9 +1700,6 @@ def build_wmr(cal,cuml,cntr,bias,limit):
 
     return analysis[2],analysis[3],analysis[4]
 
-def build_other(cal,cuml,cntr,bias):
-    return cuml, cntr
-
 def build_pool_days(pools,nweeks,calendar,limit):
     
     time_limit = limit
@@ -1935,18 +1708,45 @@ def build_pool_days(pools,nweeks,calendar,limit):
     solver = make_random_solver()
 
     # Create shifts lookup
-    shifts, shifts_flat = create_shifts_lookup(solver,nweeks,pools)
+    v_shifts, v_shifts_flat = create_pool_shifts(solver,nweeks,pools)
     
     # Constraints
-    set_pool_constraints(solver,pools,nweeks,shifts,calendar)
+    set_pool_constraints(solver,pools,nweeks,v_shifts,calendar)
 
     # Creating decision builder and collector
-    collector = get_collector(solver,shifts_flat,time_limit)
+    collector = get_collector(solver,v_shifts_flat,time_limit)
 
     # Print results
     #print_pool_results(collector,shifts,pools,nweeks)
-    calendar = update_pool_calendar(collector,calendar,shifts,nweeks,pools)
+    calendar = update_pool_calendar(collector,calendar,v_shifts,nweeks,pools)
+
+    '''v_staff,v_staff_flat,v_rots,v_rots_flat,v_cntr,v_cntr_flat,v_rotprod,v_rotprod_flat,v_tcost,v_pcounts = create_variables(solver,num_slots,'brt')
+
+    # Constraints
+    set_day_calendar_constraints(solver,v_staff,cal,'brt')
+    set_brt_constraints(solver,v_staff)
+    v_tcost = set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_tcost,cntr,bias,'brt')
+
+    # Creating decision builder and collector
+    collector = get_collector_obj(solver,v_staff_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat,v_tcost,time_limit)
+
+    # test printing the results
+    #print_solution(solver,collector,v_staff,v_rots,'brt')
+
+    # analyze and sort results based on schedule variance
+    #analysis = create_analysis(collector,staff,cuml,cntr,bias,'brt')
+    cuml,cntr,currwk = update_counter(collector,v_staff,v_rots,v_rotprod,v_cntr,cuml,cntr,bias,'brt')
+
+    # Print out the top solution with the least variance
+    #print_analysis(solver,collector,staff,analysis,'brt')
+    print_counter(cuml,cntr,currwk,'brt')
+                   
+    # Use with create analysis
+    #return analysis[2],analysis[3],analysis[4]
     
+    # Use with update counter
+    return cuml,cntr,currwk'''
+
     return calendar
 
 def build_multi_day(nweeks,sects,limit,calendar):
@@ -1954,42 +1754,12 @@ def build_multi_day(nweeks,sects,limit,calendar):
     ndays = len(WEEKDAYS)
 
     for j in range(len(sects)):
-        if sects[j] == 'brt':
-            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('brt')            
-            bias = init_brt_bias()
-        elif sects[j] == 'sfl':
-            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('sfl')      
-            bias = init_sfl_bias()
-        elif sects[j] == 'msk':
-            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('msk')      
-            bias = init_msk_bias()
-        elif sects[j] == 'ner':
-            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('ner')      
-            bias = init_ner_bias()
-        elif sects[j] == 'abd':
-            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('abd')      
-            bias = init_abd_bias()
-        elif sects[j] == 'cht':
-            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('cht')      
-            bias = init_cht_bias()
-        elif sects[j] == 'nuc':
-            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('nuc')      
-            bias = init_nuc_bias()
-        elif sects[j] == 'sta':
-            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('sta')      
-            bias = init_sta_bias()
-        elif sects[j] == 'opr':
-            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('opr')      
-            bias = init_opr_bias()
-        elif sects[j] == 'scv':
-            nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots('scv')      
-            bias = init_scv_bias()
-        else:
-            nstaff = len(OTHER_STAFF)
-            nrots = len(OTHER_ROTS)
-            bias = init_other_bias()
-            
+
+        # set the bias matrix for the given sub-section
+        bias = get_bias(sects[j])
+
         # cumulative and counter are in the "rotation" context
+        nstaff,nrots,_,_ = get_section_nstaff_nrots_staff_rots(sects[j])  
         cumulative = np.zeros((nstaff,nrots),dtype='int64') 
         counter = np.zeros((nstaff,nrots),dtype='int64')
 
@@ -1998,49 +1768,15 @@ def build_multi_day(nweeks,sects,limit,calendar):
             print("===========================================")
             print("          WEEK #",int(i+1)," ",sects[j])
             print("===========================================")
-            
-            cumulative,counter,recentweek = build_generic(calendar[:,:,i],cumulative,counter,bias,sects[j],limit) # recentweek is to update_calendar matrix
-            calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],sects[j])
 
-            '''if sects[j] == 'brt':      
-                #cumulative,counter,recentweek = build_brt(calendar[:,:,i],cumulative,counter,bias,limit) # recentweek is to update_calendar matrix
-                cumulative,counter,recentweek = build_generic(calendar[:,:,i],cumulative,counter,bias,'brt',limit) # recentweek is to update_calendar matrix
-                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'brt')
-            elif sects[j] == 'sfl':
-                cumulative,counter,recentweek = build_sfl(calendar[:,:,i],cumulative,counter,bias,limit)
-                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'sfl')
-            elif sects[j] == 'msk':
-                cumulative,counter,recentweek = build_msk(calendar[:,:,i],cumulative,counter,bias,limit)
-                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'msk')
-            elif sects[j] == 'ner':
-                cumulative,counter,recentweek = build_ner(calendar[:,:,i],cumulative,counter,bias,limit)
-x                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'ner')
-            elif sects[j] == 'abd':
-                cumulative,counter,recentweek = build_abd(calendar[:,:,i],cumulative,counter,bias,limit)
-                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'abd')
-            elif sects[j] == 'cht':
-                cumulative,counter,recentweek = build_cht(calendar[:,:,i],cumulative,counter,bias,limit)
-                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'cht')
-            elif sects[j] == 'nuc':
-                cumulative,counter,recentweek = build_nuc(calendar[:,:,i],cumulative,counter,bias,limit)
-                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'nuc')
-            elif sects[j] == 'sta':
-                cumulative,counter,recentweek = build_sta(calendar[:,:,i],cumulative,counter,bias,limit)
-                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'sta')
-            elif sects[j] == 'opr':
-                cumulative,counter,recentweek = build_opr(calendar[:,:,i],cumulative,counter,bias,limit)
-                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'opr')
-            elif sects[j] == 'scv':
-                cumulative,counter,recentweek = build_scv(calendar[:,:,i],cumulative,counter,bias,limit)
-                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],'scv')
+            build_result = build_generic(calendar[:,:,i],cumulative,counter,bias,sects[j],limit) # recentweek is to update_calendar matrix            
+            if build_result[0] is True:
+                cumulative,counter,recentweek = build_result[1], build_result[2], build_result[3] 
+                calendar[:,:,i] = update_calendar(recentweek,calendar[:,:,i],sects[j])
             else:
-                currwk_cal = calendar[:,:,i]
-                cumulative,counter = build_other(currwk_cal,cumulative,counter,bias)'''
+                return (False,build_result[1])
 
-            #print_results(cumulative,sects[j])
-            #print_results(counter,sects[j])
-
-    return calendar
+    return (True,calendar)
 
 def build_multi_call(nweeks,sects,limit,calendar):
     
@@ -2091,9 +1827,8 @@ def build_multi_call(nweeks,sects,limit,calendar):
                 cumulative,counter,recentweek = build_wmr(calendar[:,:,i],cumulative,counter,bias,limit)
                 calendar[:,:,i] = update_call_calendar(recentweek,calendar[:,:,i],'wmr')
             else:
-                currwk_cal = calendar[:,:,i]
-                cumulative,counter = build_other(currwk_cal,cumulative,counter,bias)
-
+                pass
+                
             print_call_results(cumulative,sects[j])
             #print_call_results(counter,sects[j])
 
@@ -2530,51 +2265,62 @@ def main():
 
     # Top level settings
     num_weeks = 4
-
-    # set to "0" for no limit
-    time_limit = 1000
-    day_sections = ['brt','cht','nuc','msk','sfl','abd','ner','sta','scv','opr']
+    time_limit = 1000 # set to "0" for no limit
+    day_sections = ['brt','cht','nuc','sfl','msk','abd','ner','sta','scv','opr']
+    #day_sections = ['brt','cht','nuc','msk','abd','ner','sta','scv','opr']
     #day_sections = ['brt']
-    #day_sections = []
-    #call_sections = [
-    #call_sections = ['swg','stw']
     #call_sections = ['st3','swg','stw','wsp','wmr']
-    #call_sections = ['stw']
-    #call_sections = ['swg']
-    #sections = ['cht']
-    #sections = ['sonoflu']
-    fname = '/Users/jasonbalkman/Documents/KAISER/SCHEDULE_ANALYSIS/DATA/Staff_Aug2018.csv'
+    #fname = '/Users/jasonbalkman/Documents/KAISER/SCHEDULE_ANALYSIS/DATA/Staff_Aug2018.csv' # history input data
+    fname = '/Users/jasonbalkman/Documents/KAISER/SCHEDULE_ANALYSIS/DATA/Holiday.csv' # history input data
 
     # Used for keeping track of the schedule by staff; overwritten by qa.qgimport
-    staff_calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
+    calinit = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
 
     # Get the department information from file
-    dept = qa.load_data(fname)
-    staff_calendar = qa.qgimport(dept).astype('int64')
+    if fname:
+        dept = qa.load_data(fname)
+        calinit = qa.qgimport(dept).astype('int64')
+    else:
+        holidays = [(0,0)]
+        set_holidays(calinit,holidays)
 
     # Set schedules by certain days to work (such as for pools)
     #pooldays = [('CCM',((0,0),(0,2),(0,4)))]
     #pooldays = [('CCM',((0,0),(0,2),(0,4))),
                 #('JK',((0,1),(0,3)))]
-    #staff_calendar = build_pool_days(pooldays,num_weeks,staff_calendar,time_limit)
+    #calinit = build_pool_days(pooldays,num_weeks,calinit,time_limit)
 
-    # Set staff_calendar constraints
+    # Set calinit constraints
     for i in range(num_weeks):
-        set_staffday(staff_calendar,'GJS',i,4,'Admin Day')
-        set_staffday(staff_calendar,'GJS',i,2,'Admin Day')
-        set_staffday(staff_calendar,'RV',i,4,'Day Off')
-        set_staffday(staff_calendar,'RV',i,2,'Day Off')
-    #set_staffshift(staff_calendar,'EEP',3,0,1,'OPPR4pm')
+        #set_staffday(calinit,'GJS',i,4,'Admin Day')
+        #set_staffday(calinit,'GJS',i,2,'Admin Day')
+        set_staffday(calinit,'RV',i,4,'Day Off')
+        set_staffday(calinit,'RV',i,2,'Day Off')
+    #set_staffshift(calinit,'EEP',3,0,1,'OPPR4pm')
 
     # Build multiphase call schedule
     #if call_sections:
-    #    staff_calendar = build_multi_call(num_weeks,call_sections,time_limit,staff_calendar)
+    #    cal = build_multi_call(num_weeks,call_sections,time_limit,cal)
 
     # Build multiphase weekday schedule
     if day_sections:
-        staff_calendar = build_multi_day(num_weeks,day_sections,time_limit,staff_calendar)
+        attempt = 1
+        calresult = (False,False) # initialize for the first pass
+        calbackup = np.copy(calinit) # use to reset the calendar in case failed assignment
 
-    print_staff_calendar(staff_calendar)
+        while calresult[0] is False and attempt < 100:
+            print("** ATTEMPT",attempt,"** :",day_sections)
+            calresult = build_multi_day(num_weeks,day_sections,time_limit,calinit)
+            if calresult[0] is False:
+                section_fail = calresult[1]
+                day_sections = juggle_sections(day_sections,section_fail)
+                calinit = np.copy(calbackup) # reset the calendar from the beginning otherwise the old assignments will convert to constraints
+                attempt += 1
+        if attempt < 100:
+            print_calendar(calresult[1])
+        else:
+            print("No solution could be found after 100 attempts at reshuffling the sections.")
+
     #print_csv_staff_calendar(staff_calendar)
     #print_shift_calendar(shift_calendar)        
 

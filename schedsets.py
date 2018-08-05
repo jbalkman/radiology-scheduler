@@ -148,8 +148,9 @@ SCV_SHIFTS = ('SCV1 AM','SCV2 AM','SCV3 AM','SCV1 PM','SCV2 PM')
 EVE_SHIFTS = ('STAT3 4p-11p','Nightshift 11p-12a','Nightshift 1201a-8a','NeuroNH 11p-12a','NeuroNH 1201a-8a')
 
 # Rotations - to measure equality
-BRT_ROTS = ('UNC_Diag','UNC_Proc','FRE_Mamm','SLN_Mamm')
+BRT_ROTS = ('UNC_Diag','UNC_Proc','FRE_Mamm','SLN_Mamm','TB')
 SFL_ROTS = ('FRE_Sonoflu','SLN_Sonoflu')
+#SFL_ROTS = ('Sonoflu') # no need to distinguish between FRE and SLN
 MSK_ROTS = ('MSK',)
 NER_ROTS = ('Neuro',)
 ABD_ROTS = ('Abdomen',)
@@ -165,19 +166,19 @@ WMR_ROTS = ('WMR',)
 SCV_ROTS = ('SCV',)
 
 # Staff Lists
-ALL_STAFF = ('JDB','SDE','HG','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','ATR','SXK','BJK','JK')
+ALL_STAFF = ('JDB','SDE','HG','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','SXK','BJK','JK','RCK')
 #ALL_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','SMN') # used for testing
 BRT_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM')
 SFL_STAFF = ('JDB','SDE','HG','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','JK')
 MSK_STAFF = ('CCM','GJS','GSr','DRL','SJP','JK')
 MSV_STAFF = ('CCM','GJS','GSr','DRL','SJP')
-NER_STAFF = ('EEP','GSr','JFK','SMN','SJP','BJK','ATR')
+NER_STAFF = ('EEP','GSr','JFK','SMN','SJP','BJK')
 NSV_STAFF = ('EEP','GSr','JFK','SMN','SJP')
-ABD_STAFF = ('BCL','DSL','HSS','JKL','SH','ATR')
+ABD_STAFF = ('BCL','DSL','HSS','JKL','SH')
 ASV_STAFF = ('BCL','DSL','HSS','JKL','SH')
 CHT_STAFF = ('BCL','GJS','SMN','RV','JKL')
-NUC_STAFF = ('SMN','GSr','HG')
-STA_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSr','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','JK','BJK','ATR')
+NUC_STAFF = ('SMN','GSr','HG','RCK')
+STA_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSr','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','JK','BJK')
 OPR_STAFF = ALL_STAFF
 ST3_STAFF = ('JDB','SDE','GHL','DCN','JKS','GJS','GSr','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','RV')
 #ST3_STAFF = ALL_STAFF # used for testing
@@ -185,9 +186,8 @@ SWG_STAFF = ALL_STAFF
 STW_STAFF = ST3_STAFF
 WSP_STAFF = ('JDB','SDE','GHL','DCN','JKS','BCL','DSL','HSS','JKL','HG','RV')
 WMR_STAFF = ('GJS','GSr','DRL','SJP','EEP','JFK','SMN','SH')
-SCV_STAFF = ('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','ATR','BJK','JK') #('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM')
-LCM_STAFF = ('CCM','ATR','SXK','BJK','JK')
-POOLS = ('CCM','ATR','SXK','BJK','JK')
+SCV_STAFF = ('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','BJK','JK') #('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM')
+LCM_STAFF = ('CCM','SXK','BJK','JK','RCK')
 
 # General Use
 WEEKDAYS = ('MON','TUE','WED','THU','FRI')
@@ -497,15 +497,15 @@ def get_section_nstaff_nshifts_staff_shifts(sect):
     
     return num_staff,num_shifts,staff,shifts
 
-def get_collector_obj(slvr,v_staff_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat,v_tcost,tlimit):
+def get_collector_obj(solver,v_staff_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat,v_tcost,tlimit):
 
     # Create the decision builder.
     print("creating decision builder...")
-    db = slvr.Phase(v_staff_flat, slvr.CHOOSE_RANDOM, slvr.ASSIGN_RANDOM_VALUE)
+    db = solver.Phase(v_staff_flat, solver.CHOOSE_RANDOM, solver.ASSIGN_RANDOM_VALUE)
 
     # Create the solution collector.
     print("creating collector...")
-    solution = slvr.Assignment()
+    solution = solver.Assignment()
     solution.Add(v_staff_flat)
     solution.Add(v_rots_flat)
     solution.Add(v_cntr_flat)
@@ -513,44 +513,44 @@ def get_collector_obj(slvr,v_staff_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat,v
     solution.Add(v_tcost)
 
     # Objective
-    #objective = slvr.Minimize(pcounts, 1)
-    objective = slvr.Minimize(v_tcost, 1)
+    #objective = solver.Minimize(pcounts, 1)
+    objective = solver.Minimize(v_tcost, 1)
 
     # Create collector
-    #collector = slvr.AllSolutionCollector(solution)
-    collector = slvr.LastSolutionCollector(solution)
+    #collector = solver.AllSolutionCollector(solution)
+    collector = solver.LastSolutionCollector(solution)
 
     if tlimit > 0:
-        time_limit_ms = slvr.TimeLimit(tlimit)
-        slvr.Solve(db,[time_limit_ms, collector, objective])
+        time_limit_ms = solver.TimeLimit(tlimit)
+        solver.Solve(db,[time_limit_ms,objective,collector])
     else:        
-        slvr.Solve(db,[collector, objective])
+        solver.Solve(db,[objective,collector])
 
     num_solutions = collector.SolutionCount()
-    '''print("number of solutions:",num_solutions)
-    for sol in range(num_solutions):
+    #print("number of solutions:",num_solutions)
+    '''for sol in range(num_solutions):
         print("Solution",sol,collector.Value(sol,pcounts))'''
  
     return collector
 
-def get_collector(slvr,flat,tlimit):
+def get_collector(solver,flat,tlimit):
 
     # Create the decision builder.
     print("creating decision builder...")
-    db = slvr.Phase(flat, slvr.CHOOSE_RANDOM, slvr.ASSIGN_RANDOM_VALUE)
+    db = solver.Phase(flat, solver.CHOOSE_RANDOM, solver.ASSIGN_RANDOM_VALUE)
 
     # Create the solution collector.
     print("creating collector...")
-    solution = slvr.Assignment()
+    solution = solver.Assignment()
     solution.Add(flat)
 
     # Create collector
-    collector = slvr.AllSolutionCollector(solution)
+    collector = solver.AllSolutionCollector(solution)
 
     if tlimit > 0:
-        time_limit_ms = slvr.TimeLimit(tlimit)
-        slvr.Solve(db,[time_limit_ms, collector])
+        time_limit_ms = solver.TimeLimit(tlimit)
+        solver.Solve(db,[time_limit_ms, collector, objective])
     else:        
-        slvr.Solve(db,[collector, objective])
+        solver.Solve(db,[collector, objective])
 
     return collector
