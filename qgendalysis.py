@@ -424,6 +424,7 @@ def qgimport(dept):
             for j in range(firstmonday,s.sshape[1]):
                 for slt in range(s.sshape[0]):
                     shift = Rotations[s.schedule[slt,j]]
+                    #print("shift:",shift) # can use to debug if new imports fail b/c of unrecognized codes
                     if cidx%7 < 5: # handle weekdays
                         if ShiftSlots[shift] == Slots.index('AM'):
                             cal[sidx,(cidx%7)*2,cidx/7] = ALL_SHIFTS.index(shift)

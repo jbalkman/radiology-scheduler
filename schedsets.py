@@ -13,85 +13,87 @@
 #ALL_SHIFTS = ['----','UNC_Diag_AM','UNC_Diag_PM','UNC_Proc_AM','UNC_Proc_PM','FRE_Mamm','SLN_Mamm','FRE_Sonoflu_AM','FRE_Sonoflu_PM','SLN_Sonoflu_AM','SLN_Sonoflu_PM','MSK_AM','MSK_PM','Neuro_AM','Neuro_PM','Abdomen_AM','Abdomen_PM','Chest/PET_AM','Chest/PET_PM','Nucs','STAT1_AM','STAT1b_PM','STAT2_PM','OPPR1_AM','OPPR2_AM','OPPR3_PM','OPPR4_PM','STAT3','Swing','STATW_AM','STATW_PM','WUSPR','WMR','SCV1_AM','SCV2_AM','SCV3_AM','SCV1_PM','SCV2_PM','Admin','Vaca','Leave'] # make sure all > 'Admin' are forms of leave
 
 ALL_SHIFTS = ("","Vacation",
-             "Admin Day",
-             "Admin AM",
-             "Admin PM",
-             "Leave AM",
-             "Leave PM",
-             "Leave Day",
-             "Flex Vaca Day",
-             "Day Off",
-             "Off AM",
-             "Off PM",
-             "Meeting",
-             "STAT1 8a-12p",
-             "STAT1b 12p-4p",
-             "STAT2 12p-4p",
-             "STAT3 4p-11p",
-             "FluoroCall 8a-1159p",
-             "Swing",
-             "STATWAM 8a-330p",
-             "ER PR 1",
-             "STATWPM 330p-11p",
-             "ER PR 2",
-             "Nightshift 11p-12a",
-             "Nightshift 1201a-8a",
-             "NeuroNH 11p-12a",
-             "NeuroNH 1201a-8a",
-             "Overnight Fluoro/MRI(a) 11p-12a",
-             "Overnight Fluoro/MRI(b) 1201a-8a",
-             "Backup Fluoro Call(a) 11p-12a",
-             "Backup Fluoro Call(b) 1201a-8a",
-             "WMR",
-             "WUSPR",
-             "OPPR1am",
-             "OPPR2am",
-             "OPPR3pm",
-             "OPPR4pm",
-             "TBA",
-             "Sonoflu Backup",
-             "SCVam abd-chest",
-             "SCVam msk-neuro",
-             "SCV1 AM",
-             "SCV1 PM",
-             "SCV2 AM",
-             "SCV2 PM",
-             "SCV3 AM",
-             "Abdomen 8a-12p",
-             "Abdomen 12-4p",
-             "Chest/PET 8a-12p",
-             "Chest/PET 12-4p",
-             "MSK 8a-12p",
-             "MSK 12-4p",
-             "Neuro 8a-12p",
-             "Neuro 12-4p",
-             "UCMam Diag 8a-12p",
-             "UCMam Diag 12-4p",
-             "UCMam Proc 8a-12p",
-             "UCMam Proc 12-4p",
-             "FreMam halfday",
-             "SL Mam 8a-12p",
-             "UCMammoBackup",
-             "Nucs 8a-4p",
-             "SL US/Fluoro 8a-4p",
-             "Fre US/Fluoro 8a-4p",
-             "IR:FRE 8a-630p",
-             "IR1:SLN 8a-630p",
-             "IR3:SLN 8a-630p",
-             "IR2:SLN 8a-630p",
-             "IR:Admin",
-             "IR:Leave",
-             "IR:On-Call",
-             "Tumor Board",
-             "ICU Rds",
-             "Holiday",
-             "No Call",
-             "RSO",
-             "Backfill",
-             "DFD",
-             "Not Working",
-             "Manager On-Call",
-             "1-844-230-9729")
+              "Admin Day",
+              "Admin AM",
+              "Admin PM",
+              "Leave AM",
+              "Leave PM",
+              "Leave Day",
+              "Flex Vaca Day",
+              "Day Off",
+              "Off AM",
+              "Off PM",
+              "Meeting",
+              "STAT1 8a-12p",
+              "STAT1b 12p-4p",
+              "STAT2 12p-4p",
+              "STAT3 4p-11p",
+              "FluoroCall 8a-1159p",
+              "Swing",
+              "STATWAM 8a-330p",
+              "ER PR 1",
+              "STATWPM 330p-11p",
+              "ER PR 2",
+              "Nightshift 11p-12a",
+              "Nightshift 1201a-8a",
+              "NeuroNH 11p-12a",
+              "NeuroNH 1201a-8a",
+              "Regional Stroke Alert 8a-4p",
+              "Regional Stroke Alert 4p-12a",
+              "Overnight Fluoro/MRI(a) 11p-12a",
+              "Overnight Fluoro/MRI(b) 1201a-8a",
+              "Backup Fl uoro Call(a) 11p-12a",
+              "Backup Fluoro Call(b) 1201a-8a",
+              "WMR",
+              "WUSPR",
+              "OPPR1am",
+              "OPPR2am",
+              "OPPR3pm",
+              "OPPR4pm",
+              "TBA",
+              "Sonoflu Backup",
+              "SCVam abd-chest",
+              "SCVam msk-neuro",
+              "SCV2 AM",
+              "SCV2 PM",
+              "SCV3 AM",
+              "SCV AM",
+              "SCV PM",
+              "Abdomen 8a-12p",
+              "Abdomen 12-4p",
+              "Chest/PET 8a-12p",
+              "Chest/PET 12-4p",
+              "MSK 8a-12p",
+              "MSK 12-4p",
+              "Neuro 8a-12p",
+              "Neuro 12-4p",
+              "UCMam Diag 8a-12p",
+              "UCMam Diag 12-4p",
+              "UCMam Proc 8a-12p",
+              "UCMam Proc 12-4p",
+              "FreMam halfday",
+              "SL Mam 8a-12p",
+              "UCMammoBackup",
+              "Nucs 8a-4p",
+              "SL US/Fluoro 8a-4p",
+              "Fre US/Fluoro 8a-4p",
+              "IR:FRE 8a-630p",
+              "IR1:SLN 8a-630p",
+              "IR3:SLN 8a-630p",
+              "IR2:SLN 8a-630p",
+              "IR:Admin",
+              "IR:Leave",
+              "IR:On-Call",
+              "Tumor Board",
+              "ICU Rds",
+              "Holiday",
+              "No Call",
+              "RSO",
+              "Backfill",
+              "DFD",
+              "Not Working",
+              "Manager On-Call",
+              "1-844-230-9729")
 
 AM_SHIFTS = ("STAT1 8a-12p",
              "OPPR1am",
@@ -144,8 +146,9 @@ SWG_SHIFTS = ('Swing',)
 STW_SHIFTS = ('STATWAM 8a-330p','STATWPM 330p-11p')
 WSP_SHIFTS = ('WUSPR',)
 WMR_SHIFTS = ('WMR',)
-SCV_SHIFTS = ('SCV1 AM','SCV2 AM','SCV3 AM','SCV1 PM','SCV2 PM')
+SCV_SHIFTS = ('SCV AM','SCV2 AM','SCV3 AM','SCV PM','SCV2 PM')
 EVE_SHIFTS = ('STAT3 4p-11p','Nightshift 11p-12a','Nightshift 1201a-8a','NeuroNH 11p-12a','NeuroNH 1201a-8a')
+ADM_SHIFTS = ('Admin Day','Admin AM','Admin PM')
 
 # Rotations - to measure equality
 BRT_ROTS = ('UNC_Diag','UNC_Proc','FRE_Mamm','SLN_Mamm','TB')
@@ -164,6 +167,8 @@ STW_ROTS = ('STATW_AM','STATW_PM')
 WSP_ROTS = ('WUSPR',)
 WMR_ROTS = ('WMR',)
 SCV_ROTS = ('SCV',)
+ADM_ROTS = ('Admin',)
+ALL_ROTS = BRT_ROTS+SFL_ROTS+MSK_ROTS+NER_ROTS+ABD_ROTS+CHT_ROTS+NUC_ROTS+STA_ROTS+OPR_ROTS+ST3_ROTS+SWG_ROTS+STW_ROTS+WSP_ROTS+WMR_ROTS+SCV_ROTS+ADM_ROTS
 
 # Staff Lists
 ALL_STAFF = ('JDB','SDE','HG','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','SXK','BJK','JK','RCK')
@@ -173,7 +178,7 @@ SFL_STAFF = ('JDB','SDE','HG','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DC
 MSK_STAFF = ('CCM','GJS','GSr','DRL','SJP','JK')
 MSV_STAFF = ('CCM','GJS','GSr','DRL','SJP')
 NER_STAFF = ('EEP','GSr','JFK','SMN','SJP','BJK')
-NSV_STAFF = ('EEP','GSr','JFK','SMN','SJP')
+NSV_STAFF = ('EEP','GSr','JFK','SMN','SJP') 
 ABD_STAFF = ('BCL','DSL','HSS','JKL','SH')
 ASV_STAFF = ('BCL','DSL','HSS','JKL','SH')
 CHT_STAFF = ('BCL','GJS','SMN','RV','JKL')
@@ -187,6 +192,7 @@ STW_STAFF = ST3_STAFF
 WSP_STAFF = ('JDB','SDE','GHL','DCN','JKS','BCL','DSL','HSS','JKL','HG','RV')
 WMR_STAFF = ('GJS','GSr','DRL','SJP','EEP','JFK','SMN','SH')
 SCV_STAFF = ('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','BJK','JK') #('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM')
+ADM_STAFF = SCV_STAFF
 LCM_STAFF = ('CCM','SXK','BJK','JK','RCK')
 
 # General Use
@@ -300,6 +306,11 @@ def get_section_nstaff_nrots_staff_rots(sect):
         num_rots = len(SCV_ROTS)
         staff = SCV_STAFF
         rots = SCV_ROTS
+    elif sect == 'adm':
+        num_staff = len(ADM_STAFF)
+        num_rots = len(ADM_ROTS)
+        staff = ADM_STAFF
+        rots = ADM_ROTS
     else:
         raise ValueError('Unresolved section name in get_section_nstaff_nrots_staff_rots function.')
     
@@ -406,6 +417,12 @@ def get_section_nstaff_nshifts_nrots_shifts_rots(sect):
         num_rots = len(SCV_ROTS)
         shifts = SCV_SHIFTS
         rots = SCV_ROTS
+    elif sect == 'adm':
+        num_staff = len(ADM_STAFF)
+        num_shifts = len(ADM_SHIFTS)
+        num_rots = len(ADM_ROTS)
+        shifts = ADM_SHIFTS
+        rots = ADM_ROTS
     else:
         raise ValueError('Unresolved section name in get_section_nstaff_nshifts_nrots_shifts_rots function.')
     
@@ -492,10 +509,106 @@ def get_section_nstaff_nshifts_staff_shifts(sect):
         num_shifts = len(SCV_SHIFTS)
         shifts = SCV_SHIFTS
         staff = SCV_STAFF
+    elif sect == 'adm':
+        num_staff = len(ADM_STAFF)
+        num_shifts = len(ADM_SHIFTS)
+        staff = ADM_STAFF
+        shifts = ADM_SHIFTS
     else:
         raise ValueError('Unresolved section name in get_section_nstaff_nshifts_staff_shifts function.')
     
     return num_staff,num_shifts,staff,shifts
+
+def get_section_nstaff_nrots_staff_rots(sect):
+    num_staff = 0
+    num_rots = 0
+    staff = []
+    rots = []
+
+    if sect == 'brt':
+        num_staff = len(BRT_STAFF)
+        num_rots = len(BRT_ROTS)
+        rots =  BRT_ROTS
+        staff = BRT_STAFF
+    elif sect == 'sfl':
+        num_staff = len(SFL_STAFF)
+        num_rots = len(SFL_ROTS)
+        rots =  SFL_ROTS
+        staff = SFL_STAFF
+    elif sect == 'msk':
+        num_staff = len(MSK_STAFF)
+        num_rots = len(MSK_ROTS)
+        rots =  MSK_ROTS
+        staff = MSK_STAFF
+    elif sect == 'ner':
+        num_staff = len(NER_STAFF)
+        num_rots = len(NER_ROTS)
+        rots =  NER_ROTS
+        staff = NER_STAFF
+    elif sect == 'abd':
+        num_staff = len(ABD_STAFF)
+        num_rots = len(ABD_ROTS)
+        rots =  ABD_ROTS
+        staff = ABD_STAFF
+    elif sect == 'cht':
+        num_staff = len(CHT_STAFF)
+        num_rots = len(CHT_ROTS)
+        rots =  CHT_ROTS
+        staff = CHT_STAFF
+    elif sect == 'nuc':
+        num_staff = len(NUC_STAFF)
+        num_rots = len(NUC_ROTS)
+        rots =  NUC_ROTS
+        staff = NUC_STAFF
+    elif sect == 'sta':
+        num_staff = len(STA_STAFF)
+        num_rots = len(STA_ROTS)
+        rots =  STA_ROTS
+        staff = STA_STAFF
+    elif sect == 'opr':
+        num_staff = len(OPR_STAFF)
+        num_rots = len(OPR_ROTS)
+        rots =  OPR_ROTS
+        staff = OPR_STAFF
+    elif sect == 'st3':
+        num_staff = len(ST3_STAFF)
+        num_rots = len(ST3_ROTS)
+        rots =  ST3_ROTS
+        staff = ST3_STAFF
+    elif sect == 'swg':
+        num_staff = len(SWG_STAFF)
+        num_rots = len(SWG_ROTS)
+        rots =  SWG_ROTS
+        staff = SWG_STAFF
+    elif sect == 'stw':
+        num_staff = len(STW_STAFF)
+        num_rots = len(STW_ROTS)
+        rots =  STW_ROTS
+        staff = STW_STAFF
+    elif sect == 'wsp':
+        num_staff = len(WSP_STAFF)
+        num_rots = len(WSP_ROTS)
+        rots =  WSP_ROTS
+        staff = WSP_STAFF
+    elif sect == 'wmr':
+        num_staff = len(WMR_STAFF)
+        num_rots = len(WMR_ROTS)
+        rots =  WMR_ROTS
+        staff = WMR_STAFF
+    elif sect == 'scv':
+        num_staff = len(SCV_STAFF)
+        num_rots = len(SCV_ROTS)
+        rots = SCV_ROTS
+        staff = SCV_STAFF
+    elif sect == 'adm':
+        num_staff = len(ADM_STAFF)
+        num_rots = len(ADM_ROTS)
+        staff = ADM_STAFF
+        rots = ADM_ROTS
+    else:
+        raise ValueError('Unresolved section name in get_section_nstaff_nshifts_staff_rots function.')
+    
+    return num_staff,num_rots,staff,rots
 
 def get_collector_obj(solver,v_staff_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat,v_tcost,tlimit):
 
