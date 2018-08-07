@@ -253,7 +253,7 @@ def get_bias(section,cumulative=None):
     return bias
 
 def init_general_bias():
-    bias = np.zeros((len(ALL_STAFF),len(ALL_ROTS)),dtype='int64') # here the bias is -2 for all rotations; may need to be less for rotations that are less frequent (e.g. -1 for SLN_Mamm)
+    bias = np.zeros((len(ALL_STAFF),len(ALL_ROTS)),dtype='int64')
     
     sections = ['brt','cht','nuc','sfl','msk','abd','ner','sta','scv','opr']    
     
@@ -262,8 +262,9 @@ def init_general_bias():
         staff_idx = [ALL_STAFF.index(staff_tup[s]) for s in range(len(staff_tup))]
         rots_idx = [ALL_ROTS.index(rots_tup[r]) for r in range(len(rots_tup))]
         for si in staff_idx:
-            for ri in rots_idx:
-                bias[si,ri] += 1
+            if ALL_STAFF[si] not in LCM_STAFF:
+                for ri in rots_idx:
+                    bias[si,ri] += 1
 
     return bias
 
@@ -763,15 +764,20 @@ def set_brt_constraints(s,st,cal,holidays): # s = solver
             s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] != -1)
             s.Add(st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2+1)] != -1)
             s.Add(st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2+1)] != -1)
+        else: 
+            s.Add(st[(BRT_SHIFTS.index('UCMam Diag 8a-12p'),i*2)] == -1)
+            s.Add(st[(BRT_SHIFTS.index('UCMam Proc 8a-12p'),i*2)] == -1)
+            s.Add(st[(BRT_SHIFTS.index('UCMam Diag 12-4p'),i*2+1)] == -1)
+            s.Add(st[(BRT_SHIFTS.index('UCMam Proc 12-4p'),i*2+1)] == -1)
 
-    if 1 not in holidays: s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),2)] != -1)
-    if 3 not in holidays: s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),6)] != -1)
-    
-    if 0 not in holidays: s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),0)] != -1)
-    if 1 not in holidays: s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),3)] != -1)
-    if 2 not in holidays: s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),4)] != -1)
-    if 3 not in holidays: s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),7)] != -1)
-    if 4 not in holidays: s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),8)] != -1)
+    # Handle the FRE/SLN rotations with and without holidays
+    s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),2)] != -1) if (1 not in holidays) else s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),2)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),6)] != -1) if (3 not in holidays) else s.Add(st[(BRT_SHIFTS.index('SL Mam 8a-12p'),6)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),0)] != -1) if (0 not in holidays) else s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),0)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),3)] != -1) if (1 not in holidays) else s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),3)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),4)] != -1) if (2 not in holidays) else s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),4)] == -1) 
+    s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),7)] != -1) if (3 not in holidays) else s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),7)] == -1)
+    s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),8)] != -1) if (4 not in holidays) else s.Add(st[(BRT_SHIFTS.index('FreMam halfday'),8)] == -1)
     
     # Don't be on the same UNC rotation two days in a row (can relax if short-staffed)
     #if i < 4:
@@ -800,6 +806,11 @@ def set_sfl_constraints(s,st,cal,holidays): # s = solver
             s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] != -1)
             s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+1)] != -1)
             s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2+1)] != -1)
+        else:
+            s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] == -1)
+            s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2)] == -1)
+            s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2+1)] == -1)
+            s.Add(st[(SFL_SHIFTS.index('SL US/Fluoro 8a-4p'),i*2+1)] == -1)
 
         # Don't be on Sonoflu 2 days in a row
         if i < 4:
@@ -836,6 +847,9 @@ def set_msk_constraints(s,st,cal,holidays): # s = solver
         if i not in holidays:
             s.Add(st[(MSK_SHIFTS.index('MSK 8a-12p'),i*2)] != -1)
             s.Add(st[(MSK_SHIFTS.index('MSK 12-4p'),i*2+1)] != -1)
+        else:
+            s.Add(st[(MSK_SHIFTS.index('MSK 8a-12p'),i*2)] == -1)
+            s.Add(st[(MSK_SHIFTS.index('MSK 12-4p'),i*2+1)] == -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(MSK_SHIFTS.index('MSK 12-4p'),i*2)] == -1)
@@ -857,6 +871,9 @@ def set_abd_constraints(s,st,cal,holidays): # s = solver
         if i not in holidays:
             s.Add(st[(ABD_SHIFTS.index('Abdomen 8a-12p'),i*2)] != -1)
             s.Add(st[(ABD_SHIFTS.index('Abdomen 12-4p'),i*2+1)] != -1)
+        else:
+            s.Add(st[(ABD_SHIFTS.index('Abdomen 8a-12p'),i*2)] == -1)
+            s.Add(st[(ABD_SHIFTS.index('Abdomen 12-4p'),i*2+1)] == -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(ABD_SHIFTS.index('Abdomen 12-4p'),i*2)] == -1)
@@ -878,6 +895,9 @@ def set_ner_constraints(s,st,cal,holidays): # s = solver
         if i not in holidays:
             s.Add(st[(NER_SHIFTS.index('Neuro 8a-12p'),i*2)] != -1)
             s.Add(st[(NER_SHIFTS.index('Neuro 12-4p'),i*2+1)] != -1)
+        else:
+            s.Add(st[(NER_SHIFTS.index('Neuro 8a-12p'),i*2)] == -1)
+            s.Add(st[(NER_SHIFTS.index('Neuro 12-4p'),i*2+1)] == -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(NER_SHIFTS.index('Neuro 12-4p'),i*2)] == -1)
@@ -899,6 +919,9 @@ def set_cht_constraints(s,st,cal,holidays): # s = solver
         if i not in holidays:
             s.Add(st[(CHT_SHIFTS.index('Chest/PET 8a-12p'),i*2)] != -1)
             s.Add(st[(CHT_SHIFTS.index('Chest/PET 12-4p'),i*2+1)] != -1)
+        else:
+            s.Add(st[(CHT_SHIFTS.index('Chest/PET 8a-12p'),i*2)] == -1)
+            s.Add(st[(CHT_SHIFTS.index('Chest/PET 12-4p'),i*2+1)] == -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(CHT_SHIFTS.index('Chest/PET 12-4p'),i*2)] == -1)
@@ -919,6 +942,8 @@ def set_nuc_constraints(s,st,cal,holidays): # s = solver
         # The PM Nucs shift must be filled unless it's a holiday
         if i not in holidays:
             s.Add(st[(NUC_SHIFTS.index('Nucs 8a-4p'),i*2+1)] != -1)
+        else:
+            s.Add(st[(NUC_SHIFTS.index('Nucs 8a-4p'),i*2+1)] == -1)
 
 def set_sta_constraints(s,st,cal,holidays): # s = solver
     
@@ -937,6 +962,10 @@ def set_sta_constraints(s,st,cal,holidays): # s = solver
             s.Add(st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2)] != -1)
             s.Add(st[(STA_SHIFTS.index('STAT1b 12p-4p'),i*2+1)] != -1)
             s.Add(st[(STA_SHIFTS.index('STAT2 12p-4p'),i*2+1)] != -1)
+        else:
+            s.Add(st[(STA_SHIFTS.index('STAT1 8a-12p'),i*2)] == -1)
+            s.Add(st[(STA_SHIFTS.index('STAT1b 12p-4p'),i*2+1)] == -1)
+            s.Add(st[(STA_SHIFTS.index('STAT2 12p-4p'),i*2+1)] == -1)
 
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(STA_SHIFTS.index('STAT1b 12p-4p'),i*2)] == -1)
@@ -972,7 +1001,12 @@ def set_opr_constraints(s,st,cal,holidays): # s = solver
             s.Add(st[(OPR_SHIFTS.index('OPPR2am'),i*2)] != -1)
             s.Add(st[(OPR_SHIFTS.index('OPPR3pm'),i*2+1)] != -1)
             s.Add(st[(OPR_SHIFTS.index('OPPR4pm'),i*2+1)] != -1)
-
+        else:
+            s.Add(st[(OPR_SHIFTS.index('OPPR1am'),i*2)] == -1)
+            s.Add(st[(OPR_SHIFTS.index('OPPR2am'),i*2)] == -1)
+            s.Add(st[(OPR_SHIFTS.index('OPPR3pm'),i*2+1)] == -1)
+            s.Add(st[(OPR_SHIFTS.index('OPPR4pm'),i*2+1)] == -1)
+            
         # Shifts that don't fit into context (e.g. PM on a morning shift)
         s.Add(st[(OPR_SHIFTS.index('OPPR3pm'),i*2)] == -1)
         s.Add(st[(OPR_SHIFTS.index('OPPR4pm'),i*2)] == -1)
@@ -1661,6 +1695,7 @@ def build_generic(cal,cumulative,r_cumulative,r_counters,section,limit):
 
     # Handle holidays
     holidays = get_holidays(cal)
+    print("Holidays:",holidays)
 
     # Get the bias matrix
     bias = get_bias(section,cumulative)
@@ -2498,7 +2533,7 @@ def main():
 
     # Top level settings
     num_weeks = 4
-    time_limit = 0 # set to "0" for no limit
+    time_limit = 1000 # set to "0" for no limit
     day_sections = ['brt','cht','nuc','sfl','msk','abd','ner','sta','scv','opr']
     #day_sections = ['brt','cht','nuc','msk','abd','ner','sta','scv','opr']
     #day_sections = ['brt']
