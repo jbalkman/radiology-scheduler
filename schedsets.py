@@ -146,7 +146,8 @@ SWG_SHIFTS = ('Swing',)
 STW_SHIFTS = ('STATWAM 8a-330p','STATWPM 330p-11p')
 WSP_SHIFTS = ('WUSPR',)
 WMR_SHIFTS = ('WMR',)
-SCV_SHIFTS = ('SCV AM','SCV2 AM','SCV3 AM','SCV PM','SCV2 PM')
+#SCV_SHIFTS = ('SCV AM','SCV2 AM','SCV3 AM','SCV PM','SCV2 PM') # use this one for standard day shift scheduling
+SCV_SHIFTS = ('SCV AM','SCV PM') # use this one for "non-essetial" day shift scheduling
 EVE_SHIFTS = ('STAT3 4p-11p','Nightshift 11p-12a','Nightshift 1201a-8a','NeuroNH 11p-12a','NeuroNH 1201a-8a')
 ADM_SHIFTS = ('Admin Day','Admin AM','Admin PM')
 
@@ -191,9 +192,9 @@ SWG_STAFF = ALL_STAFF
 STW_STAFF = ST3_STAFF
 WSP_STAFF = ('JDB','SDE','GHL','DCN','JKS','BCL','DSL','HSS','JKL','HG','RV')
 WMR_STAFF = ('GJS','GSr','DRL','SJP','EEP','JFK','SMN','SH')
-SCV_STAFF = ('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','BJK','JK') #('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM')
-ADM_STAFF = SCV_STAFF
+SCV_STAFF = ('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV')
 LCM_STAFF = ('CCM','SXK','BJK','JK','RCK')
+ADM_STAFF = SCV_STAFF
 
 # General Use
 WEEKDAYS = ('MON','TUE','WED','THU','FRI')
@@ -603,8 +604,8 @@ def get_section_nstaff_nrots_staff_rots(sect):
     elif sect == 'adm':
         num_staff = len(ADM_STAFF)
         num_rots = len(ADM_ROTS)
-        staff = ADM_STAFF
         rots = ADM_ROTS
+        staff = ADM_STAFF
     else:
         raise ValueError('Unresolved section name in get_section_nstaff_nshifts_staff_rots function.')
     
@@ -620,6 +621,42 @@ def get_collector_obj(solver,v_staff_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat
     print("creating collector...")
     solution = solver.Assignment()
     solution.Add(v_staff_flat)
+    solution.Add(v_rots_flat)
+    solution.Add(v_cntr_flat)
+    solution.Add(v_rotprod_flat)
+    solution.Add(v_tcost)
+
+    # Objective
+    #objective = solver.Minimize(pcounts, 1)
+    objective = solver.Minimize(v_tcost, 1)
+
+    # Create collector
+    #collector = solver.AllSolutionCollector(solution)
+    collector = solver.LastSolutionCollector(solution)
+
+    if tlimit > 0:
+        time_limit_ms = solver.TimeLimit(tlimit)
+        solver.Solve(db,[time_limit_ms,objective,collector])
+    else:        
+        solver.Solve(db,[objective,collector])
+
+    num_solutions = collector.SolutionCount()
+    #print("number of solutions:",num_solutions)
+    '''for sol in range(num_solutions):
+        print("Solution",sol,collector.Value(sol,pcounts))'''
+ 
+    return collector
+
+def get_necollector_obj(solver,v_neshifts_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat,v_tcost,tlimit):
+
+    # Create the decision builder.
+    print("creating decision builder...")
+    db = solver.Phase(v_neshifts_flat, solver.CHOOSE_RANDOM, solver.ASSIGN_RANDOM_VALUE)
+
+    # Create the solution collector.
+    print("creating collector...")
+    solution = solver.Assignment()
+    solution.Add(v_neshifts_flat)
     solution.Add(v_rots_flat)
     solution.Add(v_cntr_flat)
     solution.Add(v_rotprod_flat)
