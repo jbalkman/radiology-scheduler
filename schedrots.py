@@ -67,10 +67,16 @@ def juggle_sections(original,failed):
     fail_idx = original.index(failed)
 
     if fail_idx > 0:
-        original[fail_idx-1], original[fail_idx] = original[fail_idx], original[fail_idx-1]
+        if failed == 'scv':
+            # just move the failed section up by one
+            original[fail_idx-1], original[fail_idx] = original[fail_idx], original[fail_idx-1]
+        else:
+            # move the failed section up to the front
+            original.insert(0,original.pop(fail_idx))
+
         return original
     else:
-        sys.exit("Failed on the first section indicating strict constraint problem.")
+        sys.exit("Failed on the first section indicating strict constraint problem or wasn't given enough time to find solution (lengthen time limit).")
         
 '''
 =====================
@@ -510,7 +516,6 @@ def set_nerotation_constraints(solver,v_shifts,v_rots,v_cntr,v_rotprod_flat,v_tc
             solver.Add(v_rots[(stf,rots_tup.index('SCV'))] == solver.Sum([solver.IsGreaterOrEqualCstVar(v_shifts_flat[stf*nslts+i],0) for i in range(nslts)]))
 
     elif sect == 'adm':
-        print("setting adm rot constraints")
         for stf in range(nstaff):
             solver.Add(v_rots[(stf,rots_tup.index('Admin'))] == solver.Sum([solver.IsGreaterOrEqualCstVar(v_shifts_flat[stf*nslts+i],0) for i in range(nslts)]))            
 
@@ -1273,10 +1278,17 @@ def set_ne_constraints(solver,v_shifts,cal,holidays,section):
                     solver.Add(v_shifts[(s,i*2+1)] == -1)
 
         # MSK, Neuro, and Abdominal SCV on Mondays; in other words we should have > 0 from each and a total of 3; each == 1 doesn't work b/c certain staff overlap with MSK/NER
-        if WEEKDAYS.index('MON') not in holidays: solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('MON-AM'))],0) for s in range(num_staff) if staff_tup[s] in MSK_STAFF]) == 1) 
-        if WEEKDAYS.index('MON') not in holidays: solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('MON-AM'))],0) for s in range(num_staff) if staff_tup[s] in NER_STAFF]) == 1) 
-        if WEEKDAYS.index('MON') not in holidays: solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('MON-AM'))],0) for s in range(num_staff) if staff_tup[s] in ABD_STAFF]) == 1)
-        if WEEKDAYS.index('MON') not in holidays: solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('MON-AM'))],0) for s in range(num_staff)]) == 3)
+        if WEEKDAYS.index('MON') not in holidays:
+            solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('MON-AM'))],0) for s in range(num_staff) if staff_tup[s] in MSK_STAFF]) == 1)
+            solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('MON-AM'))],0) for s in range(num_staff) if staff_tup[s] in NER_STAFF]) == 1)
+            solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('MON-AM'))],0) for s in range(num_staff) if staff_tup[s] in ABD_STAFF]) == 1)
+            solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('MON-AM'))],0) for s in range(num_staff)]) == 3)
+        else: # if there is a Monday holiday, then allocate all the SCV rotations for Tuesday
+            #pass
+            #solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('TUE-AM'))],0) for s in range(num_staff) if staff_tup[s] in MSK_STAFF]) == 1)
+            solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('TUE-AM'))],0) for s in range(num_staff) if staff_tup[s] in NER_STAFF]) == 1)
+            solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('TUE-AM'))],0) for s in range(num_staff) if staff_tup[s] in ABD_STAFF]) == 1)
+            #solver.Add(solver.Sum([solver.IsEqualCstVar(v_shifts[(s,WEEK_SLOTS.index('TUE-AM'))],0) for s in range(num_staff)]) == 3)
 
         # limit total number of SCV half day shifts in the week;
         solver.Add(solver.Sum([solver.IsGreaterOrEqualCstVar(v_shifts[(s,j)],0) for s in range(num_staff) for j in range(len(WEEK_SLOTS))]) < 10)
@@ -1375,12 +1387,12 @@ def update_necounter(collect,v_shifts,v_rots,v_rotprod,v_cntr,cuml,cntrs,bias,v_
             for i in range(num_rots):
 
                 # Helpful debugging snippet
-                new_cnt = collect.Value(best_solution,v_cntr[(j,i)])
+                '''new_cnt = collect.Value(best_solution,v_cntr[(j,i)])
                 rot_prod = collect.Value(best_solution,v_rotprod[(j,i)])
                 rot_val = collect.Value(best_solution,v_rots[(j,i)])
                 old_cnt = cntrs[0][j,i]
                 cntrs[1][j,i] = old_cnt
-                print("Staff",staff_tup[j],"new count",new_cnt,"=","(old count",old_cnt,"+ bias",bias[j,i],") x rotprod",rot_prod,"where rotation value =",rot_val)
+                print("Staff",staff_tup[j],"new count",new_cnt,"=","(old count",old_cnt,"+ bias",bias[j,i],") x rotprod",rot_prod,"where rotation value =",rot_val)'''
                 cntrs[0][j,i] = collect.Value(best_solution,v_cntr[(j,i)])
                 cuml[j,i] += collect.Value(best_solution,v_rots[(j,i)])
 
@@ -1884,7 +1896,7 @@ def build_neshifts(cal,cumulative,r_cumulative,r_counters,section,limit):
     num_slots = len(WEEK_SLOTS)
     num_days = num_slots/2
     time_limit = limit
-    print("build_neshifts",shifts_tup)
+    #print("build_neshifts",shifts_tup)
 
     # Make a solver with random seed
     solver = make_random_solver()
@@ -2336,49 +2348,49 @@ def make_week_hx(cal,cml,cnt,bis):
             for slot in range(num_slots):
                 shift = cal[s,slot]
                 #print("Shift",shift,ALL_SHIFTS[shift])
-                if shift == ALL_SHIFTS.index('UCMam Diag 8a-12p') and slot%2 == 0: # the UNC-Diag AM/PM are both considered UNC-Diag
+                if shift == ALL_SHIFTS.index('UCMam Diag 8a-12p'): # and slot%2 == 0: # the UNC-Diag AM/PM are both considered UNC-Diag
                     curr[s,ALL_ROTS.index('UNC_Diag')] += 1
-                elif shift == ALL_SHIFTS.index('UCMam Proc 8a-12p') and slot%2 == 0:  # the UNC-Proc AM/PM are both considered UNC-Proc
+                elif shift == ALL_SHIFTS.index('UCMam Proc 8a-12p'): # and slot%2 == 0:  # the UNC-Proc AM/PM are both considered UNC-Proc
                     curr[s,ALL_ROTS.index('UNC_Proc')] += 1
                 elif shift == ALL_SHIFTS.index('FreMam halfday'): # FRE_Mamm
                     curr[s,ALL_ROTS.index('FRE_Mamm')] += 1
                 elif shift == ALL_SHIFTS.index('SL Mam 8a-12p'): # SLN Mamm
                     curr[s,ALL_ROTS.index('SLN_Mamm')] += 1
                     
-                elif shift == ALL_SHIFTS.index('Fre US/Fluoro 8a-4p') and slot%2 == 0: # the Sonoflu AM/PM are both the same so only need to count the AM rotations
+                elif shift == ALL_SHIFTS.index('Fre US/Fluoro 8a-4p'): # only listed once on qgenda so don't need to sort by slot
                     curr[s,ALL_ROTS.index('FRE_Sonoflu')] += 1
-                elif shift == ALL_SHIFTS.index('SL US/Fluoro 8a-4p') and slot%2 == 0: # the Sonoflu AM/PM are both the same so only need to count the AM rotations
+                elif shift == ALL_SHIFTS.index('SL US/Fluoro 8a-4p'):  # only listed once on qgenda so don't need to sort by slot
                     curr[s,ALL_ROTS.index('SLN_Sonoflu')] += 1
-                    
-                elif shift == ALL_SHIFTS.index('MSK 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+
+                elif shift == ALL_SHIFTS.index('MSK 8a-12p'):# and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
                     curr[s,ALL_ROTS.index('MSK')] += 1
                     
-                elif shift == ALL_SHIFTS.index('Neuro 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                elif shift == ALL_SHIFTS.index('Neuro 8a-12p'):# and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
                     curr[s,ALL_ROTS.index('Neuro')] += 1
                     
-                elif shift == ALL_SHIFTS.index('Abdomen 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                elif shift == ALL_SHIFTS.index('Abdomen 8a-12p'):# and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
                     curr[s,ALL_ROTS.index('Abdomen')] += 1
                     
-                elif shift == ALL_SHIFTS.index('Chest/PET 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                elif shift == ALL_SHIFTS.index('Chest/PET 8a-12p'):# and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
                     curr[s,ALL_ROTS.index('Chest/PET')] += 1
                     
-                elif shift == ALL_SHIFTS.index('Nucs 8a-4p') and slot%2 == 1: # nucs is a PM rotation only
+                elif shift == ALL_SHIFTS.index('Nucs 8a-4p'): # and slot%2 == 1: # nucs is a PM rotation only
                     curr[s,ALL_ROTS.index('Nucs')] += 1
                     
-                elif shift == ALL_SHIFTS.index('STAT1 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                elif shift == ALL_SHIFTS.index('STAT1 8a-12p'): # and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
                     curr[s,ALL_ROTS.index('STAT_AM')] += 1
-                elif (shift == ALL_SHIFTS.index('STAT1b 12p-4p') or shift == ALL_SHIFTS.index('STAT2 12p-4p')) and slot%2 == 1:
+                elif shift == ALL_SHIFTS.index('STAT1b 12p-4p'): # or shift == ALL_SHIFTS.index('STAT2 12p-4p')) and slot%2 == 1:
                     curr[s,ALL_ROTS.index('STAT_PM')] += 1
                     
-                elif (shift == ALL_SHIFTS.index('OPPR1am') or shift == ALL_SHIFTS.index('OPPR2am')) and slot%2 == 0: # the AM shifts are indexes 0,1 and the PM shifts are indexes 2,3
+                elif (shift == ALL_SHIFTS.index('OPPR1am') or shift == ALL_SHIFTS.index('OPPR2am')): # and slot%2 == 0: # the AM shifts are indexes 0,1 and the PM shifts are indexes 2,3
                     curr[s,ALL_ROTS.index('OPPR_AM')] += 1
-                elif (shift == ALL_SHIFTS.index('OPPR3pm') or shift == ALL_SHIFTS.index('OPPR4pm')) and slot%2 == 1: 
+                elif (shift == ALL_SHIFTS.index('OPPR3pm') or shift == ALL_SHIFTS.index('OPPR4pm')): # and slot%2 == 1: 
                     curr[s,ALL_ROTS.index('OPPR_PM')] += 1
                     
                 elif ALL_SHIFTS[shift] in SCV_SHIFTS: # any SCV rotation whether AM/PM counts as one rotation
                     curr[s,ALL_ROTS.index('SCV')] += 1
 
-                elif shift == ALL_SHIFTS.index('Admin Day') and slot%2 == 0: # counting by half days of Admin time
+                elif shift == ALL_SHIFTS.index('Admin Day'):# and slot%2 == 0: # counting by half days of Admin time
                     curr[s,ALL_ROTS.index('Admin')] += 2
                 elif shift == ALL_SHIFTS.index('Admin AM') or shift == ALL_SHIFTS.index('Admin PM'):
                     curr[s,ALL_ROTS.index('Admin')] += 1
@@ -2791,12 +2803,12 @@ def main():
     # Top level settings
     num_weeks = 4
     time_limit = 0 # set to "0" for no limit
-    #day_sections = ['brt','cht','nuc','sfl','scv','msk','abd','ner','sta','adm','opr']
-    day_sections = ['brt', 'cht', 'nuc', 'msk', 'abd', 'sfl', 'ner', 'sta','opr','scv','adm']
+    day_sections = ['brt','cht','nuc','sfl','scv','msk','abd','ner','sta','adm','opr']
+    #day_sections = ['adm','brt','cht','nuc','scv','msk','abd','ner','opr','sfl','sta']
     #day_sections = ['brt','cht','nuc','msk','abd','ner','sta','scv','opr']
     #day_sections = ['scv']
     #call_sections = ['st3','swg','stw','wsp','wmr']
-    f_history = '/Users/jasonbalkman/Documents/KAISER/SCHEDULE_ANALYSIS/DATA/JulyAug2018.csv' # history input data
+    f_history = '/Users/jasonbalkman/Documents/KAISER/SCHEDULE_ANALYSIS/DATA/JunAug2018.csv' # history input data
     #f_history = False
     f_schedule = '/Users/jasonbalkman/Documents/KAISER/SCHEDULE_ANALYSIS/DATA/Holiday.csv' # history input data
 
@@ -2866,7 +2878,7 @@ def main():
         else:
             print("No solution could be found after 100 attempts at reshuffling the sections.")
 
-    #print_csv_staff_calendar(staff_calendar)
+    print_csv_staff_calendar(cal_result[1])
     #print_shift_calendar(shift_calendar)        
 
 if __name__ == "__main__":
