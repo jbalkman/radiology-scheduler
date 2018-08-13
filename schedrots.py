@@ -1313,7 +1313,8 @@ def update_allcounter(r_cumulative,r_counter,cumulative,counter,section):
 
     for s in range(nstaff):
         for r in range(nrots):
-            cumulative[ALL_STAFF.index(staff_tup[s]),ALL_ROTS.index(rots_tup[r])] += r_cumulative[s,r]
+            #cumulative[ALL_STAFF.index(staff_tup[s]),ALL_ROTS.index(rots_tup[r])] += r_cumulative[s,r] # i think this is double counting
+            cumulative[ALL_STAFF.index(staff_tup[s]),ALL_ROTS.index(rots_tup[r])] = r_cumulative[s,r]
             counter[ALL_STAFF.index(staff_tup[s]),ALL_ROTS.index(rots_tup[r])] = r_counter[s,r]
     
 def update_rotcounter(collect,v_staff,v_rots,v_rotprod,v_cntr,cuml,cntrs,bias,v_tcost,sect):
@@ -1351,7 +1352,9 @@ def update_rotcounter(collect,v_staff,v_rots,v_rotprod,v_cntr,cuml,cntrs,bias,v_
                 print("new count",new_cnt,"=","(old count",old_cnt,"+ bias",bias[j,i],") x rotprod",rot_prod,"where rotation value =",rot_val)'''
                 cntrs[1][j,i] = cntrs[0][j,i]
                 cntrs[0][j,i] = collect.Value(best_solution,v_cntr[(j,i)])
+
                 cuml[j,i] += collect.Value(best_solution,v_rots[(j,i)])
+                #cuml[j,i] = collect.Value(best_solution,v_rots[(j,i)])
 
         # not updating cumulative b/c it's complex dealing with ndays and not sure if necessary
         return (True, cuml,cntrs,curr,collect.Value(best_solution,v_tcost))
@@ -1394,8 +1397,12 @@ def update_necounter(collect,v_shifts,v_rots,v_rotprod,v_cntr,cuml,cntrs,bias,v_
                 old_cnt = cntrs[0][j,i]
                 cntrs[1][j,i] = old_cnt
                 print("Staff",staff_tup[j],"new count",new_cnt,"=","(old count",old_cnt,"+ bias",bias[j,i],") x rotprod",rot_prod,"where rotation value =",rot_val)'''
+
+                cntrs[1][j,i] = cntrs[0][j,i]
                 cntrs[0][j,i] = collect.Value(best_solution,v_cntr[(j,i)])
+
                 cuml[j,i] += collect.Value(best_solution,v_rots[(j,i)])
+                #cuml[j,i] = collect.Value(best_solution,v_rots[(j,i)])
 
         # not updating cumulative b/c it's complex dealing with ndays and not sure if necessary
         return (True, cuml,cntrs,curr,collect.Value(best_solution,v_tcost))

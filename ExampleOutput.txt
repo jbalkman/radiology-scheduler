@@ -30,63 +30,63 @@ Total Cost: 0
 ===========================================
           WEEK # 1   brt
 ===========================================
-random seed: 46815
+random seed: 34877
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 17  0|  0 11  1|  1 10  1|  0 13  1| -1  0 -1|       0
-    UNC_Proc  0 16  0|  0 18  0|  0 10  2|  1  9  1|  0 12  1| -1  0 -1|       0
+    UNC_Diag  0 17  0|  0 17  0|  0 12  1|  1 10  1|  0 12  1| -1  0 -1|       0
+    UNC_Proc  0 16  0|  0 18  0|  0  9  2|  1  9  1|  0 13  1| -1  0 -1|       0
     FRE_Mamm  0  8  1|  0  9  0|  0  9  0|  1  4  1|  0  3  2|  0  1 -1|       1
-    SLN_Mamm  0 11  0|  4  5  1|  2  2  2|  1  4  1|  0  6  1| -1  0 -1|       6
+    SLN_Mamm  0 11  0|  4  5  1|  0  3  2|  1  4  1|  2  5  1| -1  0 -1|       6
           TB 14  0  1| 14  0  1| 14  0  1| 14  0  1| 14  0  1| -2  0 -2|      68
 Total Cost: 76
 
 ===========================================
           WEEK # 2   brt
 ===========================================
-random seed: 15794
+random seed: 52682
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 18  0|  0 13  1|  0 12  1|  1 13  1| -2  0 -1|      -1
-    UNC_Proc  0 16  0|  0 19  0|  0 11  2|  0 11  1|  0 13  1| -2  0 -1|      -2
-    FRE_Mamm  1  8  1|  0 10  0|  0 11  0|  0  5  1|  0  4  2| -1  1 -1|       0
-    SLN_Mamm  0 11  0|  0  6  1|  0  3  2|  2  4  1|  1  6  1| -2  0 -1|       1
-          TB 15  0  1|  0  1  1| 15  0  1| 15  0  1| 15  0  1| -4  0 -2|      56
-Total Cost: 54
+    UNC_Diag  0 17  0|  0 18  0|  0 14  1|  0 11  1|  0 13  1| -2  0 -1|      -2
+    UNC_Proc  0 16  0|  0 19  0|  0 11  2|  0 11  1|  1 13  1| -2  0 -1|      -1
+    FRE_Mamm  1  8  1|  0 10  0|  0 10  0|  0  6  1|  0  4  2| -1  1 -1|       0
+    SLN_Mamm  0 11  0|  0  6  1|  2  3  2|  2  4  1|  0  6  1| -2  0 -1|       2
+          TB 15  0  1| 15  0  1|  0  1  1| 15  0  1| 15  0  1| -4  0 -2|      56
+Total Cost: 55
 
 ===========================================
           WEEK # 3   brt
 ===========================================
-random seed: 86599
+random seed: 55926
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 18  0|  0 19  0|  0 14  1|  0 13  1|  0 14  1| -3  0 -1|      -3
-    UNC_Proc  0 16  0|  0 19  0|  0 13  2|  0 13  1|  0 14  1| -3  0 -1|      -3
-    FRE_Mamm  0 10  1|  0 11  0|  0 11  0|  0  6  1|  0  5  2| -2  1 -1|      -2
-    SLN_Mamm  0 11  0|  1  6  1|  0  4  2|  0  5  1|  2  6  1| -3  0 -1|       0
-          TB 16  0  1|  1  1  1|  0  1  1| 16  0  1| 16  0  1| -6  0 -2|      43
-Total Cost: 35
+    UNC_Diag  0 17  0|  0 20  0|  0 15  1|  0 12  1|  0 14  1| -3  0 -1|      -3
+    UNC_Proc  0 18  0|  0 19  0|  0 12  2|  0 12  1|  0 14  1| -3  0 -1|      -3
+    FRE_Mamm  0 10  1|  0 10  0|  0 10  0|  0  8  1|  0  5  2| -2  1 -1|      -2
+    SLN_Mamm  0 11  0|  1  6  1|  0  4  2|  0  5  1|  1  6  1| -3  0 -1|      -1
+          TB 16  0  1| 16  0  1|  1  1  1|  0  1  1| 16  0  1| -6  0 -2|      43
+Total Cost: 34
 
 ===========================================
           WEEK # 4   brt
 ===========================================
-random seed: 87662
+random seed: 43923
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 18  0|  0 21  0|  1 14  1|  0 15  1|  0 15  1| -4  0 -1|      -3
-    UNC_Proc  0 17  0|  0 20  0|  2 13  2|  0 14  1|  0 16  1| -4  0 -1|      -2
-    FRE_Mamm  0 11  1|  0 11  0|  0 11  0|  0  7  1|  0  7  2|  0  2 -1|       0
+    UNC_Diag  0 17  0|  0 22  0|  1 15  1|  0 13  1|  0 16  1| -4  0 -1|      -3
+    UNC_Proc  0 19  0|  0 20  0|  2 12  2|  0 13  1|  0 16  1| -4  0 -1|      -2
+    FRE_Mamm  0 11  1|  0 11  0|  0 10  0|  0  9  1|  0  6  2|  0  2 -1|       0
     SLN_Mamm  0 11  0|  0  7  1|  2  4  2|  1  5  1|  0  7  1| -4  0 -1|      -1
-          TB  0  1  1|  2  1  1|  1  1  1| 17  0  1| 17  0  1| -8  0 -2|      29
+          TB 17  0  1| 17  0  1|  2  1  1|  1  1  1|  0  1  1| -8  0 -2|      29
 Total Cost: 24
 
 ===========================================
           WEEK # 1   cht
 ===========================================
-random seed: 73845
+random seed: 74505
 creating decision builder...
 creating collector...
                    BCL       GJS       SMN        RV       JKL    Cost
@@ -96,7 +96,7 @@ Total Cost: 1
 ===========================================
           WEEK # 2   cht
 ===========================================
-random seed: 32758
+random seed: 17486
 creating decision builder...
 creating collector...
                    BCL       GJS       SMN        RV       JKL    Cost
@@ -106,7 +106,7 @@ Total Cost: 0
 ===========================================
           WEEK # 3   cht
 ===========================================
-random seed: 40036
+random seed: 80765
 creating decision builder...
 creating collector...
                    BCL       GJS       SMN        RV       JKL    Cost
@@ -116,7 +116,7 @@ Total Cost: 2
 ===========================================
           WEEK # 4   cht
 ===========================================
-random seed: 39453
+random seed: 32565
 creating decision builder...
 creating collector...
                    BCL       GJS       SMN        RV       JKL    Cost
@@ -126,7 +126,276 @@ Total Cost: 0
 ===========================================
           WEEK # 1   nuc
 ===========================================
-random seed: 25789
+random seed: 96664
+creating decision builder...
+creating collector...
+                   SMN       GSr        HG       RCK    Cost
+        Nucs  0 14  1|  0 17  0|  0 26  0| -1  0 -1|      -1
+Total Cost: -1
+
+===========================================
+          WEEK # 2   nuc
+===========================================
+random seed: 20694
+creating decision builder...
+creating collector...
+                   SMN       GSr        HG       RCK    Cost
+        Nucs  0 17  1|  0 17  0|  0 26  0|  0  2 -1|       0
+Total Cost: 2
+
+===========================================
+          WEEK # 3   nuc
+===========================================
+random seed: 68097
+creating decision builder...
+creating collector...
+                   SMN       GSr        HG       RCK    Cost
+        Nucs  1 17  1|  0 20  0|  0 26  0|  0  4 -1|       1
+Total Cost: 3
+
+===========================================
+          WEEK # 4   nuc
+===========================================
+random seed: 38878
+creating decision builder...
+creating collector...
+                   SMN       GSr        HG       RCK    Cost
+        Nucs  0 18  1|  0 22  0|  0 28  0| -1  4 -1|      -1
+Total Cost: -1
+
+===========================================
+          WEEK # 1   sfl
+===========================================
+random seed: 71397
+creating decision builder...
+creating collector...
+                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
+ FRE_Sonoflu 15  0  2| 15  0  2|  3 27  3| 12  1  1| 15  0  2|  0  2  2|  0  6  0|  2  4  1| 15  0  2|  5  1  1| 15  0  2| 15  0  2|  3  3  1|  8  1  1|  1  4  1|  0  2  2| 15  0  2|  0  9  0|  0  2  2|  0  2 -1| -1  0 -1|     138
+ SLN_Sonoflu  5  1  1|  5  1  1| 18  0  5|  0  7  0|  0  9  0|  2  2  1|  0  2  2|  5  3  1|  2  8  0| 15  0  2|  3  5  0| 15  0  2|  0  6  0|  0 10  0|  0  2  2|  0  5  0|  4  1  1| 15  0  2|  0  5  1|  0  2 -1| -1  0 -1|      88
+Total Cost: 230
+
+===========================================
+          WEEK # 2   sfl
+===========================================
+random seed: 35867
+creating decision builder...
+creating collector...
+                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
+ FRE_Sonoflu 17  0  2| 17  0  2|  6 27  3|  0  3  1| 17  0  2|  0  4  2|  0  6  0|  0  6  1| 17  0  2|  6  1  1| 17  0  2| 17  0  2|  0  5  1|  0  3  1|  2  4  1|  2  2  2| 17  0  2|  0  9  0|  2  2  2| -1  2 -1| -2  0 -1|     134
+ SLN_Sonoflu  6  1  1|  6  1  1| 23  0  5|  0  7  0|  0  9  0|  0  4  1|  0  4  2|  0  5  1|  0 10  0| 17  0  2|  0  7  0| 17  0  2|  0  6  0|  0 10  0|  2  2  2|  0  5  0|  5  1  1| 17  0  2|  1  5  1| -1  2 -1| -2  0 -1|      91
+Total Cost: 225
+
+===========================================
+          WEEK # 3   sfl
+===========================================
+random seed: 51186
+creating decision builder...
+creating collector...
+                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
+ FRE_Sonoflu  0  2  2| 19  0  2|  9 27  3|  1  3  1| 19  0  2|  2  4  2|  0  6  0|  1  6  1| 19  0  2|  0  3  1| 19  0  2| 19  0  2|  0  7  1|  1  3  1|  0  6  1|  0  4  2| 19  0  2|  0  9  0|  4  2  2| -2  2 -1| -3  0 -1|     127
+ SLN_Sonoflu  7  1  1|  7  1  1| 28  0  5|  0  7  0|  0  9  0|  0  6  1|  0  6  2|  1  5  1|  0 10  0|  0  2  2|  0  7  0| 19  0  2|  0  6  0|  0 10  0|  0  4  2|  0  5  0|  6  1  1|  0  2  2|  2  5  1| -2  2 -1| -3  0 -1|      65
+Total Cost: 192
+
+===========================================
+          WEEK # 4   sfl
+===========================================
+random seed: 27220
+creating decision builder...
+creating collector...
+                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
+ FRE_Sonoflu  2  2  2| 21  0  2|  0 29  3|  2  3  1| 21  0  2|  0  6  2|  0  6  0|  0  8  1| 21  0  2|  1  3  1| 21  0  2| 21  0  2|  0  9  1|  2  3  1|  1  6  1|  0  6  2| 21  0  2|  0  9  0|  6  2  2| -3  2 -1| -4  0 -1|     133
+ SLN_Sonoflu  8  1  1|  8  1  1| 33  0  5|  0  7  0|  0  9  0|  1  6  1|  2  6  2|  0  7  1|  0 10  0|  2  2  2|  0  7  0|  0  2  2|  0  8  0|  0 10  0|  2  4  2|  0  5  0|  7  1  1|  0  4  2|  0  7  1| -3  2 -1| -4  0 -1|      56
+Total Cost: 189
+
+===========================================
+          WEEK # 1   scv
+===========================================
+random seed: 52521
+creating decision builder...
+creating collector...
+                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
+         SCV  4  3  2|  2  6  2|  0 10  1|  0 17  0|  0 17  0|  0 12  1|  3 10  1|  5  5  2|  0 18  0|  2  3  2|  1 17  0|  3  6  2|  0 12  1|  0  7  2|  0 13  0|      20
+Total Cost: 20
+
+===========================================
+          WEEK # 2   scv
+===========================================
+random seed: 63085
+creating decision builder...
+creating collector...
+                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
+         SCV  6  3  2|  4  6  2|  0 11  1|  0 17  0|  0 18  0|  0 13  1|  0 11  1|  0  6  2|  0 18  0|  0  4  2|  0 18  0|  0  7  2|  0 13  1|  2  7  2|  0 13  0|      12
+Total Cost: 12
+
+===========================================
+          WEEK # 3   scv
+===========================================
+random seed: 25107
+creating decision builder...
+creating collector...
+                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
+         SCV  0  4  2|  6  6  2|  0 13  1|  0 17  0|  0 19  0|  1 13  1|  0 12  1|  0  7  2|  0 18  0|  0  6  2|  0 18  0|  2  7  2|  0 14  1|  4  7  2|  0 13  0|      13
+Total Cost: 13
+
+===========================================
+          WEEK # 4   scv
+===========================================
+random seed: 63653
+creating decision builder...
+creating collector...
+                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
+         SCV  2  4  2|  0  7  2|  1 13  1|  0 18  0|  0 19  0|  0 15  1|  1 12  1|  2  7  2|  0 19  0|  0  7  2|  0 19  0|  0  8  2|  0 15  1|  6  7  2|  0 13  0|      12
+Total Cost: 12
+
+===========================================
+          WEEK # 1   msk
+===========================================
+random seed: 66163
+creating decision builder...
+creating collector...
+No solution found for section msk
+** ATTEMPT 2 ** : ['msk', 'brt', 'cht', 'nuc', 'sfl', 'scv', 'abd', 'ner', 'sta', 'adm', 'opr']
+
+===========================================
+          WEEK # 1   msk
+===========================================
+random seed: 1910
+creating decision builder...
+creating collector...
+                   CCM       GJS       GSr       DRL       SJP        JK    Cost
+         MSK -1  0 -1|  0 13  0|  1  7  1|  3 12  0|  1  7  1|  0  2 -1|       4
+Total Cost: 8
+
+===========================================
+          WEEK # 2   msk
+===========================================
+random seed: 2104
+creating decision builder...
+creating collector...
+                   CCM       GJS       GSr       DRL       SJP        JK    Cost
+         MSK -2  0 -1|  0 14  0|  2  7  1|  0 14  0|  0  9  1| -1  2 -1|      -1
+Total Cost: -1
+
+===========================================
+          WEEK # 3   msk
+===========================================
+random seed: 45473
+creating decision builder...
+creating collector...
+                   CCM       GJS       GSr       DRL       SJP        JK    Cost
+         MSK -3  0 -1|  0 14  0|  0  8  1|  0 16  0|  0 11  1| -2  2 -1|      -5
+Total Cost: -5
+
+===========================================
+          WEEK # 4   msk
+===========================================
+random seed: 89729
+creating decision builder...
+creating collector...
+                   CCM       GJS       GSr       DRL       SJP        JK    Cost
+         MSK -4  0 -1|  0 15  0|  0 10  1|  0 16  0|  0 13  1| -3  2 -1|      -7
+Total Cost: -7
+
+===========================================
+          WEEK # 1   brt
+===========================================
+random seed: 99410
+creating decision builder...
+creating collector...
+                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
+    UNC_Diag  0 17  0|  0 17  0|  0 12  1|  1 10  1|  0 12  1| -1  0 -1|       0
+    UNC_Proc  0 16  0|  0 18  0|  0  9  2|  1  9  1|  0 13  1| -1  0 -1|       0
+    FRE_Mamm  0  8  1|  0  9  0|  0  9  0|  1  4  1|  0  3  2|  0  1 -1|       1
+    SLN_Mamm  0 11  0|  4  5  1|  0  3  2|  1  4  1|  2  5  1| -1  0 -1|       6
+          TB 14  0  1| 14  0  1| 14  0  1| 14  0  1| 14  0  1| -2  0 -2|      68
+Total Cost: 76
+
+===========================================
+          WEEK # 2   brt
+===========================================
+random seed: 75322
+creating decision builder...
+creating collector...
+                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
+    UNC_Diag  0 17  0|  0 18  0|  0 14  1|  0 12  1|  1 12  1| -2  0 -1|      -1
+    UNC_Proc  0 16  0|  0 18  0|  0 11  2|  0 11  1|  0 14  1| -2  0 -1|      -2
+    FRE_Mamm  1  8  1|  0 11  0|  0 10  0|  0  5  1|  0  4  2| -1  1 -1|       0
+    SLN_Mamm  0 11  0|  0  6  1|  2  3  2|  2  4  1|  0  6  1| -2  0 -1|       2
+          TB 15  0  1| 15  0  1|  0  1  1| 15  0  1| 15  0  1| -4  0 -2|      56
+Total Cost: 55
+
+===========================================
+          WEEK # 3   brt
+===========================================
+random seed: 42146
+creating decision builder...
+creating collector...
+                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
+    UNC_Diag  0 18  0|  0 19  0|  0 15  1|  0 13  1|  0 13  1| -3  0 -1|      -3
+    UNC_Proc  0 18  0|  0 18  0|  0 12  2|  0 12  1|  0 15  1| -3  0 -1|      -3
+    FRE_Mamm  0  9  1|  0 12  0|  0 11  0|  0  6  1|  0  5  2| -2  1 -1|      -2
+    SLN_Mamm  0 11  0|  1  6  1|  0  4  2|  0  5  1|  1  6  1| -3  0 -1|      -1
+          TB 16  0  1| 16  0  1|  1  1  1| 16  0  1|  0  1  1| -6  0 -2|      43
+Total Cost: 34
+
+===========================================
+          WEEK # 4   brt
+===========================================
+random seed: 19716
+creating decision builder...
+creating collector...
+                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
+    UNC_Diag  0 18  0|  0 21  0|  1 15  1|  0 14  1|  0 15  1| -4  0 -1|      -3
+    UNC_Proc  0 19  0|  0 19  0|  2 12  2|  0 14  1|  0 16  1| -4  0 -1|      -2
+    FRE_Mamm  0 10  1|  0 13  0|  0 11  0|  0  7  1|  0  6  2|  0  2 -1|       0
+    SLN_Mamm  0 11  0|  0  7  1|  2  4  2|  1  5  1|  0  7  1| -4  0 -1|      -1
+          TB  0  1  1| 17  0  1|  2  1  1| 17  0  1|  1  1  1| -8  0 -2|      29
+Total Cost: 24
+
+===========================================
+          WEEK # 1   cht
+===========================================
+random seed: 13869
+creating decision builder...
+creating collector...
+                   BCL       GJS       SMN        RV       JKL    Cost
+   Chest/PET  0 10  1|  3  7  1|  0  7  1|  0  9  1|  0 10  1|       3
+Total Cost: 3
+
+===========================================
+          WEEK # 2   cht
+===========================================
+random seed: 56771
+creating decision builder...
+creating collector...
+                   BCL       GJS       SMN        RV       JKL    Cost
+   Chest/PET  0 11  1|  0  8  1|  0  8  1|  0 10  1|  0 11  1|       0
+Total Cost: 0
+
+===========================================
+          WEEK # 3   cht
+===========================================
+random seed: 81028
+creating decision builder...
+creating collector...
+                   BCL       GJS       SMN        RV       JKL    Cost
+   Chest/PET  0 12  1|  0  9  1|  1  8  1|  0 13  1|  1 11  1|       2
+Total Cost: 2
+
+===========================================
+          WEEK # 4   cht
+===========================================
+random seed: 28342
+creating decision builder...
+creating collector...
+                   BCL       GJS       SMN        RV       JKL    Cost
+   Chest/PET  0 13  1|  0 10  1|  0  9  1|  0 14  1|  0 12  1|       0
+Total Cost: 0
+
+===========================================
+          WEEK # 1   nuc
+===========================================
+random seed: 16408
 creating decision builder...
 creating collector...
                    SMN       GSr        HG       RCK    Cost
@@ -136,7 +405,7 @@ Total Cost: -1
 ===========================================
           WEEK # 2   nuc
 ===========================================
-random seed: 93032
+random seed: 26222
 creating decision builder...
 creating collector...
                    SMN       GSr        HG       RCK    Cost
@@ -146,7 +415,7 @@ Total Cost: 2
 ===========================================
           WEEK # 3   nuc
 ===========================================
-random seed: 45308
+random seed: 81588
 creating decision builder...
 creating collector...
                    SMN       GSr        HG       RCK    Cost
@@ -156,7 +425,7 @@ Total Cost: 3
 ===========================================
           WEEK # 4   nuc
 ===========================================
-random seed: 57343
+random seed: 90505
 creating decision builder...
 creating collector...
                    SMN       GSr        HG       RCK    Cost
@@ -166,266 +435,7 @@ Total Cost: -1
 ===========================================
           WEEK # 1   sfl
 ===========================================
-random seed: 51868
-creating decision builder...
-creating collector...
-                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu 15  0  2| 15  0  2|  3 27  3| 12  1  1| 15  0  2|  0  2  2|  0  6  0|  2  4  1| 15  0  2|  5  1  1| 15  0  2| 15  0  2|  3  3  1|  8  1  1|  1  4  1|  0  2  2| 15  0  2|  0  9  0|  0  2  2| -1  0 -1|  0  2 -1|     138
- SLN_Sonoflu  5  1  1|  5  1  1| 18  0  5|  0  7  0|  0  9  0|  2  2  1|  0  2  2|  5  3  1|  2  8  0| 15  0  2|  3  5  0| 15  0  2|  0  6  0|  0 10  0|  0  2  2|  0  5  0|  4  1  1| 15  0  2|  0  5  1|  0  2 -1| -1  0 -1|      88
-Total Cost: 230
-
-===========================================
-          WEEK # 2   sfl
-===========================================
-random seed: 1538
-creating decision builder...
-creating collector...
-                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu 17  0  2| 17  0  2|  6 27  3|  0  3  1| 17  0  2|  0  4  2|  0  6  0|  0  6  1| 17  0  2|  6  1  1| 17  0  2| 17  0  2|  0  5  1|  0  3  1|  2  4  1|  2  2  2| 17  0  2|  0  9  0|  2  2  2| -2  0 -1| -1  2 -1|     134
- SLN_Sonoflu  6  1  1|  6  1  1| 23  0  5|  0  7  0|  0  9  0|  0  4  1|  0  4  2|  0  5  1|  0 10  0| 17  0  2|  0  7  0| 17  0  2|  0  6  0|  0 10  0|  2  2  2|  0  5  0|  5  1  1| 17  0  2|  1  5  1| -1  2 -1| -2  0 -1|      91
-Total Cost: 225
-
-===========================================
-          WEEK # 3   sfl
-===========================================
-random seed: 37253
-creating decision builder...
-creating collector...
-                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu  0  2  2| 19  0  2|  9 27  3|  1  3  1| 19  0  2|  0  6  2|  0  6  0|  1  6  1| 19  0  2|  7  1  1| 19  0  2| 19  0  2|  0  7  1|  1  3  1|  0  6  1|  0  4  2| 19  0  2|  0  9  0|  4  2  2| -3  0 -1| -2  2 -1|     132
- SLN_Sonoflu  0  3  1|  7  1  1| 28  0  5|  0  7  0|  0  9  0|  1  4  1|  2  4  2|  1  5  1|  0 10  0|  0  2  2|  0  7  0| 19  0  2|  0  8  0|  0 10  0|  0  4  2|  0  5  0|  6  1  1|  0  2  2|  2  5  1| -2  2 -1| -3  0 -1|      61
-Total Cost: 193
-
-===========================================
-          WEEK # 4   sfl
-===========================================
-random seed: 52255
-creating decision builder...
-creating collector...
-                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu  2  2  2|  0  2  2|  0 29  3|  2  3  1| 21  0  2|  2  6  2|  0  6  0|  2  6  1| 21  0  2|  8  1  1| 21  0  2| 21  0  2|  0  9  1|  0  5  1|  1  6  1|  2  4  2| 21  0  2|  0  9  0|  0  4  2| -4  0 -1| -3  2 -1|     117
- SLN_Sonoflu  1  3  1|  8  1  1| 33  0  5|  0  7  0|  0  9  0|  0  6  1|  4  4  2|  0  7  1|  0 10  0|  2  2  2|  0  7  0| 21  0  2|  0  8  0|  0 10  0|  0  6  2|  0  7  0|  7  1  1|  0  4  2|  3  5  1| -3  2 -1| -4  0 -1|      72
-Total Cost: 189
-
-===========================================
-          WEEK # 1   scv
-===========================================
-random seed: 98052
-creating decision builder...
-creating collector...
-                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  4  3  2|  2  6  2|  0 12  1|  0 18  0|  0 14  0|  0 12  1|  3 10  1|  0  6  2|  0 18  0|  2  3  2|  1 17  0|  3  6  2|  0 12  1|  2  6  2|  0 13  0|      17
-Total Cost: 17
-
-===========================================
-          WEEK # 2   scv
-===========================================
-random seed: 19470
-creating decision builder...
-creating collector...
-                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  6  3  2|  4  6  2|  0 13  1|  0 18  0|  0 14  0|  0 13  1|  0 11  1|  2  6  2|  0 18  0|  0  4  2|  0 18  0|  0  8  2|  0 13  1|  0  7  2|  0 13  0|      12
-Total Cost: 12
-
-===========================================
-          WEEK # 3   scv
-===========================================
-random seed: 73328
-creating decision builder...
-creating collector...
-                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  0  4  2|  0  7  2|  0 15  1|  0 18  0|  0 14  0|  1 13  1|  0 12  1|  0  7  2|  0 18  0|  0  5  2|  0 18  0|  2  8  2|  0 15  1|  2  7  2|  0 13  0|       5
-Total Cost: 5
-
-===========================================
-          WEEK # 4   scv
-===========================================
-random seed: 53349
-creating decision builder...
-creating collector...
-No solution found for section scv
-** ATTEMPT 2 ** : ['brt', 'cht', 'nuc', 'scv', 'sfl', 'msk', 'abd', 'ner', 'sta', 'adm', 'opr']
-
-===========================================
-          WEEK # 1   brt
-===========================================
-random seed: 84627
-creating decision builder...
-creating collector...
-                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 17  0|  0 11  1|  1 10  1|  0 13  1| -1  0 -1|       0
-    UNC_Proc  0 16  0|  0 18  0|  0 10  2|  1  9  1|  0 12  1| -1  0 -1|       0
-    FRE_Mamm  0  8  1|  0  9  0|  0  9  0|  1  4  1|  0  3  2|  0  1 -1|       1
-    SLN_Mamm  2 10  0|  4  5  1|  0  3  2|  1  4  1|  0  6  1| -1  0 -1|       6
-          TB 14  0  1| 14  0  1| 14  0  1| 14  0  1| 14  0  1| -2  0 -2|      68
-Total Cost: 76
-
-===========================================
-          WEEK # 2   brt
-===========================================
-random seed: 23363
-creating decision builder...
-creating collector...
-                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 17  0|  0 13  1|  0 12  1|  0 14  1| -2  0 -1|      -2
-    UNC_Proc  0 16  0|  0 19  0|  0 12  2|  0 11  1|  1 12  1| -2  0 -1|      -1
-    FRE_Mamm  1  8  1|  0 11  0|  0 10  0|  0  5  1|  0  4  2| -1  1 -1|       0
-    SLN_Mamm  2 10  0|  0  6  1|  0  4  2|  2  4  1|  1  6  1| -2  0 -1|       3
-          TB 15  0  1| 15  0  1|  0  1  1| 15  0  1| 15  0  1| -4  0 -2|      56
-Total Cost: 56
-
-===========================================
-          WEEK # 3   brt
-===========================================
-random seed: 86491
-creating decision builder...
-creating collector...
-                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 18  0|  0 17  0|  0 14  1|  0 14  1|  0 15  1| -3  0 -1|      -3
-    UNC_Proc  0 16  0|  0 20  0|  0 14  2|  0 12  1|  0 13  1| -3  0 -1|      -3
-    FRE_Mamm  0  9  1|  0 11  0|  0 11  0|  0  7  1|  0  5  2| -2  1 -1|      -2
-    SLN_Mamm  0 11  0|  1  6  1|  2  4  2|  0  5  1|  2  6  1| -3  0 -1|       2
-          TB 16  0  1| 16  0  1|  1  1  1|  0  1  1| 16  0  1| -6  0 -2|      43
-Total Cost: 37
-
-===========================================
-          WEEK # 4   brt
-===========================================
-random seed: 7245
-creating decision builder...
-creating collector...
-                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 18  0|  0 19  0|  1 14  1|  0 15  1|  0 17  1| -4  0 -1|      -3
-    UNC_Proc  0 16  0|  0 22  0|  2 14  2|  0 14  1|  0 14  1| -4  0 -1|      -2
-    FRE_Mamm  0 10  1|  0 12  0|  0 11  0|  0  8  1|  0  6  2|  0  2 -1|       0
-    SLN_Mamm  0 11  0|  0  7  1|  4  4  2|  1  5  1|  0  7  1| -4  0 -1|       1
-          TB 17  0  1| 17  0  1|  2  1  1|  1  1  1|  0  1  1| -8  0 -2|      29
-Total Cost: 26
-
-===========================================
-          WEEK # 1   cht
-===========================================
-random seed: 14703
-creating decision builder...
-creating collector...
-                   BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  1  9  1|  0  8  1|  0  7  1|  0  9  1|  0 10  1|       1
-Total Cost: 1
-
-===========================================
-          WEEK # 2   cht
-===========================================
-random seed: 70734
-creating decision builder...
-creating collector...
-                   BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  0 10  1|  0  9  1|  0  8  1|  0 10  1|  0 11  1|       0
-Total Cost: 0
-
-===========================================
-          WEEK # 3   cht
-===========================================
-random seed: 62655
-creating decision builder...
-creating collector...
-                   BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  0 11  1|  0 11  1|  1  8  1|  0 12  1|  1 11  1|       2
-Total Cost: 2
-
-===========================================
-          WEEK # 4   cht
-===========================================
-random seed: 51264
-creating decision builder...
-creating collector...
-                   BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  0 12  1|  0 12  1|  0  9  1|  0 13  1|  0 12  1|       0
-Total Cost: 0
-
-===========================================
-          WEEK # 1   nuc
-===========================================
-random seed: 39716
-creating decision builder...
-creating collector...
-                   SMN       GSr        HG       RCK    Cost
-        Nucs  0 13  1|  0 17  0|  0 27  0| -1  0 -1|      -1
-Total Cost: -1
-
-===========================================
-          WEEK # 2   nuc
-===========================================
-random seed: 66440
-creating decision builder...
-creating collector...
-                   SMN       GSr        HG       RCK    Cost
-        Nucs  0 16  1|  0 17  0|  0 27  0|  0  2 -1|       0
-Total Cost: 2
-
-===========================================
-          WEEK # 3   nuc
-===========================================
-random seed: 73043
-creating decision builder...
-creating collector...
-                   SMN       GSr        HG       RCK    Cost
-        Nucs  1 16  1|  0 20  0|  0 27  0|  0  4 -1|       1
-Total Cost: 3
-
-===========================================
-          WEEK # 4   nuc
-===========================================
-random seed: 31970
-creating decision builder...
-creating collector...
-                   SMN       GSr        HG       RCK    Cost
-        Nucs  0 18  1|  0 23  0|  0 27  0| -1  4 -1|      -1
-Total Cost: -1
-
-===========================================
-          WEEK # 1   scv
-===========================================
-random seed: 62286
-creating decision builder...
-creating collector...
-                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  0  4  2|  2  6  2|  0 11  1|  0 17  0|  0 14  0|  0 12  1|  3 10  1|  5  5  2|  0 19  0|  2  3  2|  1 17  0|  0  7  2|  0 12  1|  2  6  2|  0 13  0|      15
-Total Cost: 15
-
-===========================================
-          WEEK # 2   scv
-===========================================
-random seed: 65869
-creating decision builder...
-creating collector...
-                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  2  4  2|  4  6  2|  0 12  1|  0 18  0|  0 14  0|  0 13  1|  0 11  1|  7  5  2|  0 19  0|  0  4  2|  0 18  0|  0  8  2|  0 13  1|  0  7  2|  0 13  0|      13
-Total Cost: 13
-
-===========================================
-          WEEK # 3   scv
-===========================================
-random seed: 52473
-creating decision builder...
-creating collector...
-                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  0  5  2|  0  7  2|  0 13  1|  0 19  0|  0 14  0|  1 13  1|  0 12  1|  0  6  2|  0 19  0|  0  5  2|  0 18  0|  0  9  2|  0 14  1|  2  7  2|  0 13  0|       3
-Total Cost: 3
-
-===========================================
-          WEEK # 4   scv
-===========================================
-random seed: 32925
-creating decision builder...
-creating collector...
-                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  0  6  2|  2  7  2|  1 13  1|  0 20  0|  0 14  0|  0 14  1|  1 12  1|  2  6  2|  0 21  0|  2  5  2|  0 19  0|  0 10  2|  0 15  1|  0  8  2|  0 13  0|       8
-Total Cost: 8
-
-===========================================
-          WEEK # 1   sfl
-===========================================
-random seed: 25383
+random seed: 36219
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
@@ -436,388 +446,79 @@ Total Cost: 243
 ===========================================
           WEEK # 2   sfl
 ===========================================
-random seed: 56683
+random seed: 79030
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu 17  0  2| 17  0  2|  6 27  3|  1  3  1| 17  0  2|  2  2  2|  0  6  0|  0  6  1| 17  0  2|  6  1  1| 17  0  2| 17  0  2|  0  5  1|  0  3  1|  2  4  1|  0  4  2| 17  0  2|  0  9  0|  0  2  2| -1  2 -1| -2  0 -1|     133
- SLN_Sonoflu  6  1  1|  6  1  1| 23  0  5|  0  7  0|  0  9  0|  0  4  1|  0  4  2|  1  5  1|  0 10  0| 17  0  2|  0  7  0| 17  0  2|  0  6  0|  0 10  0|  0  2  2|  0  5  0|  5  1  1| 17  0  2|  1  5  1| -1  2 -1| -2  0 -1|      90
-Total Cost: 223
+ FRE_Sonoflu 17  0  2| 17  0  2|  6 27  3|  1  3  1| 17  0  2|  2  2  2|  0  6  0|  0  6  1| 17  0  2|  6  1  1| 17  0  2| 17  0  2|  0  5  1|  0  3  1|  2  4  1|  2  2  2| 17  0  2|  0  9  0|  0  2  2|  0  4 -1| -2  0 -1|     136
+ SLN_Sonoflu  6  1  1|  6  1  1| 23  0  5|  0  7  0|  0  9  0|  0  4  1|  0  4  2|  1  5  1|  0 10  0| 17  0  2|  3  5  0| 17  0  2|  0  8  0|  0 10  0|  0  2  2|  0  5  0|  5  1  1| 17  0  2|  1  5  1| -1  2 -1| -2  0 -1|      93
+Total Cost: 231
 
 ===========================================
           WEEK # 3   sfl
 ===========================================
-random seed: 43662
+random seed: 46687
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu  0  2  2| 19  0  2|  9 27  3|  2  3  1| 19  0  2|  4  2  2|  0  6  0|  1  6  1| 19  0  2|  7  1  1| 19  0  2| 19  0  2|  0  7  1|  0  5  1|  3  4  1|  0  6  2| 19  0  2|  0  9  0|  0  4  2| -2  2 -1| -3  0 -1|     135
- SLN_Sonoflu  0  3  1|  7  1  1| 28  0  5|  0  7  0|  0  9  0|  1  4  1|  0  6  2|  2  5  1|  0 10  0|  0  2  2|  0  7  0| 19  0  2|  0  8  0|  0 10  0|  2  2  2|  0  5  0|  6  1  1|  0  2  2|  2  5  1| -2  2 -1| -3  0 -1|      62
-Total Cost: 197
+ FRE_Sonoflu  0  2  2| 19  0  2|  9 27  3|  2  3  1| 19  0  2|  0  4  2|  0  6  0|  1  6  1| 19  0  2|  0  3  1| 19  0  2| 19  0  2|  0  7  1|  1  3  1|  3  4  1|  0  4  2| 19  0  2|  0  9  0|  2  2  2| -1  4 -1| -3  0 -1|     128
+ SLN_Sonoflu  7  1  1|  7  1  1| 28  0  5|  0  7  0|  0  9  0|  1  4  1|  0  6  2|  2  5  1|  0 12  0| 19  0  2|  3  5  0|  0  2  2|  0  8  0|  0 10  0|  0  4  2|  0  5  0|  6  1  1|  0  2  2|  2  5  1| -2  2 -1| -3  0 -1|      70
+Total Cost: 198
 
 ===========================================
           WEEK # 4   sfl
 ===========================================
-random seed: 53894
+random seed: 64313
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu  2  2  2| 21  0  2|  0 29  3|  0  5  1| 21  0  2|  0  4  2|  0  6  0|  2  6  1| 21  0  2|  8  1  1| 21  0  2| 21  0  2|  0  9  1|  1  5  1|  4  4  1|  2  6  2| 21  0  2|  0  9  0|  0  6  2| -3  2 -1| -4  0 -1|     138
- SLN_Sonoflu  1  3  1|  8  1  1| 33  0  5|  0  7  0|  0  9  0|  0  6  1|  2  6  2|  0  7  1|  0 10  0|  2  2  2|  0  7  0| 21  0  2|  0 10  0|  0 10  0|  4  2  2|  0  5  0|  7  1  1|  0  4  2|  0  7  1| -3  2 -1| -4  0 -1|      71
-Total Cost: 209
+ FRE_Sonoflu  2  2  2|  0  2  2|  0 29  3|  0  5  1| 21  0  2|  0  6  2|  0  6  0|  2  6  1| 21  0  2|  1  3  1| 21  0  2| 21  0  2|  0  9  1|  2  3  1|  4  4  1|  2  4  2| 21  0  2|  0  9  0|  4  2  2| -2  4 -1| -4  0 -1|     116
+ SLN_Sonoflu  8  1  1|  8  1  1| 33  0  5|  0  7  0|  0  9  0|  2  4  1|  2  6  2|  0  7  1|  0 12  0| 21  0  2|  0  7  0|  2  2  2|  0  8  0|  0 10  0|  2  4  2|  0  7  0|  7  1  1|  0  4  2|  0  7  1| -3  2 -1| -4  0 -1|      78
+Total Cost: 194
 
 ===========================================
-          WEEK # 1   msk
+          WEEK # 1   scv
 ===========================================
-random seed: 10019
+random seed: 42842
 creating decision builder...
 creating collector...
-No solution found for section msk
+                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
+         SCV  4  3  2|  2  6  2|  0 10  1|  0 18  0|  0 14  0|  0 12  1|  3 10  1|  5  5  2|  0 19  0|  2  3  2|  1 17  0|  3  6  2|  0 13  1|  0  7  2|  0 13  0|      20
+Total Cost: 20
+
+===========================================
+          WEEK # 2   scv
+===========================================
+random seed: 49475
+creating decision builder...
+creating collector...
+                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
+         SCV  6  3  2|  4  6  2|  0 13  1|  0 19  0|  0 14  0|  0 13  1|  0 11  1|  0  6  2|  0 19  0|  0  4  2|  1 17  0|  5  6  2|  0 14  1|  2  7  2|  0 13  0|      18
+Total Cost: 18
+
+===========================================
+          WEEK # 3   scv
+===========================================
+random seed: 60932
+creating decision builder...
+creating collector...
+                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
+         SCV  0  4  2|  0  7  2|  0 14  1|  0 19  0|  0 14  0|  1 13  1|  1 11  1|  0  7  2|  0 19  0|  0  5  2|  0 18  0|  0  7  2|  0 15  1|  0  8  2|  0 13  0|       2
+Total Cost: 2
+
+===========================================
+          WEEK # 4   scv
+===========================================
+random seed: 99581
+creating decision builder...
+creating collector...
+No solution found for section scv
 ** ATTEMPT 3 ** : ['msk', 'brt', 'cht', 'nuc', 'scv', 'sfl', 'abd', 'ner', 'sta', 'adm', 'opr']
 
 ===========================================
           WEEK # 1   msk
 ===========================================
-random seed: 42240
-creating decision builder...
-creating collector...
-                   CCM       GJS       GSr       DRL       SJP        JK    Cost
-         MSK  0  2 -1|  0 13  0|  1  7  1|  3 12  0|  1  7  1| -1  0 -1|       4
-Total Cost: 8
-
-===========================================
-          WEEK # 2   msk
-===========================================
-random seed: 42564
-creating decision builder...
-creating collector...
-                   CCM       GJS       GSr       DRL       SJP        JK    Cost
-         MSK -1  2 -1|  0 14  0|  2  7  1|  0 14  0|  0  9  1| -2  0 -1|      -1
-Total Cost: -1
-
-===========================================
-          WEEK # 3   msk
-===========================================
-random seed: 37217
-creating decision builder...
-creating collector...
-                   CCM       GJS       GSr       DRL       SJP        JK    Cost
-         MSK -2  2 -1|  0 14  0|  0  9  1|  0 15  0|  0 11  1| -3  0 -1|      -5
-Total Cost: -5
-
-===========================================
-          WEEK # 4   msk
-===========================================
-random seed: 23909
-creating decision builder...
-creating collector...
-                   CCM       GJS       GSr       DRL       SJP        JK    Cost
-         MSK -3  2 -1|  0 15  0|  0 11  1|  0 15  0|  0 13  1| -4  0 -1|      -7
-Total Cost: -7
-
-===========================================
-          WEEK # 1   brt
-===========================================
-random seed: 64024
-creating decision builder...
-creating collector...
-                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 17  0|  0 11  1|  1 10  1|  0 13  1| -1  0 -1|       0
-    UNC_Proc  0 16  0|  0 18  0|  0 10  2|  1  9  1|  0 12  1| -1  0 -1|       0
-    FRE_Mamm  0  8  1|  0  9  0|  0  9  0|  1  4  1|  0  3  2|  0  1 -1|       1
-    SLN_Mamm  2 10  0|  4  5  1|  0  3  2|  1  4  1|  0  6  1| -1  0 -1|       6
-          TB 14  0  1| 14  0  1| 14  0  1| 14  0  1| 14  0  1| -2  0 -2|      68
-Total Cost: 76
-
-===========================================
-          WEEK # 2   brt
-===========================================
-random seed: 25922
-creating decision builder...
-creating collector...
-                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 17  0|  0 13  1|  0 12  1|  0 14  1| -2  0 -1|      -2
-    UNC_Proc  0 16  0|  0 20  0|  0 11  2|  0 11  1|  1 12  1| -2  0 -1|      -1
-    FRE_Mamm  1  8  1|  0 10  0|  0 11  0|  0  5  1|  0  4  2| -1  1 -1|       0
-    SLN_Mamm  2 10  0|  0  6  1|  0  4  2|  2  4  1|  1  6  1| -2  0 -1|       3
-          TB 15  0  1|  0  1  1| 15  0  1| 15  0  1| 15  0  1| -4  0 -2|      56
-Total Cost: 56
-
-===========================================
-          WEEK # 3   brt
-===========================================
-random seed: 3615
-creating decision builder...
-creating collector...
-                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 18  0|  0 15  1|  0 13  1|  0 15  1| -3  0 -1|      -3
-    UNC_Proc  0 17  0|  0 20  0|  0 12  2|  0 13  1|  0 13  1| -3  0 -1|      -3
-    FRE_Mamm  0 10  1|  0 10  0|  0 12  0|  0  6  1|  0  5  2| -2  1 -1|      -2
-    SLN_Mamm  0 11  0|  1  6  1|  2  4  2|  0  5  1|  2  6  1| -3  0 -1|       2
-          TB 16  0  1|  1  1  1| 16  0  1| 16  0  1|  0  1  1| -6  0 -2|      43
-Total Cost: 37
-
-===========================================
-          WEEK # 4   brt
-===========================================
-random seed: 18115
-creating decision builder...
-creating collector...
-                   JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 19  0|  1 15  1|  0 15  1|  0 17  1| -4  0 -1|      -3
-    UNC_Proc  0 18  0|  0 21  0|  2 12  2|  0 14  1|  0 15  1| -4  0 -1|      -2
-    FRE_Mamm  0 11  1|  0 11  0|  0 12  0|  0  7  1|  0  6  2|  0  2 -1|       0
-    SLN_Mamm  0 11  0|  0  7  1|  4  4  2|  1  5  1|  0  7  1| -4  0 -1|       1
-          TB  0  1  1|  2  1  1| 17  0  1| 17  0  1|  1  1  1| -8  0 -2|      29
-Total Cost: 26
-
-===========================================
-          WEEK # 1   cht
-===========================================
-random seed: 64503
-creating decision builder...
-creating collector...
-                   BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  0 10  1|  3  7  1|  0  7  1|  0  9  1|  0 10  1|       3
-Total Cost: 3
-
-===========================================
-          WEEK # 2   cht
-===========================================
-random seed: 96709
-creating decision builder...
-creating collector...
-                   BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  0 11  1|  0  8  1|  0  8  1|  0 10  1|  0 11  1|       0
-Total Cost: 0
-
-===========================================
-          WEEK # 3   cht
-===========================================
-random seed: 87275
-creating decision builder...
-creating collector...
-                   BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  0 12  1|  0 10  1|  1  8  1|  0 12  1|  1 11  1|       2
-Total Cost: 2
-
-===========================================
-          WEEK # 4   cht
-===========================================
-random seed: 56979
-creating decision builder...
-creating collector...
-                   BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  0 13  1|  0 11  1|  0  9  1|  0 13  1|  0 12  1|       0
-Total Cost: 0
-
-===========================================
-          WEEK # 1   nuc
-===========================================
-random seed: 95167
-creating decision builder...
-creating collector...
-                   SMN       GSr        HG       RCK    Cost
-        Nucs  0 13  1|  0 17  0|  0 27  0| -1  0 -1|      -1
-Total Cost: -1
-
-===========================================
-          WEEK # 2   nuc
-===========================================
-random seed: 60281
-creating decision builder...
-creating collector...
-                   SMN       GSr        HG       RCK    Cost
-        Nucs  0 16  1|  0 17  0|  0 27  0|  0  2 -1|       0
-Total Cost: 2
-
-===========================================
-          WEEK # 3   nuc
-===========================================
-random seed: 27163
-creating decision builder...
-creating collector...
-                   SMN       GSr        HG       RCK    Cost
-        Nucs  1 16  1|  0 20  0|  0 27  0|  0  4 -1|       1
-Total Cost: 3
-
-===========================================
-          WEEK # 4   nuc
-===========================================
-random seed: 3755
-creating decision builder...
-creating collector...
-                   SMN       GSr        HG       RCK    Cost
-        Nucs  0 18  1|  0 21  0|  0 29  0| -1  4 -1|      -1
-Total Cost: -1
-
-===========================================
-          WEEK # 1   scv
-===========================================
-random seed: 7339
-creating decision builder...
-creating collector...
-                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  0  4  2|  2  6  2|  0 11  1|  0 17  0|  0 14  0|  0 12  1|  3 10  1|  5  5  2|  0 18  0|  2  3  2|  1 17  0|  3  6  2|  0 14  1|  2  6  2|  0 13  0|      18
-Total Cost: 18
-
-===========================================
-          WEEK # 2   scv
-===========================================
-random seed: 95370
-creating decision builder...
-creating collector...
-                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  2  4  2|  4  6  2|  0 12  1|  0 17  0|  0 14  0|  0 13  1|  0 11  1|  7  5  2|  0 19  0|  0  4  2|  0 18  0|  0  7  2|  0 15  1|  0  7  2|  0 13  0|      13
-Total Cost: 13
-
-===========================================
-          WEEK # 3   scv
-===========================================
-random seed: 25105
-creating decision builder...
-creating collector...
-                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  0  5  2|  0  7  2|  0 13  1|  0 17  0|  0 14  0|  1 13  1|  0 12  1|  0  6  2|  0 19  0|  0  5  2|  0 18  0|  0  8  2|  0 16  1|  0  8  2|  0 13  0|       1
-Total Cost: 1
-
-===========================================
-          WEEK # 4   scv
-===========================================
-random seed: 48199
-creating decision builder...
-creating collector...
-                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  0  6  2|  0  8  2|  1 13  1|  0 19  0|  0 14  0|  0 14  1|  1 12  1|  2  6  2|  0 21  0|  2  5  2|  0 18  0|  2  8  2|  0 17  1|  2  8  2|  0 14  0|      10
-Total Cost: 10
-
-===========================================
-          WEEK # 1   sfl
-===========================================
-random seed: 82431
-creating decision builder...
-creating collector...
-                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu 15  0  2| 15  0  2|  3 27  3|  0  3  1| 15  0  2|  0  2  2|  0  6  0|  2  4  1| 15  0  2|  5  1  1| 15  0  2| 15  0  2|  3  3  1|  8  1  1|  1  4  1| 15  0  2| 15  0  2|  0  9  0|  0  2  2| -1  0 -1|  0  2 -1|     141
- SLN_Sonoflu  5  1  1|  5  1  1| 18  0  5|  0  7  0|  0  9  0|  2  2  1|  0  2  2|  0  5  1|  2  8  0| 15  0  2|  0  7  0| 15  0  2|  0  6  0|  0 10  0| 15  0  2|  0  5  0|  4  1  1| 15  0  2|  8  3  1| -1  0 -1|  0  2 -1|     103
-Total Cost: 248
-
-===========================================
-          WEEK # 2   sfl
-===========================================
-random seed: 73457
-creating decision builder...
-creating collector...
-                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu 17  0  2| 17  0  2|  6 27  3|  1  3  1| 17  0  2|  0  4  2|  0  6  0|  0  6  1| 17  0  2|  6  1  1| 17  0  2| 17  0  2|  0  5  1|  0  3  1|  2  4  1|  0  2  2| 17  0  2|  0  9  0|  2  2  2| -2  0 -1| -1  2 -1|     133
- SLN_Sonoflu  6  1  1|  6  1  1| 23  0  5|  0  7  0|  0  9  0|  0  4  1|  0  4  2|  1  5  1|  0 10  0| 17  0  2|  0  7  0| 17  0  2|  0  6  0|  0 10  0| 17  0  2|  0  5  0|  5  1  1| 17  0  2|  0  5  1| -2  0 -1|  0  4 -1|     107
-Total Cost: 242
-
-===========================================
-          WEEK # 3   sfl
-===========================================
-random seed: 51326
-creating decision builder...
-creating collector...
-                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu  0  2  2| 19  0  2|  9 27  3|  2  3  1| 19  0  2|  0  6  2|  0  6  0|  1  6  1| 19  0  2|  7  1  1| 19  0  2| 19  0  2|  0  7  1|  0  5  1|  3  4  1|  0  4  2| 19  0  2|  0  9  0|  4  2  2| -3  0 -1| -2  2 -1|     135
- SLN_Sonoflu  7  1  1|  7  1  1| 28  0  5|  0  7  0|  0  9  0|  0  6  1|  0  6  2|  2  5  1|  0 10  0|  0  2  2|  0  7  0| 19  0  2|  0  6  0|  0 10  0| 19  0  2|  0  5  0|  6  1  1| 19  0  2|  0  7  1| -3  0 -1|  0  6 -1|     104
-Total Cost: 241
-
-===========================================
-          WEEK # 4   sfl
-===========================================
-random seed: 60906
-creating decision builder...
-creating collector...
-                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu  2  2  2| 21  0  2|  0 29  3|  0  5  1| 21  0  2|  2  6  2|  0  6  0|  2  6  1| 21  0  2|  8  1  1| 21  0  2| 21  0  2|  0  9  1|  1  5  1|  4  4  1|  0  6  2| 21  0  2|  0  9  0|  0  4  2| -4  0 -1| -3  2 -1|     138
- SLN_Sonoflu  8  1  1|  8  1  1| 33  0  5|  0  9  0|  0  9  0|  0  8  1|  2  6  2|  0  7  1|  0 10  0|  2  2  2|  0  7  0| 21  0  2|  0  8  0|  0 10  0| 21  0  2|  0  5  0|  7  1  1|  0  2  2|  1  7  1| -4  0 -1| -1  6 -1|      98
-Total Cost: 236
-
-===========================================
-          WEEK # 1   abd
-===========================================
-random seed: 48480
-creating decision builder...
-creating collector...
-                   BCL       DSL       HSS       JKL        SH    Cost
-     Abdomen  0  1  2|  0 14  0|  1 12  1|  0 15  0|  0 12  1|       1
-Total Cost: 1
-
-===========================================
-          WEEK # 2   abd
-===========================================
-random seed: 49018
-creating decision builder...
-creating collector...
-                   BCL       DSL       HSS       JKL        SH    Cost
-     Abdomen  0  2  2|  0 15  0|  0 13  1|  0 16  0|  0 13  1|       0
-Total Cost: 0
-
-===========================================
-          WEEK # 3   abd
-===========================================
-random seed: 46244
-creating decision builder...
-creating collector...
-                   BCL       DSL       HSS       JKL        SH    Cost
-     Abdomen  2  2  2|  0 18  0|  0 15  1|  0 16  0|  1 13  1|       3
-Total Cost: 3
-
-===========================================
-          WEEK # 4   abd
-===========================================
-random seed: 44910
-creating decision builder...
-creating collector...
-No solution found for section abd
-** ATTEMPT 4 ** : ['abd', 'msk', 'brt', 'cht', 'nuc', 'scv', 'sfl', 'ner', 'sta', 'adm', 'opr']
-
-===========================================
-          WEEK # 1   abd
-===========================================
-random seed: 85672
-creating decision builder...
-creating collector...
-                   BCL       DSL       HSS       JKL        SH    Cost
-     Abdomen  0  1  2|  0 13  0|  0 13  1|  0 15  0|  0 12  1|       0
-Total Cost: 0
-
-===========================================
-          WEEK # 2   abd
-===========================================
-random seed: 33708
-creating decision builder...
-creating collector...
-                   BCL       DSL       HSS       JKL        SH    Cost
-     Abdomen  0  2  2|  0 14  0|  0 14  1|  0 15  0|  0 14  1|       0
-Total Cost: 0
-
-===========================================
-          WEEK # 3   abd
-===========================================
-random seed: 35575
-creating decision builder...
-creating collector...
-                   BCL       DSL       HSS       JKL        SH    Cost
-     Abdomen  0  3  2|  0 17  0|  0 15  1|  0 15  0|  1 14  1|       1
-Total Cost: 1
-
-===========================================
-          WEEK # 4   abd
-===========================================
-random seed: 18655
-creating decision builder...
-creating collector...
-                   BCL       DSL       HSS       JKL        SH    Cost
-     Abdomen  0  4  2|  0 17  0|  0 16  1|  0 17  0|  0 15  1|       0
-Total Cost: 0
-
-===========================================
-          WEEK # 1   msk
-===========================================
-random seed: 73458
+random seed: 64991
 creating decision builder...
 creating collector...
                    CCM       GJS       GSr       DRL       SJP        JK    Cost
@@ -827,7 +528,7 @@ Total Cost: 8
 ===========================================
           WEEK # 2   msk
 ===========================================
-random seed: 49804
+random seed: 38715
 creating decision builder...
 creating collector...
                    CCM       GJS       GSr       DRL       SJP        JK    Cost
@@ -837,32 +538,32 @@ Total Cost: -1
 ===========================================
           WEEK # 3   msk
 ===========================================
-random seed: 8604
+random seed: 26103
 creating decision builder...
 creating collector...
                    CCM       GJS       GSr       DRL       SJP        JK    Cost
-         MSK -3  0 -1|  0 15  0|  0  8  1|  0 16  0|  0 10  1| -2  2 -1|      -5
+         MSK -3  0 -1|  0 14  0|  0  9  1|  0 16  0|  0 10  1| -2  2 -1|      -5
 Total Cost: -5
 
 ===========================================
           WEEK # 4   msk
 ===========================================
-random seed: 75062
+random seed: 14683
 creating decision builder...
 creating collector...
                    CCM       GJS       GSr       DRL       SJP        JK    Cost
-         MSK -4  0 -1|  0 16  0|  0 10  1|  0 16  0|  0 12  1| -3  2 -1|      -7
+         MSK -4  0 -1|  0 16  0|  0 11  1|  0 16  0|  0 11  1| -3  2 -1|      -7
 Total Cost: -7
 
 ===========================================
           WEEK # 1   brt
 ===========================================
-random seed: 13326
+random seed: 19615
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 17  0|  0 12  1|  1 10  1|  0 12  1| -1  0 -1|       0
-    UNC_Proc  0 16  0|  0 18  0|  0  9  2|  1  9  1|  0 13  1| -1  0 -1|       0
+    UNC_Diag  0 17  0|  0 17  0|  0 11  1|  1 10  1|  0 13  1| -1  0 -1|       0
+    UNC_Proc  0 16  0|  0 18  0|  0 10  2|  1  9  1|  0 12  1| -1  0 -1|       0
     FRE_Mamm  0  8  1|  0  9  0|  0  9  0|  1  4  1|  0  3  2|  0  1 -1|       1
     SLN_Mamm  0 11  0|  4  5  1|  2  2  2|  1  4  1|  0  6  1| -1  0 -1|       6
           TB 14  0  1| 14  0  1| 14  0  1| 14  0  1| 14  0  1| -2  0 -2|      68
@@ -871,13 +572,13 @@ Total Cost: 76
 ===========================================
           WEEK # 2   brt
 ===========================================
-random seed: 62893
+random seed: 59766
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 17  0|  0 14  1|  0 12  1|  0 13  1| -2  0 -1|      -2
-    UNC_Proc  0 16  0|  0 19  0|  0 11  2|  0 11  1|  1 13  1| -2  0 -1|      -1
-    FRE_Mamm  1  8  1|  0 11  0|  0 10  0|  0  5  1|  0  4  2| -1  1 -1|       0
+    UNC_Diag  0 17  0|  0 19  0|  0 13  1|  0 11  1|  1 13  1| -2  0 -1|      -1
+    UNC_Proc  0 16  0|  0 18  0|  0 12  2|  0 11  1|  0 13  1| -2  0 -1|      -2
+    FRE_Mamm  1  8  1|  0 10  0|  0 10  0|  0  6  1|  0  4  2| -1  1 -1|       0
     SLN_Mamm  0 11  0|  0  6  1|  0  3  2|  2  4  1|  1  6  1| -2  0 -1|       1
           TB 15  0  1| 15  0  1|  0  1  1| 15  0  1| 15  0  1| -4  0 -2|      56
 Total Cost: 54
@@ -885,13 +586,13 @@ Total Cost: 54
 ===========================================
           WEEK # 3   brt
 ===========================================
-random seed: 79950
+random seed: 32443
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 18  0|  0 16  1|  0 13  1|  0 14  1| -3  0 -1|      -3
-    UNC_Proc  0 18  0|  0 19  0|  0 12  2|  0 12  1|  0 14  1| -3  0 -1|      -3
-    FRE_Mamm  0  9  1|  0 12  0|  0 11  0|  0  6  1|  0  5  2| -2  1 -1|      -2
+    UNC_Diag  0 18  0|  0 20  0|  0 14  1|  0 12  1|  0 14  1| -3  0 -1|      -3
+    UNC_Proc  0 17  0|  0 19  0|  0 13  2|  0 12  1|  0 14  1| -3  0 -1|      -3
+    FRE_Mamm  0  9  1|  0 10  0|  0 11  0|  0  8  1|  0  5  2| -2  1 -1|      -2
     SLN_Mamm  0 11  0|  1  6  1|  0  4  2|  0  5  1|  2  6  1| -3  0 -1|       0
           TB 16  0  1| 16  0  1|  1  1  1| 16  0  1|  0  1  1| -6  0 -2|      43
 Total Cost: 35
@@ -899,21 +600,21 @@ Total Cost: 35
 ===========================================
           WEEK # 4   brt
 ===========================================
-random seed: 59321
+random seed: 1552
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 20  0|  1 16  1|  0 14  1|  0 16  1| -4  0 -1|      -3
-    UNC_Proc  0 18  0|  0 21  0|  2 12  2|  0 14  1|  0 15  1| -4  0 -1|      -2
-    FRE_Mamm  0 10  1|  0 12  0|  0 11  0|  0  7  1|  0  7  2|  0  2 -1|       0
+    UNC_Diag  0 18  0|  0 22  0|  1 14  1|  0 14  1|  0 15  1| -4  0 -1|      -3
+    UNC_Proc  0 17  0|  0 21  0|  2 13  2|  0 13  1|  0 16  1| -4  0 -1|      -2
+    FRE_Mamm  0 10  1|  0 11  0|  0 11  0|  0  9  1|  0  6  2|  0  2 -1|       0
     SLN_Mamm  0 11  0|  0  7  1|  2  4  2|  1  5  1|  0  7  1| -4  0 -1|      -1
-          TB 17  0  1|  0  1  1|  2  1  1| 17  0  1|  1  1  1| -8  0 -2|      29
+          TB 17  0  1| 17  0  1|  2  1  1|  0  1  1|  1  1  1| -8  0 -2|      29
 Total Cost: 24
 
 ===========================================
           WEEK # 1   cht
 ===========================================
-random seed: 22827
+random seed: 65593
 creating decision builder...
 creating collector...
                    BCL       GJS       SMN        RV       JKL    Cost
@@ -923,7 +624,7 @@ Total Cost: 3
 ===========================================
           WEEK # 2   cht
 ===========================================
-random seed: 4921
+random seed: 11803
 creating decision builder...
 creating collector...
                    BCL       GJS       SMN        RV       JKL    Cost
@@ -933,56 +634,180 @@ Total Cost: 0
 ===========================================
           WEEK # 3   cht
 ===========================================
-random seed: 947
-creating decision builder...
-creating collector...
-No solution found for section cht
-** ATTEMPT 5 ** : ['cht', 'abd', 'msk', 'brt', 'nuc', 'scv', 'sfl', 'ner', 'sta', 'adm', 'opr']
-
-===========================================
-          WEEK # 1   cht
-===========================================
-random seed: 72628
+random seed: 29194
 creating decision builder...
 creating collector...
                    BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  1  9  1|  0  8  1|  0  7  1|  0  9  1|  0 10  1|       1
-Total Cost: 1
-
-===========================================
-          WEEK # 2   cht
-===========================================
-random seed: 73162
-creating decision builder...
-creating collector...
-                   BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  0 10  1|  0  9  1|  0  8  1|  0 10  1|  0 11  1|       0
-Total Cost: 0
-
-===========================================
-          WEEK # 3   cht
-===========================================
-random seed: 48803
-creating decision builder...
-creating collector...
-                   BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  0 12  1|  0 10  1|  1  8  1|  0 12  1|  1 11  1|       2
+   Chest/PET  0 12  1|  0 11  1|  1  8  1|  0 11  1|  1 11  1|       2
 Total Cost: 2
 
 ===========================================
           WEEK # 4   cht
 ===========================================
-random seed: 63480
+random seed: 45117
 creating decision builder...
 creating collector...
                    BCL       GJS       SMN        RV       JKL    Cost
-   Chest/PET  0 13  1|  0 11  1|  0  9  1|  0 13  1|  0 12  1|       0
-Total Cost: 0
+   Chest/PET  0 14  1|  1 11  1|  0  9  1|  0 12  1|  0 12  1|       1
+Total Cost: 1
+
+===========================================
+          WEEK # 1   nuc
+===========================================
+random seed: 31608
+creating decision builder...
+creating collector...
+                   SMN       GSr        HG       RCK    Cost
+        Nucs  0 15  1|  0 17  0|  0 25  0| -1  0 -1|      -1
+Total Cost: -1
+
+===========================================
+          WEEK # 2   nuc
+===========================================
+random seed: 88705
+creating decision builder...
+creating collector...
+                   SMN       GSr        HG       RCK    Cost
+        Nucs  0 18  1|  0 17  0|  0 25  0|  0  2 -1|       0
+Total Cost: 2
+
+===========================================
+          WEEK # 3   nuc
+===========================================
+random seed: 81567
+creating decision builder...
+creating collector...
+                   SMN       GSr        HG       RCK    Cost
+        Nucs  1 18  1|  0 20  0|  0 25  0|  0  4 -1|       1
+Total Cost: 3
+
+===========================================
+          WEEK # 4   nuc
+===========================================
+random seed: 69843
+creating decision builder...
+creating collector...
+                   SMN       GSr        HG       RCK    Cost
+        Nucs  0 20  1|  0 21  0|  0 27  0| -1  4 -1|      -1
+Total Cost: -1
+
+===========================================
+          WEEK # 1   scv
+===========================================
+random seed: 61506
+creating decision builder...
+creating collector...
+                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
+         SCV  4  3  2|  2  6  2|  0 10  1|  0 18  0|  0 14  0|  0 12  1|  3 10  1|  0  6  2|  0 19  0|  2  3  2|  1 17  0|  3  6  2|  0 13  1|  2  6  2|  0 13  0|      17
+Total Cost: 17
+
+===========================================
+          WEEK # 2   scv
+===========================================
+random seed: 36390
+creating decision builder...
+creating collector...
+                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
+         SCV  6  3  2|  4  6  2|  0 11  1|  0 18  0|  0 15  0|  0 13  1|  0 11  1|  2  6  2|  0 19  0|  0  4  2|  0 18  0|  0  7  2|  0 14  1|  0  7  2|  0 13  0|      12
+Total Cost: 12
+
+===========================================
+          WEEK # 3   scv
+===========================================
+random seed: 77959
+creating decision builder...
+creating collector...
+                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
+         SCV  0  4  2|  6  6  2|  0 12  1|  0 18  0|  0 16  0|  1 13  1|  0 12  1|  0  7  2|  0 19  0|  0  5  2|  0 19  0|  2  7  2|  0 15  1|  0  8  2|  0 13  0|       9
+Total Cost: 9
+
+===========================================
+          WEEK # 4   scv
+===========================================
+random seed: 45696
+creating decision builder...
+creating collector...
+                   JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
+         SCV  0  5  2|  8  6  2|  1 12  1|  0 19  0|  0 16  0|  0 15  1|  1 12  1|  2  7  2|  0 19  0|  0  6  2|  0 20  0|  4  7  2|  0 16  1|  0  9  2|  0 14  0|      16
+Total Cost: 16
+
+===========================================
+          WEEK # 1   sfl
+===========================================
+random seed: 28306
+creating decision builder...
+creating collector...
+                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
+ FRE_Sonoflu 15  0  2| 15  0  2|  3 27  3|  0  3  1| 15  0  2|  0  2  2|  0  6  0|  2  4  1| 15  0  2|  5  1  1| 15  0  2| 15  0  2|  3  3  1|  0  3  1|  1  4  1| 15  0  2| 15  0  2|  0  9  0| 15  0  2|  0  2 -1| -1  0 -1|     148
+ SLN_Sonoflu  5  1  1|  5  1  1| 18  0  5|  0  7  0|  0  9  0|  2  2  1|  0  2  2|  0  5  1|  2  8  0| 15  0  2|  3  5  0| 15  0  2|  0  6  0|  0 10  0| 15  0  2|  0  5  0|  4  1  1| 15  0  2|  0  5  1|  0  2 -1| -1  0 -1|      98
+Total Cost: 250
+
+===========================================
+          WEEK # 2   sfl
+===========================================
+random seed: 32682
+creating decision builder...
+creating collector...
+                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
+ FRE_Sonoflu 17  0  2| 17  0  2|  6 27  3|  1  3  1| 17  0  2|  0  4  2|  0  6  0|  0  6  1| 17  0  2|  6  1  1| 17  0  2| 17  0  2|  4  3  1|  1  3  1|  2  4  1|  0  2  2| 17  0  2|  0  9  0|  0  2  2|  0  4 -1| -2  0 -1|     137
+ SLN_Sonoflu  6  1  1|  6  1  1| 23  0  5|  0  7  0|  0  9  0|  0  4  1|  0  4  2|  1  5  1|  0 10  0| 17  0  2|  0  7  0| 17  0  2|  0  8  0|  0 10  0| 17  0  2|  0  5  0|  5  1  1| 17  0  2|  1  5  1| -1  2 -1| -2  0 -1|     107
+Total Cost: 246
+
+===========================================
+          WEEK # 3   sfl
+===========================================
+random seed: 99265
+creating decision builder...
+creating collector...
+                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
+ FRE_Sonoflu  0  2  2| 19  0  2|  9 27  3|  2  3  1| 19  0  2|  2  4  2|  0  6  0|  1  6  1| 19  0  2|  7  1  1| 19  0  2| 19  0  2|  0  5  1|  0  5  1|  3  4  1|  2  2  2| 19  0  2|  0  9  0|  0  4  2|  0  6 -1| -3  0 -1|     137
+ SLN_Sonoflu  7  1  1|  7  1  1| 28  0  5|  0  7  0|  0  9  0|  0  6  1|  0  6  2|  2  5  1|  0 12  0|  0  2  2|  0  7  0| 19  0  2|  0  8  0|  0 10  0| 19  0  2|  0  5  0|  6  1  1| 19  0  2|  0  7  1| -2  2 -1| -3  0 -1|     102
+Total Cost: 241
+
+===========================================
+          WEEK # 4   sfl
+===========================================
+random seed: 83351
+creating decision builder...
+creating collector...
+                   JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
+ FRE_Sonoflu  2  2  2| 21  0  2|  0 29  3|  0  5  1| 21  0  2|  4  4  2|  0  6  0|  2  6  1| 21  0  2|  8  1  1| 21  0  2| 21  0  2|  0  7  1|  0  7  1|  4  4  1|  0  4  2| 21  0  2|  0  9  0|  2  4  2| -1  6 -1| -4  0 -1|     143
+ SLN_Sonoflu  8  1  1|  8  1  1| 33  0  5|  0  7  0|  0  9  0|  0  8  1|  2  6  2|  0  7  1|  0 12  0|  2  2  2|  0  7  0| 21  0  2|  0  8  0|  0 12  0| 21  0  2|  0  5  0|  7  1  1|  0  2  2|  0  9  1| -3  2 -1| -4  0 -1|      95
+Total Cost: 238
 
 ===========================================
           WEEK # 1   abd
 ===========================================
-random seed: 86777
+random seed: 39264
+creating decision builder...
+creating collector...
+                   BCL       DSL       HSS       JKL        SH    Cost
+     Abdomen  0  1  2|  0 14  0|  1 12  1|  0 15  0|  0 12  1|       1
+Total Cost: 1
+
+===========================================
+          WEEK # 2   abd
+===========================================
+random seed: 32994
+creating decision builder...
+creating collector...
+                   BCL       DSL       HSS       JKL        SH    Cost
+     Abdomen  0  2  2|  0 15  0|  0 13  1|  0 16  0|  0 13  1|       0
+Total Cost: 0
+
+===========================================
+          WEEK # 3   abd
+===========================================
+random seed: 16240
+creating decision builder...
+creating collector...
+No solution found for section abd
+** ATTEMPT 4 ** : ['abd', 'msk', 'brt', 'cht', 'nuc', 'scv', 'sfl', 'ner', 'sta', 'adm', 'opr']
+
+===========================================
+          WEEK # 1   abd
+===========================================
+random seed: 65778
 creating decision builder...
 creating collector...
                    BCL       DSL       HSS       JKL        SH    Cost
@@ -992,7 +817,7 @@ Total Cost: 0
 ===========================================
           WEEK # 2   abd
 ===========================================
-random seed: 3092
+random seed: 90107
 creating decision builder...
 creating collector...
                    BCL       DSL       HSS       JKL        SH    Cost
@@ -1002,72 +827,72 @@ Total Cost: 0
 ===========================================
           WEEK # 3   abd
 ===========================================
-random seed: 94633
+random seed: 40377
 creating decision builder...
 creating collector...
                    BCL       DSL       HSS       JKL        SH    Cost
-     Abdomen  0  3  2|  0 16  0|  0 15  1|  0 17  0|  1 13  1|       1
+     Abdomen  0  3  2|  0 15  0|  0 16  1|  0 17  0|  1 13  1|       1
 Total Cost: 1
 
 ===========================================
           WEEK # 4   abd
 ===========================================
-random seed: 25265
+random seed: 55874
 creating decision builder...
 creating collector...
                    BCL       DSL       HSS       JKL        SH    Cost
-     Abdomen  0  4  2|  0 16  0|  0 17  1|  0 18  0|  0 14  1|       0
+     Abdomen  0  4  2|  0 15  0|  0 17  1|  0 19  0|  0 14  1|       0
 Total Cost: 0
 
 ===========================================
           WEEK # 1   msk
 ===========================================
-random seed: 80570
+random seed: 85779
 creating decision builder...
 creating collector...
                    CCM       GJS       GSr       DRL       SJP        JK    Cost
-         MSK  0  1 -1|  0 12  0|  1  7  1|  3 12  0|  1  7  1|  0  2 -1|       5
-Total Cost: 11
+         MSK  0  2 -1|  0 13  0|  1  7  1|  3 12  0|  1  7  1| -1  0 -1|       4
+Total Cost: 8
 
 ===========================================
           WEEK # 2   msk
 ===========================================
-random seed: 57336
+random seed: 86636
 creating decision builder...
 creating collector...
                    CCM       GJS       GSr       DRL       SJP        JK    Cost
-         MSK -1  1 -1|  0 13  0|  2  7  1|  0 14  0|  0  9  1| -1  2 -1|       0
-Total Cost: 0
+         MSK -1  2 -1|  0 14  0|  2  7  1|  0 14  0|  0  9  1| -2  0 -1|      -1
+Total Cost: -1
 
 ===========================================
           WEEK # 3   msk
 ===========================================
-random seed: 52351
+random seed: 40716
 creating decision builder...
 creating collector...
                    CCM       GJS       GSr       DRL       SJP        JK    Cost
-         MSK -2  1 -1|  0 14  0|  0  8  1|  0 15  0|  0 11  1| -2  2 -1|      -4
-Total Cost: -4
+         MSK -2  2 -1|  0 15  0|  0  9  1|  0 15  0|  0 10  1| -3  0 -1|      -5
+Total Cost: -5
 
 ===========================================
           WEEK # 4   msk
 ===========================================
-random seed: 50696
+random seed: 39139
 creating decision builder...
 creating collector...
                    CCM       GJS       GSr       DRL       SJP        JK    Cost
-         MSK -3  1 -1|  0 15  0|  0 10  1|  0 15  0|  0 13  1| -3  2 -1|      -6
-Total Cost: -6
+         MSK -3  2 -1|  0 16  0|  0 11  1|  0 15  0|  0 12  1| -4  0 -1|      -7
+Total Cost: -7
 
 ===========================================
           WEEK # 1   brt
 ===========================================
-random seed: 61198
+random seed: 54397
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 17  0|  0 12  1|  1 10  1|  0 12  1| -1  0 -1|       0
-    UNC_Proc  0 16  0|  0 18  0|  0  9  2|  1  9  1|  0 13  1| -1  0 -1|       0
+    UNC_Diag  0 17  0|  0 17  0|  0 11  1|  1 10  1|  0 13  1| -1  0 -1|       0
+    UNC_Proc  0 16  0|  0 18  0|  0 10  2|  1  9  1|  0 12  1| -1  0 -1|       0
     FRE_Mamm  0  8  1|  0  9  0|  0  9  0|  1  4  1|  0  3  2|  0  1 -1|       1
     SLN_Mamm  0 11  0|  4  5  1|  2  2  2|  1  4  1|  0  6  1| -1  0 -1|       6
           TB 14  0  1| 14  0  1| 14  0  1| 14  0  1| 14  0  1| -2  0 -2|      68
@@ -1076,49 +901,89 @@ Total Cost: 76
 ===========================================
           WEEK # 2   brt
 ===========================================
-random seed: 4844
+random seed: 69905
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 17  0|  0 18  0|  0 14  1|  0 12  1|  1 12  1| -2  0 -1|      -1
-    UNC_Proc  0 16  0|  0 19  0|  0 11  2|  0 10  1|  0 14  1| -2  0 -1|      -2
-    FRE_Mamm  1  8  1|  0 10  0|  0 10  0|  0  6  1|  0  4  2| -1  1 -1|       0
+    UNC_Diag  0 17  0|  0 17  0|  0 13  1|  0 12  1|  0 14  1| -2  0 -1|      -2
+    UNC_Proc  0 16  0|  0 19  0|  0 12  2|  0 11  1|  1 12  1| -2  0 -1|      -1
+    FRE_Mamm  1  8  1|  0 11  0|  0 10  0|  0  5  1|  0  4  2| -1  1 -1|       0
     SLN_Mamm  0 11  0|  0  6  1|  0  3  2|  2  4  1|  1  6  1| -2  0 -1|       1
-          TB 15  0  1| 15  0  1|  0  1  1| 15  0  1| 15  0  1| -4  0 -2|      56
+          TB 15  0  1|  0  1  1| 15  0  1| 15  0  1| 15  0  1| -4  0 -2|      56
 Total Cost: 54
 
 ===========================================
           WEEK # 3   brt
 ===========================================
-random seed: 97195
+random seed: 8182
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 19  0|  0 18  0|  0 15  1|  0 13  1|  0 13  1| -3  0 -1|      -3
-    UNC_Proc  0 17  0|  0 20  0|  0 12  2|  0 11  1|  0 15  1| -3  0 -1|      -3
-    FRE_Mamm  0  9  1|  0 10  0|  0 12  0|  0  7  1|  0  5  2| -2  1 -1|      -2
+    UNC_Diag  0 18  0|  0 18  0|  0 14  1|  0 13  1|  0 15  1| -3  0 -1|      -3
+    UNC_Proc  0 17  0|  0 19  0|  0 13  2|  0 13  1|  0 13  1| -3  0 -1|      -3
+    FRE_Mamm  0  9  1|  0 12  0|  0 11  0|  0  6  1|  0  5  2| -2  1 -1|      -2
     SLN_Mamm  0 11  0|  1  6  1|  0  4  2|  0  5  1|  2  6  1| -3  0 -1|       0
-          TB  0  1  1| 16  0  1|  1  1  1| 16  0  1| 16  0  1| -6  0 -2|      43
+          TB 16  0  1|  1  1  1| 16  0  1|  0  1  1| 16  0  1| -6  0 -2|      43
 Total Cost: 35
 
 ===========================================
           WEEK # 4   brt
 ===========================================
-random seed: 48722
+random seed: 39190
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM    Cost
-    UNC_Diag  0 19  0|  0 20  0|  1 15  1|  0 15  1|  0 14  1| -4  0 -1|      -3
-    UNC_Proc  0 18  0|  0 21  0|  2 12  2|  0 12  1|  0 17  1| -4  0 -1|      -2
-    FRE_Mamm  0 10  1|  0 11  0|  0 12  0|  0  8  1|  0  6  2|  0  2 -1|       0
+    UNC_Diag  0 18  0|  0 20  0|  1 14  1|  0 15  1|  0 16  1| -4  0 -1|      -3
+    UNC_Proc  0 18  0|  0 20  0|  2 13  2|  0 14  1|  0 15  1| -4  0 -1|      -2
+    FRE_Mamm  0 10  1|  0 13  0|  0 11  0|  0  7  1|  0  6  2|  0  2 -1|       0
     SLN_Mamm  0 11  0|  0  7  1|  2  4  2|  1  5  1|  0  7  1| -4  0 -1|      -1
-          TB  1  1  1|  0  1  1|  2  1  1| 17  0  1| 17  0  1| -8  0 -2|      29
+          TB  0  1  1|  2  1  1| 17  0  1|  1  1  1| 17  0  1| -8  0 -2|      29
 Total Cost: 24
+
+===========================================
+          WEEK # 1   cht
+===========================================
+random seed: 97945
+creating decision builder...
+creating collector...
+                   BCL       GJS       SMN        RV       JKL    Cost
+   Chest/PET  0 10  1|  3  7  1|  0  7  1|  0  9  1|  0 10  1|       3
+Total Cost: 3
+
+===========================================
+          WEEK # 2   cht
+===========================================
+random seed: 82919
+creating decision builder...
+creating collector...
+                   BCL       GJS       SMN        RV       JKL    Cost
+   Chest/PET  0 11  1|  0  8  1|  0  8  1|  0 10  1|  0 11  1|       0
+Total Cost: 0
+
+===========================================
+          WEEK # 3   cht
+===========================================
+random seed: 98831
+creating decision builder...
+creating collector...
+                   BCL       GJS       SMN        RV       JKL    Cost
+   Chest/PET  0 12  1|  0 10  1|  1  8  1|  0 12  1|  1 11  1|       2
+Total Cost: 2
+
+===========================================
+          WEEK # 4   cht
+===========================================
+random seed: 40144
+creating decision builder...
+creating collector...
+                   BCL       GJS       SMN        RV       JKL    Cost
+   Chest/PET  0 13  1|  0 11  1|  0  9  1|  0 13  1|  0 12  1|       0
+Total Cost: 0
 
 ===========================================
           WEEK # 1   nuc
 ===========================================
-random seed: 7782
+random seed: 11429
 creating decision builder...
 creating collector...
                    SMN       GSr        HG       RCK    Cost
@@ -1128,7 +993,7 @@ Total Cost: -1
 ===========================================
           WEEK # 2   nuc
 ===========================================
-random seed: 71944
+random seed: 3731
 creating decision builder...
 creating collector...
                    SMN       GSr        HG       RCK    Cost
@@ -1138,7 +1003,7 @@ Total Cost: 2
 ===========================================
           WEEK # 3   nuc
 ===========================================
-random seed: 41648
+random seed: 70600
 creating decision builder...
 creating collector...
                    SMN       GSr        HG       RCK    Cost
@@ -1148,290 +1013,290 @@ Total Cost: 3
 ===========================================
           WEEK # 4   nuc
 ===========================================
-random seed: 36968
+random seed: 26137
 creating decision builder...
 creating collector...
                    SMN       GSr        HG       RCK    Cost
-        Nucs  0 19  1|  0 22  0|  0 27  0| -1  4 -1|      -1
+        Nucs  0 18  1|  0 22  0|  0 28  0| -1  4 -1|      -1
 Total Cost: -1
 
 ===========================================
           WEEK # 1   scv
 ===========================================
-random seed: 86427
+random seed: 17144
 creating decision builder...
 creating collector...
                    JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  4  3  2|  2  6  2|  0 11  1|  0 18  0|  0 14  0|  0 12  1|  3 10  1|  0  6  2|  0 20  0|  2  3  2|  1 17  0|  3  6  2|  0 11  1|  2  6  2|  0 13  0|      17
+         SCV  4  3  2|  2  6  2|  0 10  1|  0 18  0|  0 14  0|  0 12  1|  3 10  1|  0  6  2|  0 19  0|  2  3  2|  1 17  0|  3  6  2|  0 13  1|  2  6  2|  0 13  0|      17
 Total Cost: 17
 
 ===========================================
           WEEK # 2   scv
 ===========================================
-random seed: 79832
+random seed: 95634
 creating decision builder...
 creating collector...
                    JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  6  3  2|  4  6  2|  0 12  1|  0 18  0|  0 15  0|  0 13  1|  0 11  1|  2  6  2|  0 20  0|  0  4  2|  0 18  0|  0  7  2|  0 12  1|  0  7  2|  0 13  0|      12
+         SCV  6  3  2|  0  7  2|  0 12  1|  0 18  0|  0 14  0|  0 13  1|  0 11  1|  2  6  2|  0 19  0|  4  3  2|  0 18  0|  0  7  2|  0 14  1|  0  7  2|  0 13  0|      12
 Total Cost: 12
 
 ===========================================
           WEEK # 3   scv
 ===========================================
-random seed: 41929
+random seed: 59925
 creating decision builder...
 creating collector...
                    JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  0  4  2|  0  7  2|  0 13  1|  0 18  0|  0 15  0|  1 13  1|  0 12  1|  0  7  2|  0 20  0|  0  5  2|  0 18  0|  0  8  2|  0 13  1|  2  7  2|  0 14  0|       3
-Total Cost: 3
+         SCV  0  4  2|  0  8  2|  0 13  1|  0 18  0|  0 15  0|  1 13  1|  0 12  1|  0  7  2|  0 19  0|  0  4  2|  0 18  0|  2  7  2|  0 16  1|  2  7  2|  0 13  0|       5
+Total Cost: 5
 
 ===========================================
           WEEK # 4   scv
 ===========================================
-random seed: 84240
+random seed: 12372
 creating decision builder...
 creating collector...
                    JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-         SCV  2  4  2|  0  8  2|  1 13  1|  0 18  0|  0 15  0|  0 15  1|  1 12  1|  2  7  2|  0 22  0|  0  6  2|  0 18  0|  2  8  2|  0 14  1|  0  8  2|  0 15  0|       8
-Total Cost: 8
+         SCV  0  5  2|  0  9  2|  1 13  1|  0 19  0|  0 15  0|  0 14  1|  1 12  1|  2  7  2|  0 21  0|  2  4  2|  0 18  0|  4  7  2|  0 17  1|  0  8  2|  0 14  0|      10
+Total Cost: 10
 
 ===========================================
           WEEK # 1   sfl
 ===========================================
-random seed: 24502
+random seed: 49082
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu 15  0  2| 15  0  2|  3 27  3|  0  3  1| 15  0  2|  0  2  2|  0  6  0|  2  4  1| 15  0  2|  5  1  1| 15  0  2| 15  0  2|  3  3  1|  8  1  1|  1  4  1|  0  2  2| 15  0  2|  0  9  0| 15  0  2|  0  2 -1| -1  0 -1|     141
- SLN_Sonoflu  5  1  1|  5  1  1| 18  0  5|  0  7  0|  0  9  0|  2  2  1|  0  2  2|  5  3  1|  2  8  0| 15  0  2|  3  5  0| 15  0  2|  0  6  0|  0 12  0| 15  0  2|  0  5  0|  4  1  1| 15  0  2|  0  5  1| -1  0 -1|  0  2 -1|     103
-Total Cost: 248
+ FRE_Sonoflu 15  0  2| 15  0  2|  3 27  3|  0  3  1| 15  0  2| 15  0  2|  0  6  0|  2  4  1| 15  0  2|  5  1  1| 15  0  2| 15  0  2|  3  3  1|  0  3  1|  1  4  1| 15  0  2| 15  0  2|  0  9  0|  0  2  2| -1  0 -1|  0  2 -1|     148
+ SLN_Sonoflu  5  1  1|  5  1  1| 18  0  5|  0  7  0|  0  9  0|  0  4  1|  0  2  2|  0  5  1|  2  8  0| 15  0  2|  3  5  0| 15  0  2|  0  6  0|  0 10  0| 15  0  2|  0  5  0|  4  1  1| 15  0  2|  8  3  1| -1  0 -1|  0  2 -1|     104
+Total Cost: 256
 
 ===========================================
           WEEK # 2   sfl
 ===========================================
-random seed: 770
+random seed: 13816
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu 17  0  2| 17  0  2|  6 27  3|  1  3  1| 17  0  2|  0  4  2|  0  6  0|  3  4  1| 17  0  2|  6  1  1| 17  0  2| 17  0  2|  0  5  1|  0  3  1|  2  4  1|  0  4  2| 17  0  2|  0  9  0|  0  2  2| -1  2 -1| -2  0 -1|     134
- SLN_Sonoflu  6  1  1|  6  1  1| 23  0  5|  0  7  0|  0  9  0|  3  2  1|  0  4  2|  0  5  1|  0 10  0| 17  0  2|  0  7  0| 17  0  2|  0  6  0|  0 12  0| 17  0  2|  0  5  0|  5  1  1| 17  0  2|  1  5  1| -2  0 -1|  0  4 -1|     110
-Total Cost: 246
+ FRE_Sonoflu 17  0  2| 17  0  2|  6 27  3|  0  5  1| 17  0  2|  0  2  2|  0  6  0|  3  4  1| 17  0  2|  6  1  1| 17  0  2| 17  0  2|  0  5  1|  0  5  1|  2  4  1|  0  2  2| 17  0  2|  0  9  0|  2  2  2| -2  0 -1| -1  2 -1|     135
+ SLN_Sonoflu  6  1  1|  6  1  1| 23  0  5|  0  7  0|  0  9  0|  0  6  1|  0  4  2|  0  7  1|  0 10  0| 17  0  2|  3  5  0| 17  0  2|  0  6  0|  0 10  0| 17  0  2|  0  5  0|  5  1  1| 17  0  2|  0  5  1| -2  0 -1| -1  2 -1|     108
+Total Cost: 243
 
 ===========================================
           WEEK # 3   sfl
 ===========================================
-random seed: 1041
+random seed: 2057
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu  0  2  2| 19  0  2|  9 27  3|  2  3  1| 19  0  2|  2  4  2|  0  6  0|  4  4  1| 19  0  2|  7  1  1| 19  0  2| 19  0  2|  0  7  1|  0  5  1|  3  4  1|  0  6  2| 19  0  2|  0  9  0|  0  4  2| -2  2 -1| -3  0 -1|     136
- SLN_Sonoflu  7  1  1|  7  1  1| 28  0  5|  0  7  0|  0  9  0|  4  2  1|  0  6  2|  1  5  1|  0 12  0| 19  0  2|  0  7  0|  0  2  2|  0  8  0|  0 12  0| 19  0  2|  0  5  0|  6  1  1|  0  2  2|  2  5  1| -3  0 -1| -1  4 -1|      89
-Total Cost: 225
+ FRE_Sonoflu  0  2  2| 19  0  2|  9 27  3|  1  5  1| 19  0  2|  2  2  2|  0  6  0|  4  4  1| 19  0  2|  7  1  1| 19  0  2| 19  0  2|  0  7  1|  0  7  1|  3  4  1|  0  4  2| 19  0  2|  0  9  0|  4  2  2| -3  0 -1|  0  4 -1|     141
+ SLN_Sonoflu  7  1  1|  7  1  1| 28  0  5|  0  7  0|  0  9  0|  0  8  1|  0  6  2|  1  7  1|  0 10  0|  0  2  2|  3  5  0| 19  0  2|  0  8  0|  0 12  0| 19  0  2|  0  5  0|  6  1  1| 19  0  2|  1  5  1| -3  0 -1| -2  2 -1|     105
+Total Cost: 248
 
 ===========================================
           WEEK # 4   sfl
 ===========================================
-random seed: 76584
+random seed: 14070
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM        JK    Cost
- FRE_Sonoflu  2  2  2| 21  0  2|  0 29  3|  0  5  1| 21  0  2|  4  4  2|  0  6  0|  0  6  1| 21  0  2|  8  1  1| 21  0  2| 21  0  2|  0  9  1|  1  5  1|  4  4  1|  2  6  2| 21  0  2|  0  9  0|  0  6  2| -3  2 -1| -4  0 -1|     140
- SLN_Sonoflu  8  1  1|  8  1  1| 33  0  5|  0  9  0|  0  9  0|  0  4  1|  2  6  2|  2  5  1|  0 12  0| 21  0  2|  0  9  0|  2  2  2|  0 10  0|  0 12  0| 21  0  2|  0  5  0|  7  1  1|  2  2  2|  0  7  1| -4  0 -1| -2  4 -1|     100
-Total Cost: 240
+ FRE_Sonoflu  2  2  2| 21  0  2|  0 29  3|  2  5  1| 21  0  2|  0  4  2|  0  6  0|  5  4  1| 21  0  2|  8  1  1| 21  0  2| 21  0  2|  0  9  1|  1  7  1|  4  4  1|  0  6  2| 21  0  2|  0  9  0|  0  4  2| -4  0 -1| -1  4 -1|     143
+ SLN_Sonoflu  8  1  1|  8  1  1| 33  0  5|  0  7  0|  0  9  0|  1  8  1|  2  6  2|  2  7  1|  0 10  0|  2  2  2|  0  7  0| 21  0  2|  0 10  0|  0 14  0| 21  0  2|  0  5  0|  7  1  1|  0  2  2|  0  7  1| -4  0 -1| -3  2 -1|      98
+Total Cost: 241
 
 ===========================================
           WEEK # 1   ner
 ===========================================
-random seed: 13721
+random seed: 59252
 creating decision builder...
 creating collector...
                    EEP       GSr       JFK       SMN       SJP       BJK    Cost
-       Neuro  0  8  1|  6  2  2|  0 17  0|  2  6  1|  2  6  1|  0  1 -1|      10
-Total Cost: 12
+       Neuro  0  8  1|  6  2  2|  0 17  0|  0  7  1|  2  6  1| -1  0 -1|       7
+Total Cost: 7
 
 ===========================================
           WEEK # 2   ner
 ===========================================
-random seed: 50353
+random seed: 82770
 creating decision builder...
 creating collector...
                    EEP       GSr       JFK       SMN       SJP       BJK    Cost
-       Neuro  0 10  1|  8  2  2|  0 19  0|  3  6  1|  0  7  1| -1  1 -1|      10
-Total Cost: 10
+       Neuro  0 10  1|  8  2  2|  0 19  0|  1  7  1|  0  7  1| -2  0 -1|       7
+Total Cost: 7
 
 ===========================================
           WEEK # 3   ner
 ===========================================
-random seed: 17605
+random seed: 32091
 creating decision builder...
 creating collector...
                    EEP       GSr       JFK       SMN       SJP       BJK    Cost
-       Neuro  0 12  1| 10  2  2|  0 21  0|  4  6  1|  0  8  1| -2  1 -1|      12
-Total Cost: 12
+       Neuro  0 12  1| 10  2  2|  0 21  0|  2  7  1|  0  8  1| -3  0 -1|       9
+Total Cost: 9
 
 ===========================================
           WEEK # 4   ner
 ===========================================
-random seed: 16009
+random seed: 74702
 creating decision builder...
 creating collector...
                    EEP       GSr       JFK       SMN       SJP       BJK    Cost
-       Neuro  0 14  1|  0  3  2|  0 21  0|  5  6  1|  0  9  1|  0  2 -1|       5
-Total Cost: 7
+       Neuro  0 14  1| 12  2  2|  0 21  0|  3  7  1|  0  9  1|  0  2 -1|      15
+Total Cost: 19
 
 ===========================================
           WEEK # 1   sta
 ===========================================
-random seed: 9374
+random seed: 99439
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM       GJS       GSr       DRL       SJP       EEP       JFK       SMN       BCL       DSL       HSS       JKL        SH        JK       BJK    Cost
-     STAT_AM 14  0  1|  7  1  1| 14  0  1| 14  0  1| 14  0  1| -2  0 -2|  6  1  1|  6  1  1|  2  7  0|  1  2  1|  1  3  1|  2  4  0|  2  1  1|  0  1  1|  0  2  1|  0  3  1|  4  2  1|  0  9  0|  0  1 -2| -2  0 -2|      83
-     STAT_PM  4  6  1|  4  6  1|  6  1  2| 10  1  2|  2  3  1| -1  0 -1|  7  2  2|  7  2  2|  2 10  0|  1  3  1|  0  9  0|  0  7  0|  0  1  2|  0 10  0|  0  8  0|  0  7  1|  0 12  0|  0 11  0|  0  1 -1| -1  0 -1|      41
-Total Cost: 126
+     STAT_AM 14  0  1|  7  1  1| 14  0  1| 14  0  1| 14  0  1| -2  0 -2|  6  1  1|  6  1  1|  2  7  0|  1  2  1|  0  4  1|  0  5  0|  2  1  1| 14  0  1|  0  2  1| 12  2  1|  4  2  1|  0 10  0| -2  0 -2| -2  0 -2|     104
+     STAT_PM  4  6  1|  4  6  1|  6  1  2| 10  1  2|  2  3  1| -1  0 -1|  7  2  2|  7  2  2|  2 10  0|  1  3  1|  0 10  0|  0  9  0|  0  1  2|  2  9  0|  0  8  0|  0  7  1|  1 11  0|  0 11  0| -1  0 -1| -1  0 -1|      43
+Total Cost: 147
 
 ===========================================
           WEEK # 2   sta
 ===========================================
-random seed: 99228
+random seed: 27599
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM       GJS       GSr       DRL       SJP       EEP       JFK       SMN       BCL       DSL       HSS       JKL        SH        JK       BJK    Cost
-     STAT_AM 15  0  1|  8  1  1| 15  0  1| 15  0  1| 15  0  1| -4  0 -2|  7  1  1|  7  1  1|  0  8  0|  2  2  1|  0  4  1|  0  5  0|  3  1  1|  0  2  1|  1  2  1|  0  4  1|  5  2  1|  0  9  0| -2  1 -2| -4  0 -2|      83
-     STAT_PM  5  6  1|  5  6  1|  8  1  2|  0  2  2|  3  3  1| -2  0 -1|  9  2  2|  9  2  2|  0 11  0|  0  4  1|  0 10  0|  0  8  0|  2  1  2|  0 11  0|  0  9  0|  0  9  1|  0 12  0|  0 12  0| -1  1 -1| -2  0 -1|      36
-Total Cost: 119
+     STAT_AM 15  0  1|  8  1  1| 15  0  1| 15  0  1| 15  0  1| -4  0 -2|  7  1  1|  7  1  1|  0  8  0|  2  2  1|  0  5  1|  0  5  0|  3  1  1|  0  1  1|  0  3  1|  0  3  1|  5  2  1|  0 10  0| -4  0 -2| -4  0 -2|      80
+     STAT_PM  5  6  1|  5  6  1|  8  1  2|  0  2  2|  3  3  1| -2  0 -1|  9  2  2|  9  2  2|  0 12  0|  2  3  1|  0 11  0|  0  9  0|  2  1  2|  0 10  0|  0 10  0|  0  8  1|  0 12  0|  0 12  0| -2  0 -1| -2  0 -1|      37
+Total Cost: 117
 
 ===========================================
           WEEK # 3   sta
 ===========================================
-random seed: 57346
+random seed: 63065
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM       GJS       GSr       DRL       SJP       EEP       JFK       SMN       BCL       DSL       HSS       JKL        SH        JK       BJK    Cost
-     STAT_AM 16  0  1|  9  1  1| 16  0  1| 16  0  1| 16  0  1| -6  0 -2|  8  1  1|  8  1  1|  0  9  0|  3  2  1|  0  5  1|  0  6  0|  4  1  1|  1  2  1|  0  3  1|  0  5  1|  6  2  1|  0  9  0| -4  1 -2| -6  0 -2|      87
-     STAT_PM  6  6  1|  0  7  1|  0  2  2|  0  3  2|  4  3  1| -3  0 -1|  0  3  2| 11  2  2|  0 12  0|  1  4  1|  0 11  0|  0 10  0|  4  1  2|  0 11  0|  0 10  0|  0 10  1|  0 12  0|  0 12  0| -2  1 -1| -3  0 -1|      18
-Total Cost: 105
+     STAT_AM 16  0  1|  9  1  1| 16  0  1| 16  0  1| 16  0  1|  0  1 -2|  8  1  1|  8  1  1|  0  9  0|  0  3  1|  0  6  1|  0  6  0|  4  1  1|  1  1  1|  1  3  1|  1  3  1|  6  2  1|  0 10  0| -6  0 -2| -6  0 -2|      90
+     STAT_PM  0  7  1|  6  6  1|  0  2  2|  2  2  2|  0  4  1|  0  1 -1| 11  2  2| 11  2  2|  0 13  0|  0  4  1|  0 12  0|  0 10  0|  4  1  2|  0 10  0|  0 11  0|  0  9  1|  0 12  0|  0 12  0| -3  0 -1| -3  0 -1|      28
+Total Cost: 120
 
 ===========================================
           WEEK # 4   sta
 ===========================================
-random seed: 45350
+random seed: 11164
 creating decision builder...
 creating collector...
                    JDB       SDE       GHL       DCN       JKS       CCM       GJS       GSr       DRL       SJP       EEP       JFK       SMN       BCL       DSL       HSS       JKL        SH        JK       BJK    Cost
-     STAT_AM 17  0  1| 10  1  1| 17  0  1| 17  0  1| 17  0  1| -8  0 -2|  9  1  1|  9  1  1|  0  9  0|  4  2  1|  0  7  1|  0  6  0|  5  1  1|  0  3  1|  1  3  1|  0  6  1|  7  2  1|  0  9  0|  0  2 -2| -8  0 -2|      97
-     STAT_PM  0  7  1|  0  8  1|  2  2  2|  2  3  2|  5  3  1|  0  1 -1|  2  3  2| 13  2  2|  0 12  0|  2  4  1|  0 13  0|  0 10  0|  6  1  2|  0 12  0|  0 10  0|  0 12  1|  0 13  0|  0 12  0|  0  2 -1| -4  0 -1|      28
-Total Cost: 128
+     STAT_AM 17  0  1| 10  1  1| 17  0  1| 17  0  1| 17  0  1|  0  2 -2|  9  1  1|  9  1  1|  0  9  0|  1  3  1|  0  7  1|  0  6  0|  5  1  1|  2  1  1|  2  3  1|  0  4  1|  0  3  1|  0 11  0| -8  0 -2| -8  0 -2|      90
+     STAT_PM  1  7  1|  0  7  1|  2  2  2|  0  3  2|  1  4  1|  0  3 -1| 13  2  2| 13  2  2|  0 13  0|  1  4  1|  0 13  0|  0 10  0|  6  1  2|  0 10  0|  0 11  0|  0 11  1|  0 13  0|  0 14  0| -4  0 -1| -4  0 -1|      29
+Total Cost: 122
 
 ===========================================
           WEEK # 1   adm
 ===========================================
-random seed: 3219
+random seed: 43563
 creating decision builder...
 creating collector...
                    JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-       Admin  4  1  2| 15  0  2|  0 13  0|  0 44  0|  0  5  2|  0  4  2|  4  3  2|  2  2  2|  0 17  0| 15  0  2|  3  1  2|  0 37  0| 15  0  2|  2  4  2| 15  0  2|      75
-Total Cost: 75
+       Admin  4  1  2| 15  0  2|  0 13  0|  0 44  0|  0  5  2|  0  4  2|  4  3  2|  2  2  2|  0 16  0| 15  0  2|  3  1  2|  0 37  0|  0  1  2|  2  4  2| 15  0  2|      60
+Total Cost: 60
 
 ===========================================
           WEEK # 2   adm
 ===========================================
-random seed: 20013
+random seed: 76813
 creating decision builder...
 creating collector...
                    JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-       Admin  6  1  2| 17  0  2|  0 13  0|  0 44  0|  0  6  2|  0  5  2|  0  4  2|  4  2  2|  0 17  0| 17  0  2|  5  1  2|  0 42  0|  0  1  2|  4  4  2| 17  0  2|      70
-Total Cost: 70
+       Admin  6  1  2| 17  0  2|  0 13  0|  0 44  0|  0  6  2|  2  4  2|  6  3  2|  4  2  2|  0 18  0| 17  0  2|  0  2  2|  0 41  0|  0  2  2|  4  4  2| 17  0  2|      73
+Total Cost: 73
 
 ===========================================
           WEEK # 3   adm
 ===========================================
-random seed: 72335
+random seed: 13718
 creating decision builder...
 creating collector...
                    JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-       Admin  8  1  2| 19  0  2|  0 13  0|  0 48  0|  2  6  2|  2  5  2|  2  4  2|  6  2  2|  0 17  0| 19  0  2|  7  1  2|  0 46  0|  2  1  2|  6  4  2|  0  1  2|      73
-Total Cost: 73
+       Admin  8  1  2| 19  0  2|  0 13  0|  0 48  0|  2  6  2|  4  4  2|  8  3  2|  6  2  2|  0 18  0| 19  0  2|  2  2  2|  0 45  0|  2  2  2|  6  4  2|  0  1  2|      76
+Total Cost: 76
 
 ===========================================
           WEEK # 4   adm
 ===========================================
-random seed: 72878
+random seed: 33705
 creating decision builder...
 creating collector...
                    JDB       SDE       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       GJS       HSS       JKS       GSr    Cost
-       Admin 10  1  2| 21  0  2|  0 13  0|  0 48  0|  4  6  2|  0  6  2|  4  4  2|  8  2  2|  0 18  0| 21  0  2|  9  1  2|  0 50  0|  0  2  2|  0  5  2|  0  2  2|      77
-Total Cost: 77
+       Admin 10  1  2| 21  0  2|  0 13  0|  0 48  0|  4  6  2|  0  5  2| 10  3  2|  8  2  2|  0 19  0| 21  0  2|  4  2  2|  0 49  0|  0  3  2|  0  5  2|  0  2  2|      78
+Total Cost: 78
 
 ===========================================
           WEEK # 1   opr
 ===========================================
-random seed: 8208
+random seed: 47616
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM       SXK       BJK        JK       RCK    Cost
-     OPPR_AM 15  0  2|  4  2  1|  0 31  0|  0  4  1|  2  4  1| 15  0  2|  0  2  2|  5  6  0|  4  4  1| 15  0  2|  3  5  1| 10  1  2| 10  1  2|  0 15  0| 15  0  2|  9  2  1|  1  4  1|  0  9  0|  4  6  0| -1  0 -1|  0  1 -1| -1  0 -1| -1  0 -1| -1  0 -1|     108
-     OPPR_PM  6  3  1|  2  7  0|  0  3  1|  0  5  1|  0 10  0| 15  0  2|  0  6  1|  0  4  1|  4  5  1|  4  3  1|  4  3  1|  2  3  1|  2  9  0|  0 12  0|  2  2  1|  3  5  1|  1  4  1| 10  2  1|  6  4  1| -1  0 -1| -1  0 -1| -1  0 -1| -1  0 -1|  0  1 -1|      57
-Total Cost: 167
+     OPPR_AM 15  0  2|  4  2  1|  0 31  0|  1  3  1|  0  5  1| 15  0  2|  0  2  2|  5  6  0|  4  4  1| 15  0  2|  3  5  1| 10  1  2| 10  1  2|  0 14  0| 15  0  2|  9  2  1|  1  4  1|  0  9  0|  4  6  0| -1  0 -1|  0  2 -1| -1  0 -1| -1  0 -1| -1  0 -1|     107
+     OPPR_PM  6  3  1|  2  7  0|  0  3  1|  0  5  1|  1  8  0| 15  0  2|  0  7  1|  2  3  1|  4  5  1|  4  3  1|  4  3  1|  2  3  1|  2  9  0|  0 11  0|  2  2  1|  3  5  1|  1  4  1| 10  2  1|  6  4  1| -1  0 -1| -1  0 -1| -1  0 -1|  0  2 -1|  0  2 -1|      61
+Total Cost: 174
 
 ===========================================
           WEEK # 2   opr
 ===========================================
-random seed: 47229
+random seed: 37213
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM       SXK       BJK        JK       RCK    Cost
-     OPPR_AM 17  0  2|  5  2  1|  0 31  0|  0  6  1|  0  5  1|  0  1  2|  0  3  2|  5  6  0|  5  4  1| 17  0  2|  0  8  1| 12  1  2| 12  1  2|  0 15  0| 17  0  2|  0  3  1|  2  4  1|  0  9  0|  0  7  0| -2  0 -1| -1  1 -1| -2  0 -1| -2  0 -1| -2  0 -1|      83
-     OPPR_PM  7  3  1|  2  7  0|  1  3  1|  0  8  1|  0 11  0|  0  1  2|  0  7  1|  1  4  1|  5  5  1|  5  3  1|  5  3  1|  3  3  1|  2  9  0|  0 13  0|  3  2  1|  4  5  1|  2  4  1| 11  2  1|  0  5  1| -2  0 -1| -2  0 -1|  0  2 -1| -2  0 -1| -1  1 -1|      44
-Total Cost: 129
+     OPPR_AM 17  0  2|  5  2  1|  0 31  0|  0  4  1|  0  6  1| 17  0  2|  0  4  2|  5  6  0|  5  4  1| 17  0  2|  0  8  1| 12  1  2| 12  1  2|  0 14  0| 17  0  2|  0  3  1|  2  4  1|  0  9  0|  0  7  0| -2  0 -1|  0  3 -1| -2  0 -1| -2  0 -1| -2  0 -1|     101
+     OPPR_PM  7  3  1|  2  7  0|  1  3  1|  0  7  1|  0 10  0| 17  0  2|  0  8  1|  3  3  1|  5  5  1|  5  3  1|  5  3  1|  3  3  1|  2  9  0|  0 12  0|  0  3  1|  0  6  1|  2  4  1| 11  2  1|  0  5  1| -2  0 -1| -2  0 -1| -2  0 -1|  0  3 -1| -1  2 -1|      56
+Total Cost: 159
 
 ===========================================
           WEEK # 3   opr
 ===========================================
-random seed: 52689
+random seed: 17396
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM       SXK       BJK        JK       RCK    Cost
-     OPPR_AM 19  0  2|  6  2  1|  0 31  0|  1  6  1|  0  6  1|  2  1  2|  2  3  2|  5  6  0|  0  6  1| 19  0  2|  1  8  1| 14  1  2| 14  1  2|  0 16  0| 19  0  2|  0  4  1|  3  4  1|  0 10  0|  0  7  0| -3  0 -1|  0  3 -1|  0  2 -1| -3  0 -1| -3  0 -1|      96
-     OPPR_PM  8  3  1|  2  7  0|  2  3  1|  1  8  1|  0 12  0|  2  1  2|  1  7  1|  2  4  1|  0  6  1|  0  4  1|  6  3  1|  4  3  1|  2  9  0|  0 14  0|  4  2  1|  0  7  1|  0  5  1| 12  2  1|  1  5  1| -3  0 -1|  0  1 -1|  0  4 -1| -3  0 -1| -2  1 -1|      39
-Total Cost: 142
+     OPPR_AM 19  0  2|  6  2  1|  0 31  0|  1  4  1|  0  7  1| 19  0  2|  0  5  2|  5  6  0|  0  6  1| 19  0  2|  1  8  1|  0  2  2| 14  1  2|  0 14  0| 19  0  2|  1  3  1|  3  4  1|  0 11  0|  0  8  0| -3  0 -1|  0  5 -1| -3  0 -1| -3  0 -1| -3  0 -1|      95
+     OPPR_PM  0  4  1|  2  7  0|  2  3  1|  1  7  1|  0 11  0| 19  0  2|  0  9  1|  4  3  1|  0  7  1|  6  3  1|  6  3  1|  4  3  1|  2  9  0|  0 12  0|  1  3  1|  0  7  1|  3  4  1| 12  2  1|  0  6  1|  0  2 -1| -3  0 -1| -3  0 -1| -1  3 -1|  0  3 -1|      55
+Total Cost: 155
 
 ===========================================
           WEEK # 4   opr
 ===========================================
-random seed: 59259
+random seed: 12036
 creating decision builder...
 creating collector...
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM       SXK       BJK        JK       RCK    Cost
-     OPPR_AM 21  0  2|  7  2  1|  0 34  0|  2  6  1|  1  6  1|  4  1  2|  4  3  2|  5  6  0|  1  6  1| 21  0  2|  2  8  1| 16  1  2| 16  1  2|  0 17  0| 21  0  2|  1  4  1|  4  4  1|  0 10  0|  0  7  0| -4  0 -1|  0  7 -1|  0  4 -1| -4  0 -1| -4  0 -1|     114
-     OPPR_PM  9  3  1|  2  7  0|  0  6  1|  2  8  1|  0 12  0|  4  1  2|  2  7  1|  3  4  1|  1  6  1|  1  4  1|  7  3  1|  5  3  1|  2  9  0|  0 15  0|  5  2  1|  0  8  1|  1  5  1| 13  2  1|  2  5  1| -4  0 -1|  0  4 -1|  0  6 -1| -4  0 -1| -3  1 -1|      48
-Total Cost: 173
+     OPPR_AM 21  0  2|  7  2  1|  0 34  0|  0  5  1|  1  7  1| 21  0  2|  2  5  2|  5  6  0|  1  6  1| 21  0  2|  2  8  1|  2  2  2| 16  1  2|  0 15  0| 21  0  2|  0  4  1|  4  4  1|  0 11  0|  0  8  0| -4  0 -1|  0  8 -1| -4  0 -1|  0  1 -1| -4  0 -1|     112
+     OPPR_PM  1  4  1|  2  7  0|  0  5  1|  2  7  1|  0 11  0|  0  1  2|  1  9  1|  5  3  1|  1  7  1|  7  3  1|  0  4  1|  5  3  1|  2  9  0|  0 13  0|  2  3  1|  1  7  1|  4  4  1| 13  2  1|  1  6  1| -1  2 -1| -4  0 -1| -4  0 -1|  0  5 -1|  0  6 -1|      38
+Total Cost: 159
                    JDB       SDE        HG        SH       JFK       BCL       DSL       JKL       DRL       GHL       SMN       DCN       SJP       EEP       GJS       HSS       JKS       GSr        RV       CCM       SXK       BJK        JK       RCK    Cost
-    UNC_Diag  0 35   |  0 37   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  1 25   |  0  0   |  0 25   |  0  0   |  0  0   |  0  0   |  0  0   |  0 25   |  0  0   |  0  0   | -4  0   |  0  0   |  0  0   |  0  0   |  0  0   |      -3
-    UNC_Proc  0 33   |  0 39   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  2 20   |  0  0   |  0 21   |  0  0   |  0  0   |  0  0   |  0  0   |  0 28   |  0  0   |  0  0   | -4  0   |  0  0   |  0  0   |  0  0   |  0  0   |      -2
-    FRE_Mamm  0 17   |  0 20   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 20   |  0  0   |  0 12   |  0  0   |  0  0   |  0  0   |  0  0   |  0  8   |  0  0   |  0  0   |  0  2   |  0  0   |  0  0   |  0  0   |  0  0   |       0
-    SLN_Mamm  0 21   |  0 12   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  2  6   |  0  0   |  1  9   |  0  0   |  0  0   |  0  0   |  0  0   |  0 12   |  0  0   |  0  0   | -4  0   |  0  0   |  0  0   |  0  0   |  0  0   |      -1
-          TB  1  1   |  0  1   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  2  1   |  0  0   | 17  0   |  0  0   |  0  0   |  0  0   |  0  0   | 17  0   |  0  0   |  0  0   | -8  0   |  0  0   |  0  0   |  0  0   |  0  0   |      29
- FRE_Sonoflu  2  2   | 21  0   |  0 56   |  0  6   | 21  0   |  4  4   |  0 12   |  0 10   | 21  0   |  8  2   | 21  0   | 21  0   |  0 12   |  1  6   |  4  8   |  2  6   | 21  0   |  0 18   |  0  6   | -3  2   |  0  0   |  0  0   | -4  0   |  0  0   |     140
- SLN_Sonoflu  8  2   |  8  2   | 33  0   |  0 16   |  0 18   |  0  6   |  2  6   |  2  8   |  0 20   | 21  0   |  0 14   |  2  2   |  0 16   |  0 22   | 21  0   |  0 10   |  7  2   |  2  2   |  0 10   | -4  0   |  0  0   |  0  0   | -2  4   |  0  0   |     100
-         MSK  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 27   |  0  0   |  0  0   |  0  0   |  0 20   |  0  0   |  0 26   |  0  0   |  0  0   |  0 17   |  0  0   | -3  1   |  0  0   |  0  0   | -3  2   |  0  0   |      -6
-       Neuro  0  0   |  0  0   |  0  0   |  0  0   |  0 37   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  5 12   |  0  0   |  0 15   |  0 20   |  0  0   |  0  0   |  0  0   |  0  5   |  0  0   |  0  0   |  0  0   |  0  2   |  0  0   |  0  0   |       5
-     Abdomen  0  0   |  0  0   |  0  0   |  0 25   |  0  0   |  0  4   |  0 29   |  0 32   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 29   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |       0
-   Chest/PET  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 22   |  0  6   |  0 21   |  0  0   |  0  0   |  0 15   |  0  0   |  0  0   |  0  0   |  0 18   |  0  9   |  0  0   |  0  3   |  0 21   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |       0
-        Nucs  0  0   |  0  0   |  0 51   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 31   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 39   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   | -1  4   |      -1
-     STAT_AM 17  0   | 10  2   |  0  0   |  0 18   |  0 10   |  0  3   |  1  4   |  7  4   |  0 16   | 17  0   |  5  2   | 17  0   |  4  4   |  0 10   |  9  2   |  0  8   | 17  0   |  9  2   |  0  1   | -8  0   |  0  0   | -8  0   |  0  2   |  0  0   |      97
-     STAT_PM  0 13   |  0 14   |  0  0   |  0 22   |  0 17   |  0 21   |  0 17   |  0 24   |  0 22   |  2  3   |  6  1   |  2  4   |  2  7   |  0 22   |  2  5   |  0 17   |  5  6   | 13  4   |  0  3   |  0  1   |  0  0   | -4  0   |  0  2   |  0  0   |      28
-     OPPR_AM 21  0   |  7  4   |  0 61   |  2  9   |  1 10   |  4  1   |  4  4   |  5 12   |  1 10   | 21  0   |  2 13   | 16  2   | 16  2   |  0 31   | 21  0   |  1  6   |  4  8   |  0 19   |  0 13   | -4  0   |  0  7   |  0  4   | -4  0   | -4  0   |     114
-     OPPR_PM  9  6   |  2 14   |  0  8   |  2 12   |  0 20   |  4  1   |  2 12   |  3  7   |  1 11   |  1  7   |  7  6   |  5  6   |  2 18   |  0 26   |  5  4   |  0 13   |  1  9   | 13  4   |  2  9   | -4  0   |  0  4   |  0  6   | -4  0   | -3  1   |      48
+    UNC_Diag  0 18   |  0 20   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  1 14   |  0  0   |  0 15   |  0  0   |  0  0   |  0  0   |  0  0   |  0 16   |  0  0   |  0  0   | -4  0   |  0  0   |  0  0   |  0  0   |  0  0   |      -3
+    UNC_Proc  0 18   |  0 20   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  2 13   |  0  0   |  0 14   |  0  0   |  0  0   |  0  0   |  0  0   |  0 15   |  0  0   |  0  0   | -4  0   |  0  0   |  0  0   |  0  0   |  0  0   |      -2
+    FRE_Mamm  0 10   |  0 13   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 11   |  0  0   |  0  7   |  0  0   |  0  0   |  0  0   |  0  0   |  0  6   |  0  0   |  0  0   |  0  2   |  0  0   |  0  0   |  0  0   |  0  0   |       0
+    SLN_Mamm  0 11   |  0  7   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  2  4   |  0  0   |  1  5   |  0  0   |  0  0   |  0  0   |  0  0   |  0  7   |  0  0   |  0  0   | -4  0   |  0  0   |  0  0   |  0  0   |  0  0   |      -1
+          TB  0  1   |  2  1   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   | 17  0   |  0  0   |  1  1   |  0  0   |  0  0   |  0  0   |  0  0   | 17  0   |  0  0   |  0  0   | -8  0   |  0  0   |  0  0   |  0  0   |  0  0   |      29
+ FRE_Sonoflu  2  2   | 21  0   |  0 29   |  2  5   | 21  0   |  0  4   |  0  6   |  5  4   | 21  0   |  8  1   | 21  0   | 21  0   |  0  9   |  1  7   |  4  4   |  0  6   | 21  0   |  0  9   |  0  4   | -4  0   |  0  0   |  0  0   | -1  4   |  0  0   |     143
+ SLN_Sonoflu  8  1   |  8  1   | 33  0   |  0  7   |  0  9   |  1  8   |  2  6   |  2  7   |  0 10   |  2  2   |  0  7   | 21  0   |  0 10   |  0 14   | 21  0   |  0  5   |  7  1   |  0  2   |  0  7   | -4  0   |  0  0   |  0  0   | -3  2   |  0  0   |      98
+         MSK  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 15   |  0  0   |  0  0   |  0  0   |  0 12   |  0  0   |  0 16   |  0  0   |  0  0   |  0 11   |  0  0   | -3  2   |  0  0   |  0  0   | -4  0   |  0  0   |      -7
+       Neuro  0  0   |  0  0   |  0  0   |  0  0   |  0 21   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  3  7   |  0  0   |  0  9   |  0 14   |  0  0   |  0  0   |  0  0   | 12  2   |  0  0   |  0  0   |  0  0   |  0  2   |  0  0   |  0  0   |      15
+     Abdomen  0  0   |  0  0   |  0  0   |  0 14   |  0  0   |  0  4   |  0 15   |  0 19   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 17   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |       0
+   Chest/PET  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 13   |  0  6   |  0 12   |  0  0   |  0  0   |  0  9   |  0  0   |  0  0   |  0  0   |  0 11   |  0  9   |  0  0   |  0  3   |  0 13   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |       0
+        Nucs  0  0   |  0  0   |  0 28   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 18   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0 22   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   | -1  4   |      -1
+     STAT_AM 17  0   | 10  1   |  0  0   |  0 11   |  0  6   |  2  1   |  2  3   |  0  3   |  0  9   | 17  0   |  5  1   | 17  0   |  1  3   |  0  7   |  9  1   |  0  4   | 17  0   |  9  1   |  0  1   |  0  2   |  0  0   | -8  0   | -8  0   |  0  0   |      90
+     STAT_PM  1  7   |  0  7   |  0  0   |  0 14   |  0 10   |  0 10   |  0 11   |  0 13   |  0 13   |  2  2   |  6  1   |  0  3   |  1  4   |  0 13   | 13  2   |  0 11   |  1  4   | 13  2   |  0  3   |  0  3   |  0  0   | -4  0   | -4  0   |  0  0   |      29
+     OPPR_AM 21  0   |  7  2   |  0 34   |  0  5   |  1  7   | 21  0   |  2  5   |  5  6   |  1  6   | 21  0   |  2  8   |  2  2   | 16  1   |  0 15   | 21  0   |  0  4   |  4  4   |  0 11   |  0  8   | -4  0   |  0  8   | -4  0   |  0  1   | -4  0   |     112
+     OPPR_PM  1  4   |  2  7   |  0  5   |  2  7   |  0 11   |  0  1   |  1  9   |  5  3   |  1  7   |  7  3   |  0  4   |  5  3   |  2  9   |  0 13   |  2  3   |  1  7   |  4  4   | 13  2   |  1  6   | -1  2   | -4  0   | -4  0   |  0  5   |  0  6   |      38
        STAT3  0  1   |  0  2   |  0  0   |  0 12   |  0  4   |  0  3   |  0  1   |  0  2   |  0  2   |  0  2   |  0  6   |  0  5   |  0  2   |  0  0   |  0  5   |  0  5   |  0  0   |  0  7   |  0  4   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |       0
        Swing  0  4   |  0  4   |  0 15   |  0  0   |  0  2   |  0  0   |  0  3   |  0  5   |  0  2   |  0  2   |  0  5   |  0  7   |  0  0   |  0  0   |  0  5   |  0  0   |  0  3   |  0  4   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |       0
     STATW_AM  0  3   |  0  2   |  0  0   |  0  1   |  0  3   |  0  1   |  0  2   |  0  3   |  0  1   |  0  1   |  0  1   |  0  0   |  0  1   |  0  0   |  0  2   |  0  2   |  0  0   |  0  1   |  0  2   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |       0
     STATW_PM  0  2   |  0  2   |  0  0   |  0  4   |  0  1   |  0  1   |  0  2   |  0  1   |  0  1   |  0  1   |  0  2   |  0  0   |  0  0   |  0  0   |  0  3   |  0  1   |  0  1   |  0  3   |  0  1   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |       0
        WUSPR  0  0   |  0  2   |  0  4   |  0  0   |  0  0   |  0  2   |  0  2   |  0  4   |  0  0   |  0  2   |  0  0   |  0  4   |  0  0   |  0  0   |  0  0   |  0  4   |  0  0   |  0  0   |  0  2   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |       0
          WMR  0  0   |  0  0   |  0  0   |  0  4   |  0  2   |  0  0   |  0  0   |  0  0   |  0  6   |  0  0   |  0  0   |  0  0   |  0  5   |  0  2   |  0  2   |  0  0   |  0  0   |  0  4   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |       0
-         SCV  2  7   |  0 14   |  0  1   |  0  2   |  1 22   |  0 35   |  0 29   |  0 26   |  1 22   |  2 12   |  0 39   |  0  9   |  0 35   |  0 10   |  2 14   |  0 24   |  0 14   |  0 28   |  0 10   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |       8
-       Admin 10  2   | 21  0   |  0  0   |  0  0   |  0 25   |  0 91   |  4 10   |  0  9   |  4  7   |  8  4   |  0 34   | 21  0   |  9  2   |  0  0   |  0 83   |  0  2   |  0  9   |  0  2   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |      77
-Total Cost: 173
+         SCV  0  5   |  0  9   |  0  1   |  0  2   |  1 13   |  0 19   |  0 15   |  0 14   |  1 12   |  2  7   |  0 21   |  2  4   |  0 18   |  0 10   |  4  7   |  0 17   |  0  8   |  0 14   |  0 10   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |      10
+       Admin 10  1   | 21  0   |  0  0   |  0  0   |  0 13   |  0 48   |  4  6   |  0  5   | 10  3   |  8  2   |  0 19   | 21  0   |  4  2   |  0  0   |  0 49   |  0  3   |  0  5   |  0  2   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |  0  0   |      78
+Total Cost: 159
 
                      ===========================================
                                       WEEK # 1
@@ -1439,48 +1304,48 @@ Total Cost: 173
 
                       MON                       TUE                       WED                       THU                       FRI                       SAT                       SUN
 JDB
-                  Holiday         UCMam Diag 8a-12p         UCMam Proc 8a-12p             SL Mam 8a-12p                   Day Off                                                    
-                  Holiday          UCMam Diag 12-4p          UCMam Proc 12-4p            FreMam halfday                   Day Off        Nightshift 11p-12a        Nightshift 11p-12a
+                  Holiday             SL Mam 8a-12p         UCMam Diag 8a-12p         UCMam Proc 8a-12p                   Day Off                                                    
+                  Holiday            FreMam halfday          UCMam Diag 12-4p          UCMam Proc 12-4p                   Day Off        Nightshift 11p-12a        Nightshift 11p-12a
                                                                                                                Nightshift 11p-12a
 SDE
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                                                                                                                                  
 HG
-                  Holiday                   OPPR2am                   OPPR1am                   OPPR1am                   OPPR2am                                                    
-                  Holiday                Nucs 8a-4p                   OPPR3pm                Nucs 8a-4p                Nucs 8a-4p                                                    
+                  Holiday                   OPPR2am                   OPPR2am                   OPPR1am                   OPPR2am                                                    
+                  Holiday                Nucs 8a-4p                Nucs 8a-4p                   OPPR4pm                Nucs 8a-4p                                                    
                                                                                                   Swing                          
 SH
-                  Holiday            Abdomen 8a-12p                   OPPR2am                                 Fre US/Fluoro 8a-4p                                                    
-                  Holiday             Abdomen 12-4p              STAT2 12p-4p                   OPPR3pm       Fre US/Fluoro 8a-4p                                    STATWPM 330p-11p
+                  Holiday                                        STAT1 8a-12p            Abdomen 8a-12p       Fre US/Fluoro 8a-4p                                                    
+                  Holiday                   OPPR3pm             STAT1b 12p-4p             Abdomen 12-4p       Fre US/Fluoro 8a-4p                                    STATWPM 330p-11p
                                                                                                                                  
 JFK
-                  Holiday              Neuro 8a-12p                    SCV AM                  Admin AM                    SCV AM                                     STATWAM 8a-330p
-                  Holiday               Neuro 12-4p                   OPPR4pm                                             OPPR3pm                                                    
+                  Holiday                   OPPR1am              Neuro 8a-12p              STAT1 8a-12p                  Admin AM                                     STATWAM 8a-330p
+                  Holiday                    SCV PM               Neuro 12-4p             STAT1b 12p-4p              STAT2 12p-4p                                                    
                                                                                                                                  
 BCL
-                  Holiday       Fre US/Fluoro 8a-4p              STAT1 8a-12p            Abdomen 8a-12p                  Admin AM                                                    
-                  Holiday       Fre US/Fluoro 8a-4p             STAT1b 12p-4p             Abdomen 12-4p                    SCV PM                                                    
+                  Holiday            Abdomen 8a-12p                  Admin AM        SL US/Fluoro 8a-4p          Chest/PET 8a-12p                                                    
+                  Holiday             Abdomen 12-4p                    SCV PM        SL US/Fluoro 8a-4p           Chest/PET 12-4p                                                    
                                                                                                                             Swing
 DSL
-                  Holiday              STAT1 8a-12p                  Admin AM                   OPPR2am        SL US/Fluoro 8a-4p                     WUSPR                     WUSPR
-         STATWPM 330p-11p             STAT1b 12p-4p                                             OPPR4pm        SL US/Fluoro 8a-4p                     WUSPR                     WUSPR
+                  Holiday              STAT1 8a-12p        SL US/Fluoro 8a-4p                  Admin AM                   OPPR1am                     WUSPR                     WUSPR
+         STATWPM 330p-11p             STAT1b 12p-4p        SL US/Fluoro 8a-4p                   OPPR3pm                   OPPR3pm                     WUSPR                     WUSPR
                                                                                                                                  
 JKL
-                  Holiday                  Admin AM            Abdomen 8a-12p          Chest/PET 8a-12p                    SCV AM                                                    
-                  Holiday                   OPPR3pm             Abdomen 12-4p           Chest/PET 12-4p              STAT2 12p-4p          STATWPM 330p-11p                          
+                  Holiday          Chest/PET 8a-12p            Abdomen 8a-12p                  Admin AM        SL US/Fluoro 8a-4p                                                    
+                  Holiday           Chest/PET 12-4p             Abdomen 12-4p                    SCV PM        SL US/Fluoro 8a-4p          STATWPM 330p-11p                          
                                                                                                                                  
 DRL
                   Holiday                                                                                                                                                            
                   Holiday                                                                                                                                                            
                                        STAT3 4p-11p              STAT3 4p-11p              STAT3 4p-11p              STAT3 4p-11p
 GHL
-          STATWAM 8a-330p         UCMam Proc 8a-12p            FreMam halfday         UCMam Diag 8a-12p         UCMam Diag 8a-12p                                                    
-                  Holiday          UCMam Proc 12-4p                    SCV PM          UCMam Diag 12-4p          UCMam Diag 12-4p                                                    
+          STATWAM 8a-330p         UCMam Proc 8a-12p            FreMam halfday         UCMam Diag 8a-12p         UCMam Proc 8a-12p                                                    
+                  Holiday          UCMam Proc 12-4p                    SCV PM          UCMam Diag 12-4p          UCMam Proc 12-4p                                                    
                                                                                                                                  
 SMN
-                  Holiday                    SCV AM                    SCV AM                    SCV AM          Chest/PET 8a-12p                                                    
-                  Holiday                  Admin PM                Nucs 8a-4p              STAT2 12p-4p           Chest/PET 12-4p                                                    
+                  Holiday                    SCV AM          Chest/PET 8a-12p                    SCV AM              Neuro 8a-12p                                                    
+                  Holiday              STAT2 12p-4p           Chest/PET 12-4p                Nucs 8a-4p               Neuro 12-4p                                                    
                                                                         Swing                                                    
 DCN
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
@@ -1491,48 +1356,48 @@ SJP
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                                                                                                                                  
 EEP
-                                            OPPR1am        SL US/Fluoro 8a-4p              Neuro 8a-12p              Neuro 8a-12p                                                    
-                                            OPPR4pm        SL US/Fluoro 8a-4p               Neuro 12-4p               Neuro 12-4p                                                    
+                                       Neuro 8a-12p       Fre US/Fluoro 8a-4p              Neuro 8a-12p              STAT1 8a-12p                                                    
+                                        Neuro 12-4p       Fre US/Fluoro 8a-4p               Neuro 12-4p             STAT1b 12p-4p                                                    
                                                                                                                                  
 GJS
-                  Holiday                 Admin Day          Chest/PET 8a-12p                 Admin Day                MSK 8a-12p                       WMR                       WMR
-                  Holiday                 Admin Day           Chest/PET 12-4p                 Admin Day                 MSK 12-4p                       WMR                       WMR
+                  Holiday                 Admin Day                MSK 8a-12p                 Admin Day                MSK 8a-12p                       WMR                       WMR
+                  Holiday                 Admin Day                 MSK 12-4p                 Admin Day                 MSK 12-4p                       WMR                       WMR
                                                                                                                                  
 HSS
-                  Holiday                    SCV AM       Fre US/Fluoro 8a-4p              STAT1 8a-12p            Abdomen 8a-12p                                                    
-                  Holiday              STAT2 12p-4p       Fre US/Fluoro 8a-4p             STAT1b 12p-4p             Abdomen 12-4p                                                    
+                  Holiday                    SCV AM                    SCV AM                    SCV AM            Abdomen 8a-12p                                                    
+                  Holiday                  Admin PM              STAT2 12p-4p              STAT2 12p-4p             Abdomen 12-4p                                                    
                                               Swing                                                                              
 JKS
-                  Holiday             SL Mam 8a-12p         UCMam Diag 8a-12p         UCMam Proc 8a-12p         UCMam Proc 8a-12p                                                    
-                  Holiday            FreMam halfday          UCMam Diag 12-4p          UCMam Proc 12-4p          UCMam Proc 12-4p                                                    
+                  Holiday         UCMam Diag 8a-12p         UCMam Proc 8a-12p             SL Mam 8a-12p         UCMam Diag 8a-12p                                                    
+                  Holiday          UCMam Diag 12-4p          UCMam Proc 12-4p            FreMam halfday          UCMam Diag 12-4p                                                    
                                                                                                                                  
 GSr
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                                                                                                                                  
 RV
-                  Holiday          Chest/PET 8a-12p                   Day Off        SL US/Fluoro 8a-4p                   Day Off           STATWAM 8a-330p                          
-                  Holiday           Chest/PET 12-4p                   Day Off        SL US/Fluoro 8a-4p                   Day Off                                                    
+                  Holiday       Fre US/Fluoro 8a-4p                   Day Off          Chest/PET 8a-12p                   Day Off           STATWAM 8a-330p                          
+                  Holiday       Fre US/Fluoro 8a-4p                   Day Off           Chest/PET 12-4p                   Day Off                                                    
                                                                       Day Off                                             Day Off
 CCM
-                                         MSK 8a-12p                                 Fre US/Fluoro 8a-4p            FreMam halfday                                                    
-                                          MSK 12-4p                                 Fre US/Fluoro 8a-4p                                                                              
+                                         MSK 8a-12p                                          MSK 8a-12p            FreMam halfday                                                    
+                                          MSK 12-4p                                           MSK 12-4p                                                                              
                                                                                                                                  
 SXK
-                                                                                                                          OPPR1am                                                    
+                                                                      OPPR1am                   OPPR2am                                                                              
                                                                                                                                                                                      
                                                                                                                                  
 BJK
-                                                                 Neuro 8a-12p                                                                                                        
-                                                                  Neuro 12-4p                                                                                                        
+                                                                                                                                                                                     
+                                                                                                                                                                                     
                                                                                                                                  
 JK
-                                 SL US/Fluoro 8a-4p                MSK 8a-12p                MSK 8a-12p              STAT1 8a-12p                                                    
-                                 SL US/Fluoro 8a-4p                 MSK 12-4p                 MSK 12-4p             STAT1b 12p-4p                                                    
+                                 SL US/Fluoro 8a-4p                                 Fre US/Fluoro 8a-4p                                                                              
+                                 SL US/Fluoro 8a-4p                   OPPR4pm       Fre US/Fluoro 8a-4p                   OPPR4pm                                                    
                                                                                                                                  
 RCK
                                                                                                                                                                                      
-                                                                                                                          OPPR4pm                                                    
+                                            OPPR4pm                   OPPR3pm                                                                                                        
                                                                                                                                  
 
                      ===========================================
@@ -1545,96 +1410,96 @@ JDB
                                                                                                                                                                                      
        Nightshift 11p-12a        Nightshift 11p-12a        Nightshift 11p-12a        Nightshift 11p-12a       Nightshift 1201a-8a
 SDE
-        UCMam Diag 8a-12p             SL Mam 8a-12p         UCMam Proc 8a-12p                                                                                                        
-         UCMam Diag 12-4p            FreMam halfday          UCMam Proc 12-4p                                                                                                        
+        UCMam Proc 8a-12p             SL Mam 8a-12p            FreMam halfday                                                                                                        
+         UCMam Proc 12-4p            FreMam halfday                    SCV PM                                                                                                        
                                                                                            STAT3 4p-11p              STAT3 4p-11p
 HG
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                                                                                                                                  
 SH
-                  OPPR2am                                             OPPR1am                                      Abdomen 8a-12p                                                    
-                  OPPR4pm                   OPPR3pm                   OPPR3pm              STAT2 12p-4p             Abdomen 12-4p                                                    
+           Abdomen 8a-12p                                 Fre US/Fluoro 8a-4p                                             OPPR2am                                                    
+            Abdomen 12-4p              STAT2 12p-4p       Fre US/Fluoro 8a-4p                   OPPR3pm                   OPPR3pm                                                    
                                                                                                                                  
 JFK
-                   SCV AM              Neuro 8a-12p              STAT1 8a-12p                   OPPR2am              Neuro 8a-12p                       WMR                       WMR
-                                        Neuro 12-4p             STAT1b 12p-4p                   OPPR4pm               Neuro 12-4p                       WMR                       WMR
+                   SCV AM              Neuro 8a-12p                   OPPR1am              Neuro 8a-12p                    SCV AM                       WMR                       WMR
+                                        Neuro 12-4p                   OPPR3pm               Neuro 12-4p                   OPPR4pm                       WMR                       WMR
                                                                                                                                  
 BCL
-           Abdomen 8a-12p                   OPPR1am          Chest/PET 8a-12p              STAT1 8a-12p       Fre US/Fluoro 8a-4p                                                    
-            Abdomen 12-4p                   OPPR4pm           Chest/PET 12-4p             STAT1b 12p-4p       Fre US/Fluoro 8a-4p          STATWPM 330p-11p                          
+             STAT1 8a-12p          Chest/PET 8a-12p        SL US/Fluoro 8a-4p            Abdomen 8a-12p       Fre US/Fluoro 8a-4p                                                    
+            STAT1b 12p-4p           Chest/PET 12-4p        SL US/Fluoro 8a-4p             Abdomen 12-4p       Fre US/Fluoro 8a-4p          STATWPM 330p-11p                          
                                                                         Swing                                                    
 DSL
-                   SCV AM                                  SL US/Fluoro 8a-4p                                             OPPR2am                                                    
-                  OPPR3pm                  Admin PM        SL US/Fluoro 8a-4p                                        STAT2 12p-4p                                                    
+                  OPPR1am              STAT1 8a-12p                   OPPR2am                                  SL US/Fluoro 8a-4p                                                    
+                 Admin PM             STAT1b 12p-4p                   OPPR4pm              STAT2 12p-4p        SL US/Fluoro 8a-4p                                                    
                                                                                                                                  
 JKL
-         Chest/PET 8a-12p            Abdomen 8a-12p            Abdomen 8a-12p        SL US/Fluoro 8a-4p                    SCV AM                                     STATWAM 8a-330p
-          Chest/PET 12-4p             Abdomen 12-4p             Abdomen 12-4p        SL US/Fluoro 8a-4p                  Admin PM                                                    
+         Chest/PET 8a-12p            Abdomen 8a-12p                    SCV AM        SL US/Fluoro 8a-4p            Abdomen 8a-12p                                     STATWAM 8a-330p
+          Chest/PET 12-4p             Abdomen 12-4p              STAT2 12p-4p        SL US/Fluoro 8a-4p             Abdomen 12-4p                                                    
                                                                                                                                  
 DRL
-       SL US/Fluoro 8a-4p                MSK 8a-12p                    SCV AM                MSK 8a-12p              STAT1 8a-12p                                                    
-       SL US/Fluoro 8a-4p                 MSK 12-4p                  Admin PM                 MSK 12-4p             STAT1b 12p-4p                                                    
+               MSK 8a-12p        SL US/Fluoro 8a-4p              STAT1 8a-12p                MSK 8a-12p                    SCV AM                                                    
+                MSK 12-4p        SL US/Fluoro 8a-4p             STAT1b 12p-4p                 MSK 12-4p              STAT2 12p-4p                                                    
                                               Swing                                                                              
 GHL
-        UCMam Proc 8a-12p         UCMam Diag 8a-12p         UCMam Diag 8a-12p             SL Mam 8a-12p         UCMam Proc 8a-12p                                                    
-         UCMam Proc 12-4p          UCMam Diag 12-4p          UCMam Diag 12-4p            FreMam halfday          UCMam Proc 12-4p                                                    
+        UCMam Diag 8a-12p         UCMam Proc 8a-12p         UCMam Proc 8a-12p             SL Mam 8a-12p         UCMam Diag 8a-12p                                                    
+         UCMam Diag 12-4p          UCMam Proc 12-4p          UCMam Proc 12-4p            FreMam halfday          UCMam Diag 12-4p                                                    
                                                                                                   Swing                          
 SMN
-                  OPPR1am                   OPPR2am                   OPPR2am          Chest/PET 8a-12p        SL US/Fluoro 8a-4p                                                    
-               Nucs 8a-4p                Nucs 8a-4p                Nucs 8a-4p           Chest/PET 12-4p        SL US/Fluoro 8a-4p                                                    
+                Admin Day                   OPPR1am          Chest/PET 8a-12p                   OPPR1am                   OPPR1am                                                    
+                Admin Day                Nucs 8a-4p           Chest/PET 12-4p                Nucs 8a-4p                Nucs 8a-4p                                                    
                                                                                                                                  
 DCN
-           FreMam halfday         UCMam Proc 8a-12p            FreMam halfday         UCMam Diag 8a-12p         UCMam Diag 8a-12p                                                    
-             STAT2 12p-4p          UCMam Proc 12-4p                    SCV PM          UCMam Diag 12-4p          UCMam Diag 12-4p                                                    
+           FreMam halfday         UCMam Diag 8a-12p         UCMam Diag 8a-12p         UCMam Proc 8a-12p         UCMam Proc 8a-12p                                                    
+             STAT2 12p-4p          UCMam Diag 12-4p          UCMam Diag 12-4p          UCMam Proc 12-4p          UCMam Proc 12-4p                                                    
                     Swing                                                                                                        
 SJP
-               MSK 8a-12p                    SCV AM              Neuro 8a-12p       Fre US/Fluoro 8a-4p                MSK 8a-12p           STATWAM 8a-330p                          
-                MSK 12-4p              STAT2 12p-4p               Neuro 12-4p       Fre US/Fluoro 8a-4p                 MSK 12-4p                                                    
+             Neuro 8a-12p                MSK 8a-12p                  Admin AM       Fre US/Fluoro 8a-4p                MSK 8a-12p           STATWAM 8a-330p                          
+              Neuro 12-4p                 MSK 12-4p                    SCV PM       Fre US/Fluoro 8a-4p                 MSK 12-4p                                                    
                                                                                                                                  
 EEP
-             Neuro 8a-12p              STAT1 8a-12p       Fre US/Fluoro 8a-4p              Neuro 8a-12p                                                                              
-              Neuro 12-4p             STAT1b 12p-4p       Fre US/Fluoro 8a-4p               Neuro 12-4p                   OPPR4pm                                                    
+      Fre US/Fluoro 8a-4p                                        Neuro 8a-12p              STAT1 8a-12p              Neuro 8a-12p                                                    
+      Fre US/Fluoro 8a-4p                   OPPR3pm               Neuro 12-4p             STAT1b 12p-4p               Neuro 12-4p                                                    
                                                                                                                                  
 GJS
                    SCV AM                 Admin Day                MSK 8a-12p                 Admin Day          Chest/PET 8a-12p                                                    
-                 Admin PM                 Admin Day                 MSK 12-4p                 Admin Day           Chest/PET 12-4p                                    STATWPM 330p-11p
+                  OPPR3pm                 Admin Day                 MSK 12-4p                 Admin Day           Chest/PET 12-4p                                    STATWPM 330p-11p
                                                                                                                                  
 HSS
-             STAT1 8a-12p       Fre US/Fluoro 8a-4p                    SCV AM            Abdomen 8a-12p                   OPPR1am                     WUSPR                     WUSPR
-            STAT1b 12p-4p       Fre US/Fluoro 8a-4p              STAT2 12p-4p             Abdomen 12-4p                  Admin PM                     WUSPR                     WUSPR
+                   SCV AM       Fre US/Fluoro 8a-4p            Abdomen 8a-12p                   OPPR2am              STAT1 8a-12p                     WUSPR                     WUSPR
+                  OPPR4pm       Fre US/Fluoro 8a-4p             Abdomen 12-4p                  Admin PM             STAT1b 12p-4p                     WUSPR                     WUSPR
                                                                                                                                  
 JKS
-                                                                                      UCMam Proc 8a-12p            FreMam halfday                                                    
-                                                                                       UCMam Proc 12-4p                    SCV PM                                                    
+                                                                                      UCMam Diag 8a-12p            FreMam halfday                                                    
+                                                                                       UCMam Diag 12-4p                    SCV PM                                                    
              STAT3 4p-11p              STAT3 4p-11p              STAT3 4p-11p                                               Swing
 GSr
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                                                                                                                                  
 RV
-      Fre US/Fluoro 8a-4p          Chest/PET 8a-12p                   Day Off                   OPPR1am                   Day Off                                                    
-      Fre US/Fluoro 8a-4p           Chest/PET 12-4p                   Day Off                   OPPR3pm                   Day Off                                                    
+       SL US/Fluoro 8a-4p                   OPPR2am                   Day Off          Chest/PET 8a-12p                   Day Off                                                    
+       SL US/Fluoro 8a-4p                   OPPR4pm                   Day Off           Chest/PET 12-4p                   Day Off                                                    
                                                                       Day Off                                             Day Off
 CCM
                                                                                                                                                                                      
                                                                                                                                                                                      
                                                                                                                                  
 SXK
-                                                                                                                                                                                     
+                  OPPR2am                                                                                                                                                            
                                                                                                                                                                                      
                                                                                                                                  
 BJK
                                                                                                                                                                                      
-                                                                      OPPR4pm                                             OPPR3pm                                                    
+                                                                                                                                                                                     
                                                                                                                                  
 JK
-                                 SL US/Fluoro 8a-4p                                                                                                                                  
-                                 SL US/Fluoro 8a-4p                                                                                                                                  
+                                                                                                                                                                                     
+                                                                                                OPPR4pm                                                                              
                                                                                                                                  
 RCK
                                                                                                                                                                                      
-                                                                                             Nucs 8a-4p                Nucs 8a-4p                                                    
+               Nucs 8a-4p                                          Nucs 8a-4p                                                                                                        
                                                                                                                                  
 
                      ===========================================
@@ -1643,12 +1508,12 @@ RCK
 
                       MON                       TUE                       WED                       THU                       FRI                       SAT                       SUN
 JDB
-        UCMam Proc 8a-12p       Fre US/Fluoro 8a-4p            FreMam halfday         UCMam Diag 8a-12p         UCMam Diag 8a-12p                                                    
-         UCMam Proc 12-4p       Fre US/Fluoro 8a-4p                    SCV PM          UCMam Diag 12-4p          UCMam Diag 12-4p                                                    
+      Fre US/Fluoro 8a-4p         UCMam Proc 8a-12p            FreMam halfday                    SCV AM         UCMam Diag 8a-12p                                                    
+      Fre US/Fluoro 8a-4p          UCMam Proc 12-4p                   OPPR4pm              STAT2 12p-4p          UCMam Diag 12-4p                                                    
                                                                         Swing                                                    
 SDE
-                                                                                      UCMam Proc 8a-12p                    SCV AM                                                    
-                                                                                       UCMam Proc 12-4p              STAT2 12p-4p                                                    
+                                                                                      UCMam Diag 8a-12p            FreMam halfday                                                    
+                                                                                       UCMam Diag 12-4p                    SCV PM                                                    
              STAT3 4p-11p              STAT3 4p-11p              STAT3 4p-11p                     Swing                          
 HG
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
@@ -1659,84 +1524,84 @@ SH
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                                                                                                                                  
 JFK
-             STAT1 8a-12p                    SCV AM              Neuro 8a-12p              Neuro 8a-12p                   OPPR1am                                                    
-            STAT1b 12p-4p              STAT2 12p-4p               Neuro 12-4p               Neuro 12-4p                   OPPR4pm                                                    
+                   SCV AM              STAT1 8a-12p              Neuro 8a-12p              Neuro 8a-12p                   OPPR1am                                                    
+                                      STAT1b 12p-4p               Neuro 12-4p               Neuro 12-4p                   OPPR4pm                                                    
                                                                                                                                  
 BCL
-                Admin Day                 Admin Day          Chest/PET 8a-12p            Abdomen 8a-12p          Chest/PET 8a-12p                     WUSPR                     WUSPR
-                Admin Day                 Admin Day           Chest/PET 12-4p             Abdomen 12-4p           Chest/PET 12-4p                     WUSPR                     WUSPR
+                Admin Day                 Admin Day            Abdomen 8a-12p          Chest/PET 8a-12p        SL US/Fluoro 8a-4p                     WUSPR                     WUSPR
+                Admin Day                 Admin Day             Abdomen 12-4p           Chest/PET 12-4p        SL US/Fluoro 8a-4p                     WUSPR                     WUSPR
                                                                                                                                  
 DSL
-           Abdomen 8a-12p            Abdomen 8a-12p            Abdomen 8a-12p        SL US/Fluoro 8a-4p              STAT1 8a-12p                                                    
-            Abdomen 12-4p             Abdomen 12-4p             Abdomen 12-4p        SL US/Fluoro 8a-4p             STAT1b 12p-4p                                                    
+           Abdomen 8a-12p                    SCV AM                   OPPR2am        SL US/Fluoro 8a-4p            Abdomen 8a-12p                                                    
+            Abdomen 12-4p              STAT2 12p-4p                   OPPR3pm        SL US/Fluoro 8a-4p             Abdomen 12-4p                                                    
                                                                                                                                  
 JKL
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                                                                                                                                  
 DRL
-               MSK 8a-12p                   OPPR2am                   OPPR1am              STAT1 8a-12p        SL US/Fluoro 8a-4p                                                    
-                MSK 12-4p                    SCV PM                   OPPR3pm             STAT1b 12p-4p        SL US/Fluoro 8a-4p                                                    
+                   SCV AM                MSK 8a-12p                   OPPR1am                   OPPR1am              STAT1 8a-12p                                                    
+                  OPPR4pm                 MSK 12-4p                                             OPPR4pm             STAT1b 12p-4p                                                    
                                                                                                                                  
 GHL
-                   SCV AM         UCMam Proc 8a-12p         UCMam Diag 8a-12p             SL Mam 8a-12p            FreMam halfday                                                    
-             STAT2 12p-4p          UCMam Proc 12-4p          UCMam Diag 12-4p            FreMam halfday                   OPPR3pm                                                    
+        UCMam Diag 8a-12p             SL Mam 8a-12p        SL US/Fluoro 8a-4p         UCMam Proc 8a-12p                    SCV AM                                                    
+         UCMam Diag 12-4p            FreMam halfday        SL US/Fluoro 8a-4p          UCMam Proc 12-4p              STAT2 12p-4p                                                    
                                                                                                                             Swing
 SMN
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                                                                                                                                  
 DCN
-        UCMam Diag 8a-12p             SL Mam 8a-12p        SL US/Fluoro 8a-4p                    SCV AM         UCMam Proc 8a-12p                                                    
-         UCMam Diag 12-4p            FreMam halfday        SL US/Fluoro 8a-4p              STAT2 12p-4p          UCMam Proc 12-4p          STATWPM 330p-11p          STATWPM 330p-11p
+        UCMam Proc 8a-12p                   OPPR1am         UCMam Diag 8a-12p             SL Mam 8a-12p         UCMam Proc 8a-12p                                                    
+         UCMam Proc 12-4p                    SCV PM          UCMam Diag 12-4p            FreMam halfday          UCMam Proc 12-4p          STATWPM 330p-11p          STATWPM 330p-11p
                     Swing                     Swing                                                                              
 SJP
-       SL US/Fluoro 8a-4p                MSK 8a-12p                MSK 8a-12p       Fre US/Fluoro 8a-4p              Neuro 8a-12p                       WMR                       WMR
-       SL US/Fluoro 8a-4p                 MSK 12-4p                 MSK 12-4p       Fre US/Fluoro 8a-4p               Neuro 12-4p                       WMR                       WMR
+             Neuro 8a-12p        SL US/Fluoro 8a-4p              STAT1 8a-12p       Fre US/Fluoro 8a-4p                MSK 8a-12p                       WMR                       WMR
+              Neuro 12-4p        SL US/Fluoro 8a-4p             STAT1b 12p-4p       Fre US/Fluoro 8a-4p                 MSK 12-4p                       WMR                       WMR
                                                                                                                                  
 EEP
-             Neuro 8a-12p              Neuro 8a-12p              STAT1 8a-12p                   OPPR1am       Fre US/Fluoro 8a-4p           STATWAM 8a-330p                          
-              Neuro 12-4p               Neuro 12-4p             STAT1b 12p-4p                   OPPR3pm       Fre US/Fluoro 8a-4p                                                    
+       SL US/Fluoro 8a-4p              Neuro 8a-12p       Fre US/Fluoro 8a-4p              STAT1 8a-12p              Neuro 8a-12p           STATWAM 8a-330p                          
+       SL US/Fluoro 8a-4p               Neuro 12-4p       Fre US/Fluoro 8a-4p             STAT1b 12p-4p               Neuro 12-4p                                                    
                                                                                                                                  
 GJS
-         Chest/PET 8a-12p                 Admin Day                    SCV AM                 Admin Day                MSK 8a-12p                                                    
-          Chest/PET 12-4p                 Admin Day              STAT2 12p-4p                 Admin Day                 MSK 12-4p                                                    
+               MSK 8a-12p                 Admin Day          Chest/PET 8a-12p                 Admin Day          Chest/PET 8a-12p                                                    
+                MSK 12-4p                 Admin Day           Chest/PET 12-4p                 Admin Day           Chest/PET 12-4p                                                    
                                                                                                                                  
 HSS
-                   SCV AM              STAT1 8a-12p       Fre US/Fluoro 8a-4p                   OPPR2am            Abdomen 8a-12p                                                    
-                  OPPR3pm             STAT1b 12p-4p       Fre US/Fluoro 8a-4p                   OPPR4pm             Abdomen 12-4p                                                    
+                   SCV AM            Abdomen 8a-12p                    SCV AM            Abdomen 8a-12p       Fre US/Fluoro 8a-4p                                                    
+                  OPPR3pm             Abdomen 12-4p              STAT2 12p-4p             Abdomen 12-4p       Fre US/Fluoro 8a-4p                                                    
                                                                                                                                  
 JKS
            FreMam halfday         UCMam Diag 8a-12p         UCMam Proc 8a-12p                                                                                                        
-                  OPPR4pm          UCMam Diag 12-4p          UCMam Proc 12-4p                                                                                                        
+             STAT2 12p-4p          UCMam Diag 12-4p          UCMam Proc 12-4p                                                                                                        
                                                                                            STAT3 4p-11p              STAT3 4p-11p
 GSr
-                   SCV AM        SL US/Fluoro 8a-4p                   OPPR2am                MSK 8a-12p                  Admin AM                                     STATWAM 8a-330p
-               Nucs 8a-4p        SL US/Fluoro 8a-4p                Nucs 8a-4p                 MSK 12-4p                Nucs 8a-4p                                                    
+                  OPPR2am                   OPPR2am                MSK 8a-12p                MSK 8a-12p                  Admin AM                                     STATWAM 8a-330p
+               Nucs 8a-4p                Nucs 8a-4p                 MSK 12-4p                 MSK 12-4p                Nucs 8a-4p                                                    
                                                                                                                                  
 RV
-      Fre US/Fluoro 8a-4p          Chest/PET 8a-12p                   Day Off          Chest/PET 8a-12p                   Day Off                                                    
-      Fre US/Fluoro 8a-4p           Chest/PET 12-4p                   Day Off           Chest/PET 12-4p                   Day Off                                                    
+         Chest/PET 8a-12p          Chest/PET 8a-12p                   Day Off                   OPPR2am                   Day Off                                                    
+          Chest/PET 12-4p           Chest/PET 12-4p                   Day Off                   OPPR3pm                   Day Off                                                    
                                                                       Day Off                                             Day Off
 CCM
-                                                                                                                                                                                     
-                                                                                                                                                                                     
+             STAT1 8a-12p                                                                                                                                                            
+            STAT1b 12p-4p                   OPPR3pm                                                                       OPPR3pm                                                    
                                                                                                                                  
 SXK
-                  OPPR1am                   OPPR1am                                                                                                                                  
-                                            OPPR3pm                                                                                                                                  
+                  OPPR1am                                                                                                 OPPR2am                                                    
+                                                                                                                                                                                     
                                                                                                                                  
 BJK
-                  OPPR2am                                                                                                 OPPR2am                                                    
-                                            OPPR4pm                   OPPR4pm                                                                                                        
+                                                                                                                                                                                     
+                                                                                                                                                                                     
                                                                                                                                  
 JK
-                                                                                                                                                                                     
-                                                                                                                                                                                     
+                                Fre US/Fluoro 8a-4p                                                                                                                                  
+                                Fre US/Fluoro 8a-4p                                                                                                                                  
                                                                                                                                  
 RCK
                                                                                                                                                                                      
-                                         Nucs 8a-4p                                          Nucs 8a-4p                                                                              
+                                            OPPR4pm                Nucs 8a-4p                Nucs 8a-4p                                                                              
                                                                                                                                  
 
                      ===========================================
@@ -1745,36 +1610,36 @@ RCK
 
                       MON                       TUE                       WED                       THU                       FRI                       SAT                       SUN
 JDB
-           FreMam halfday         UCMam Proc 8a-12p                                                                                                                                  
-             STAT2 12p-4p          UCMam Proc 12-4p                                                                                                                                  
+        UCMam Proc 8a-12p                    SCV AM                                                                                                                                  
+         UCMam Proc 12-4p            FreMam halfday                                                                                                                                  
                                                                  STAT3 4p-11p              STAT3 4p-11p              STAT3 4p-11p
 SDE
-        UCMam Proc 8a-12p             SL Mam 8a-12p            FreMam halfday         UCMam Diag 8a-12p         UCMam Diag 8a-12p                     WUSPR                     WUSPR
-         UCMam Proc 12-4p              STAT2 12p-4p                    SCV PM          UCMam Diag 12-4p          UCMam Diag 12-4p                     WUSPR                     WUSPR
+        UCMam Diag 8a-12p             SL Mam 8a-12p            FreMam halfday         UCMam Proc 8a-12p         UCMam Diag 8a-12p                     WUSPR                     WUSPR
+         UCMam Diag 12-4p              STAT2 12p-4p                    SCV PM          UCMam Proc 12-4p          UCMam Diag 12-4p                     WUSPR                     WUSPR
                                                                                                                                  
 HG
-                  OPPR2am       Fre US/Fluoro 8a-4p                   OPPR1am                   OPPR2am             Flex Vaca Day                                                    
-                  OPPR3pm       Fre US/Fluoro 8a-4p                   OPPR4pm                   OPPR4pm             Flex Vaca Day                   No Call                   No Call
+                  OPPR1am                   OPPR2am       Fre US/Fluoro 8a-4p                   OPPR2am             Flex Vaca Day                                                    
+                  OPPR3pm                Nucs 8a-4p       Fre US/Fluoro 8a-4p                   OPPR3pm             Flex Vaca Day                   No Call                   No Call
                     Swing                                                                         Swing                   No Call
 SH
-                                                          Fre US/Fluoro 8a-4p            Abdomen 8a-12p        SL US/Fluoro 8a-4p                                     STATWAM 8a-330p
-                                                          Fre US/Fluoro 8a-4p             Abdomen 12-4p        SL US/Fluoro 8a-4p                                                    
+                                                                      OPPR1am              STAT1 8a-12p            Abdomen 8a-12p                                     STATWAM 8a-330p
+                                                                 STAT2 12p-4p             STAT1b 12p-4p             Abdomen 12-4p                                                    
              STAT3 4p-11p              STAT3 4p-11p                                                                              
 JFK
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                                                                                                                                  
 BCL
-           Abdomen 8a-12p              STAT1 8a-12p        SL US/Fluoro 8a-4p          Chest/PET 8a-12p             Flex Vaca Day                                                    
-            Abdomen 12-4p             STAT1b 12p-4p        SL US/Fluoro 8a-4p           Chest/PET 12-4p             Flex Vaca Day                   No Call                   No Call
+                   SCV AM       Fre US/Fluoro 8a-4p            Abdomen 8a-12p          Chest/PET 8a-12p             Flex Vaca Day                                                    
+                  OPPR4pm       Fre US/Fluoro 8a-4p             Abdomen 12-4p           Chest/PET 12-4p             Flex Vaca Day                   No Call                   No Call
                                                                         Swing                                             No Call
 DSL
                  Vacation                  Vacation                  Vacation                  Vacation             Flex Vaca Day                                                    
                  Vacation                  Vacation                  Vacation                  Vacation             Flex Vaca Day                   No Call                   No Call
                                                                                                                           No Call
 JKL
-         Chest/PET 8a-12p                    SCV AM            Abdomen 8a-12p                    SCV AM       Fre US/Fluoro 8a-4p                                                    
-          Chest/PET 12-4p                  Admin PM             Abdomen 12-4p              STAT2 12p-4p       Fre US/Fluoro 8a-4p                                                    
+             STAT1 8a-12p            Abdomen 8a-12p                  Admin AM            Abdomen 8a-12p          Chest/PET 8a-12p                                                    
+            STAT1b 12p-4p             Abdomen 12-4p                    SCV PM             Abdomen 12-4p           Chest/PET 12-4p                                                    
                                                                                                                                  
 DRL
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
@@ -1785,59 +1650,59 @@ GHL
                  Vacation                  Vacation                  Vacation                  Vacation                  Vacation                                                    
                                                                                                                                  
 SMN
-       SL US/Fluoro 8a-4p                    SCV AM                    SCV AM                  Admin AM          Chest/PET 8a-12p           STATWAM 8a-330p                          
-       SL US/Fluoro 8a-4p                Nucs 8a-4p                Nucs 8a-4p                Nucs 8a-4p           Chest/PET 12-4p                                                    
+       SL US/Fluoro 8a-4p                    SCV AM          Chest/PET 8a-12p                  Admin AM                    SCV AM           STATWAM 8a-330p                          
+       SL US/Fluoro 8a-4p                   OPPR4pm           Chest/PET 12-4p                Nucs 8a-4p                Nucs 8a-4p                                                    
                                                                                                                             Swing
 DCN
-        UCMam Diag 8a-12p                    SCV AM         UCMam Diag 8a-12p         UCMam Proc 8a-12p                   Day Off                                                    
-         UCMam Diag 12-4p            FreMam halfday          UCMam Diag 12-4p          UCMam Proc 12-4p                   Day Off        Nightshift 11p-12a        Nightshift 11p-12a
+           FreMam halfday         UCMam Diag 8a-12p         UCMam Proc 8a-12p         UCMam Diag 8a-12p                   Day Off                                                    
+             STAT2 12p-4p          UCMam Diag 12-4p          UCMam Proc 12-4p          UCMam Diag 12-4p                   Day Off        Nightshift 11p-12a        Nightshift 11p-12a
                                               Swing                                                            Nightshift 11p-12a
 SJP
-             Neuro 8a-12p        SL US/Fluoro 8a-4p                MSK 8a-12p       Fre US/Fluoro 8a-4p                MSK 8a-12p                                                    
-              Neuro 12-4p        SL US/Fluoro 8a-4p                 MSK 12-4p       Fre US/Fluoro 8a-4p                 MSK 12-4p                                                    
+               MSK 8a-12p        SL US/Fluoro 8a-4p              Neuro 8a-12p       Fre US/Fluoro 8a-4p                MSK 8a-12p                                                    
+                MSK 12-4p        SL US/Fluoro 8a-4p               Neuro 12-4p       Fre US/Fluoro 8a-4p                 MSK 12-4p                                                    
                                                                                                                                  
 EEP
-             STAT1 8a-12p                   OPPR2am              STAT1 8a-12p              Neuro 8a-12p              Neuro 8a-12p                                                    
-            STAT1b 12p-4p                   OPPR3pm             STAT1b 12p-4p               Neuro 12-4p               Neuro 12-4p                                    STATWPM 330p-11p
+             Neuro 8a-12p              Neuro 8a-12p        SL US/Fluoro 8a-4p                   OPPR1am              STAT1 8a-12p                                                    
+              Neuro 12-4p               Neuro 12-4p        SL US/Fluoro 8a-4p                   OPPR4pm             STAT1b 12p-4p                                    STATWPM 330p-11p
                                                                                                                                  
 GJS
-               MSK 8a-12p                 Admin Day          Chest/PET 8a-12p                 Admin Day             Flex Vaca Day                                                    
-                MSK 12-4p                 Admin Day           Chest/PET 12-4p                 Admin Day             Flex Vaca Day                   No Call                   No Call
+         Chest/PET 8a-12p                 Admin Day                MSK 8a-12p                 Admin Day             Flex Vaca Day                                                    
+          Chest/PET 12-4p                 Admin Day                 MSK 12-4p                 Admin Day             Flex Vaca Day                   No Call                   No Call
                                                                                                                           No Call
 HSS
-                   SCV AM            Abdomen 8a-12p                  Admin AM              STAT1 8a-12p            Abdomen 8a-12p                                                    
-                  OPPR4pm             Abdomen 12-4p              STAT2 12p-4p             STAT1b 12p-4p             Abdomen 12-4p                                                    
+           Abdomen 8a-12p                   OPPR1am              STAT1 8a-12p                    SCV AM       Fre US/Fluoro 8a-4p                                                    
+            Abdomen 12-4p                  Admin PM             STAT1b 12p-4p              STAT2 12p-4p       Fre US/Fluoro 8a-4p                                                    
                                                                                                                                  
 JKS
-                   SCV AM         UCMam Diag 8a-12p         UCMam Proc 8a-12p             SL Mam 8a-12p         UCMam Proc 8a-12p                                                    
-                 Admin PM          UCMam Diag 12-4p          UCMam Proc 12-4p            FreMam halfday          UCMam Proc 12-4p          STATWPM 330p-11p                          
+                   SCV AM         UCMam Proc 8a-12p         UCMam Diag 8a-12p             SL Mam 8a-12p         UCMam Proc 8a-12p                                                    
+                 Admin PM          UCMam Proc 12-4p          UCMam Diag 12-4p            FreMam halfday          UCMam Proc 12-4p          STATWPM 330p-11p                          
                                                                                                                                  
 GSr
-                   SCV AM                MSK 8a-12p              Neuro 8a-12p                MSK 8a-12p                  Admin AM                       WMR                       WMR
-               Nucs 8a-4p                 MSK 12-4p               Neuro 12-4p                 MSK 12-4p                Nucs 8a-4p                       WMR                       WMR
+                   SCV AM                MSK 8a-12p                  Admin AM                MSK 8a-12p        SL US/Fluoro 8a-4p                       WMR                       WMR
+               Nucs 8a-4p                 MSK 12-4p                Nucs 8a-4p                 MSK 12-4p        SL US/Fluoro 8a-4p                       WMR                       WMR
                                                                                                                                  
 RV
       Fre US/Fluoro 8a-4p          Chest/PET 8a-12p                   Day Off        SL US/Fluoro 8a-4p                   Day Off                                                    
       Fre US/Fluoro 8a-4p           Chest/PET 12-4p                   Day Off        SL US/Fluoro 8a-4p                   Day Off                   No Call                   No Call
                                                                       Day Off                                             Day Off
 CCM
-                                                                                                                   FreMam halfday                                                    
-                                                                                                                     STAT2 12p-4p                                                    
+                                       STAT1 8a-12p                                                                FreMam halfday                                                    
+                                      STAT1b 12p-4p                                                                  STAT2 12p-4p                                                    
                                                                                                                                  
 SXK
-                  OPPR1am                   OPPR1am                   OPPR2am                                             OPPR1am                                                    
-                                            OPPR4pm                                             OPPR3pm                   OPPR4pm                                                    
+                  OPPR2am                                             OPPR2am                                             OPPR1am                                                    
+                                                                                                                                                                                     
                                                                                                                                  
 BJK
-                                       Neuro 8a-12p                                             OPPR1am                   OPPR2am                                                    
-                                        Neuro 12-4p                   OPPR3pm                                             OPPR3pm                                                    
+                                                                                           Neuro 8a-12p              Neuro 8a-12p                                                    
+                                                                                            Neuro 12-4p               Neuro 12-4p                                                    
                                                                                                                                  
 JK
-                                                                                                                     STAT1 8a-12p                                                    
-                                                                                                                    STAT1b 12p-4p                                                    
+                                                                                                                          OPPR2am                                                    
+                                                                      OPPR3pm                                             OPPR3pm                                                    
                                                                                                                                  
 RCK
                                                                                                                                                                                      
-                                                                                                                                                                                     
+                                            OPPR3pm                   OPPR4pm                                             OPPR4pm                                                    
                                                                                                                                  
 Time limit: 0
