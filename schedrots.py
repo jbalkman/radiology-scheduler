@@ -567,6 +567,7 @@ def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_pcoun
             #slnSflIdx = [solver.IsEqualCstVar(v_staff_flat[shifts.index('SL US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]
             #freSflIdx = [solver.IsEqualCstVar(v_staff_flat[shifts.index('Fre US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]
             #solver.Add(v_rots[(stf,rots.index('Sonoflu'))] == solver.Sum(slnSflIdx+freSflIdx))
+
             solver.Add(v_rots[(stf,rots_tup.index('FRE_Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('Fre US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]))
             solver.Add(v_rots[(stf,rots_tup.index('SLN_Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('SL US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]))
             #solver.Add(v_rots[(stf,rots.index('Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[i],stf) for i in range(0,len(SFL_SHIFTS)*nslts,2)]))
@@ -642,7 +643,7 @@ def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_pcoun
 
     elif sect == 'scv':
         for stf in range(nstaff):
-            solver.Add(v_rots[(stf,rots_tup.index('SCV'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[i],stf) for i in range(len(SCV_SHIFTS)*nslts)])) # a hack to cover OPPR1am through OPPR2am indices
+            solver.Add(v_rots[(stf,rots_tup.index('SCV'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[i],stf) for i in range(len(SCV_SHIFTS)*nslts)])) 
             
             # power constraint that limits number of each rotation that staff takes
             for rot in range(nrots):
@@ -2339,7 +2340,7 @@ def all_staff_idx(s):
 '''
 
 def make_week_hx(cal,cml,cnt,bis):
-    num_slots = len(WEEK_SLOTS)
+    num_slots = len(WEEK_SLOTS)+len(CALL_SLOTS)
     
     curr = np.zeros((len(ALL_STAFF),len(ALL_ROTS)),dtype='int64')
 
@@ -2347,55 +2348,72 @@ def make_week_hx(cal,cml,cnt,bis):
         if ALL_STAFF[s] not in LCM_STAFF:
             for slot in range(num_slots):
                 shift = cal[s,slot]
-                #print("Shift",shift,ALL_SHIFTS[shift])
-                if shift == ALL_SHIFTS.index('UCMam Diag 8a-12p'): # and slot%2 == 0: # the UNC-Diag AM/PM are both considered UNC-Diag
-                    curr[s,ALL_ROTS.index('UNC_Diag')] += 1
-                elif shift == ALL_SHIFTS.index('UCMam Proc 8a-12p'): # and slot%2 == 0:  # the UNC-Proc AM/PM are both considered UNC-Proc
-                    curr[s,ALL_ROTS.index('UNC_Proc')] += 1
-                elif shift == ALL_SHIFTS.index('FreMam halfday'): # FRE_Mamm
-                    curr[s,ALL_ROTS.index('FRE_Mamm')] += 1
-                elif shift == ALL_SHIFTS.index('SL Mam 8a-12p'): # SLN Mamm
-                    curr[s,ALL_ROTS.index('SLN_Mamm')] += 1
+                if slot < len(WEEK_SLOTS):
+                    if shift == ALL_SHIFTS.index('UCMam Diag 8a-12p') and slot%2 == 0: # the UNC-Diag AM/PM are both considered UNC-Diag
+                        curr[s,ALL_ROTS.index('UNC_Diag')] += 1
+                    elif shift == ALL_SHIFTS.index('UCMam Proc 8a-12p') and slot%2 == 0:  # the UNC-Proc AM/PM are both considered UNC-Proc
+                        curr[s,ALL_ROTS.index('UNC_Proc')] += 1
+                    elif shift == ALL_SHIFTS.index('FreMam halfday'): # FRE_Mamm
+                        curr[s,ALL_ROTS.index('FRE_Mamm')] += 1
+                    elif shift == ALL_SHIFTS.index('SL Mam 8a-12p'): # SLN Mamm
+                        curr[s,ALL_ROTS.index('SLN_Mamm')] += 1
                     
-                elif shift == ALL_SHIFTS.index('Fre US/Fluoro 8a-4p'): # only listed once on qgenda so don't need to sort by slot
-                    curr[s,ALL_ROTS.index('FRE_Sonoflu')] += 1
-                elif shift == ALL_SHIFTS.index('SL US/Fluoro 8a-4p'):  # only listed once on qgenda so don't need to sort by slot
-                    curr[s,ALL_ROTS.index('SLN_Sonoflu')] += 1
+                    elif shift == ALL_SHIFTS.index('Fre US/Fluoro 8a-4p') and slot%2 == 0: # only listed once on qgenda so don't need to sort by slot
+                        curr[s,ALL_ROTS.index('FRE_Sonoflu')] += 1
+                    elif shift == ALL_SHIFTS.index('SL US/Fluoro 8a-4p') and slot%2 == 0:  # only listed once on qgenda so don't need to sort by slot
+                        curr[s,ALL_ROTS.index('SLN_Sonoflu')] += 1
+                        
+                    elif shift == ALL_SHIFTS.index('MSK 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                        curr[s,ALL_ROTS.index('MSK')] += 1
+                    
+                    elif shift == ALL_SHIFTS.index('Neuro 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                        curr[s,ALL_ROTS.index('Neuro')] += 1
+                        
+                    elif shift == ALL_SHIFTS.index('Abdomen 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                        curr[s,ALL_ROTS.index('Abdomen')] += 1
+                        
+                    elif shift == ALL_SHIFTS.index('Chest/PET 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                        curr[s,ALL_ROTS.index('Chest/PET')] += 1
+                        
+                    elif shift == ALL_SHIFTS.index('Nucs 8a-4p') and slot%2 == 1: # nucs is a PM rotation only
+                        curr[s,ALL_ROTS.index('Nucs')] += 1
+                        
+                    elif shift == ALL_SHIFTS.index('STAT1 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                        curr[s,ALL_ROTS.index('STAT_AM')] += 1
+                    elif (shift == ALL_SHIFTS.index('STAT1b 12p-4p') or shift == ALL_SHIFTS.index('STAT2 12p-4p')) and slot%2 == 1:
+                        curr[s,ALL_ROTS.index('STAT_PM')] += 1
+                        
+                    elif (shift == ALL_SHIFTS.index('OPPR1am') or shift == ALL_SHIFTS.index('OPPR2am')) and slot%2 == 0: # the AM shifts are indexes 0,1 and the PM shifts are indexes 2,3
+                        curr[s,ALL_ROTS.index('OPPR_AM')] += 1
+                    elif (shift == ALL_SHIFTS.index('OPPR3pm') or shift == ALL_SHIFTS.index('OPPR4pm')) and slot%2 == 1: 
+                        curr[s,ALL_ROTS.index('OPPR_PM')] += 1
+                        
+                    elif ALL_SHIFTS[shift] in SCV_SHIFTS: # any SCV rotation whether AM/PM counts as one rotation
+                        curr[s,ALL_ROTS.index('SCV')] += 1
 
-                elif shift == ALL_SHIFTS.index('MSK 8a-12p'):# and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
-                    curr[s,ALL_ROTS.index('MSK')] += 1
-                    
-                elif shift == ALL_SHIFTS.index('Neuro 8a-12p'):# and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
-                    curr[s,ALL_ROTS.index('Neuro')] += 1
-                    
-                elif shift == ALL_SHIFTS.index('Abdomen 8a-12p'):# and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
-                    curr[s,ALL_ROTS.index('Abdomen')] += 1
-                    
-                elif shift == ALL_SHIFTS.index('Chest/PET 8a-12p'):# and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
-                    curr[s,ALL_ROTS.index('Chest/PET')] += 1
-                    
-                elif shift == ALL_SHIFTS.index('Nucs 8a-4p'): # and slot%2 == 1: # nucs is a PM rotation only
-                    curr[s,ALL_ROTS.index('Nucs')] += 1
-                    
-                elif shift == ALL_SHIFTS.index('STAT1 8a-12p'): # and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
-                    curr[s,ALL_ROTS.index('STAT_AM')] += 1
-                elif shift == ALL_SHIFTS.index('STAT1b 12p-4p'): # or shift == ALL_SHIFTS.index('STAT2 12p-4p')) and slot%2 == 1:
-                    curr[s,ALL_ROTS.index('STAT_PM')] += 1
-                    
-                elif (shift == ALL_SHIFTS.index('OPPR1am') or shift == ALL_SHIFTS.index('OPPR2am')): # and slot%2 == 0: # the AM shifts are indexes 0,1 and the PM shifts are indexes 2,3
-                    curr[s,ALL_ROTS.index('OPPR_AM')] += 1
-                elif (shift == ALL_SHIFTS.index('OPPR3pm') or shift == ALL_SHIFTS.index('OPPR4pm')): # and slot%2 == 1: 
-                    curr[s,ALL_ROTS.index('OPPR_PM')] += 1
-                    
-                elif ALL_SHIFTS[shift] in SCV_SHIFTS: # any SCV rotation whether AM/PM counts as one rotation
-                    curr[s,ALL_ROTS.index('SCV')] += 1
-
-                elif shift == ALL_SHIFTS.index('Admin Day'):# and slot%2 == 0: # counting by half days of Admin time
-                    curr[s,ALL_ROTS.index('Admin')] += 2
-                elif shift == ALL_SHIFTS.index('Admin AM') or shift == ALL_SHIFTS.index('Admin PM'):
-                    curr[s,ALL_ROTS.index('Admin')] += 1
+                    elif shift == ALL_SHIFTS.index('Admin Day'):# and slot%2 == 0: # counting by half days of Admin time
+                        curr[s,ALL_ROTS.index('Admin')] += 2
+                    elif shift == ALL_SHIFTS.index('Admin AM') or shift == ALL_SHIFTS.index('Admin PM'):
+                        curr[s,ALL_ROTS.index('Admin')] += 1
                 else:
-                    pass
+                        
+                    if shift == ALL_SHIFTS.index('STAT3 4p-11p'):
+                        curr[s,ALL_ROTS.index('STAT3')] += 1
+                        
+                    elif shift == ALL_SHIFTS.index('Swing'):
+                        curr[s,ALL_ROTS.index('Swing')] += 1
+                        
+                    elif shift == ALL_SHIFTS.index('STATWAM 8a-330p'):
+                        curr[s,ALL_ROTS.index('STATW_AM')] += 1
+                    elif shift == ALL_SHIFTS.index('STATWPM 330p-11p'):
+                        curr[s,ALL_ROTS.index('STATW_PM')] += 1
+                        
+                    elif shift == ALL_SHIFTS.index('WUSPR') and slot%2 == 0:
+                        curr[s,ALL_ROTS.index('WUSPR')] += 1
+                        
+                    elif shift == ALL_SHIFTS.index('WMR') and slot%2 == 0:
+                        curr[s,ALL_ROTS.index('WMR')] += 1
+                        
 
     cml += curr
     cnt = add_counter_matrix(cnt+bis,curr)
@@ -2822,6 +2840,7 @@ def main():
     if f_history:
         dept = qa.load_data(f_history)
         cal_history = qa.qgimport(dept).astype('int64')
+        #print_calendar(cal_history)
         cumulative,counter,bias = init_counter_history(cal_history,cumulative,counter)
         print_allcounters(cumulative,counter,'all',0,bias)
             
