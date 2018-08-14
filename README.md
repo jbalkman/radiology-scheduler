@@ -1,5 +1,5 @@
 # radiology-scheduler
-Scheduling Constraint Optimization Tool ("SCOT") for Private Practice Radiology Group
+Scheduling Constraint Optimization and Testing Tool ("SCOTT") for Private Practice Radiology Group
 - multiphasic scheduling on week-by-week basis (num weeks configurable)
 - balances workload based on historical data and using random seed for rotation selection
 - semi-automated integration with qgenda to accept CSV import files
