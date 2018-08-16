@@ -510,7 +510,7 @@ Units = {    "": 0,
              "1-844-230-9729" : 0
              }
 
-Slots = ('NA','AM','PM','EVE','WAM','WPM','DAY')
+Slots = ('NA','AM','PM','EVE','WAM','WPM','DAY','FILL')
 
 ShiftSlots = {    "": 0,
              "Vacation" : 6,
@@ -551,7 +551,7 @@ ShiftSlots = {    "": 0,
              "OPPR2am" : 1,
              "OPPR3pm" : 2,
              "OPPR4pm" : 2,
-             "TBA" : 0,
+             "TBA" : 7,
              "Sonoflu Backup" : 0,
              "SCVam abd-chest" : 1,
              "SCVam msk-neuro" : 1,

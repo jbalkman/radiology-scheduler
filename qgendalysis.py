@@ -439,6 +439,16 @@ def qgimport(dept):
                             cal[sidx,(cidx%7)*2,cidx/7] = ALL_SHIFTS.index(shift)
                         elif ShiftSlots[shift] == Slots.index('WPM'):
                             cal[sidx,(cidx%7)*2+1,cidx/7] = ALL_SHIFTS.index(shift)
+
+                        # used for TBA (to be filled)
+                        elif ShiftSlots[shift] == Slots.index('FILL'):
+                            
+                            # since the TBA indicator is sticky, don't want to overwrite previous values if present (these should be stacked atop the TBA for pools - see qgenda)
+                            if cal[sidx,(cidx%7)*2,cidx/7] == 0:
+                                cal[sidx,(cidx%7)*2,cidx/7] = ALL_SHIFTS.index(shift)
+                            if  cal[sidx,(cidx%7)*2+1,cidx/7] == 0:
+                                cal[sidx,(cidx%7)*2+1,cidx/7] = ALL_SHIFTS.index(shift)
+
                     else: # handle weekends
                         callSlotStr = ''
                         if cidx%7 == 5: # saturday

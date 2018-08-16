@@ -191,6 +191,19 @@ def create_pool_shifts(solver,nweeks,pools):
 
     return shifts, shifts_flat
 
+def create_pooltba_shifts(solver):
+    shifts = {}
+    
+    for p in range(len(LCM_STAFF)):
+        nshifts = len(ALL_SHIFTS)
+        #print("Number of possible shifts:",nshifts)
+        for s in range(len(WEEK_SLOTS)):
+            #print("Creating variables for j,k,l tuple:",pools[p][0],p,w,s)
+            shifts[(p,s)] = solver.IntVar(-1, nshifts-1, "shifts(%i,%i)" % (p,s)) # -1 is an escape; 1 is for PM shift
+    shifts_flat = [shifts[(p,s)] for p in range(len(LCM_STAFF)) for s in range(len(WEEK_SLOTS))]
+
+    return shifts, shifts_flat
+
 def create_neshifts(solver,num_hdays,section):
     v_neshifts = {}
     v_rots = {}
@@ -532,7 +545,7 @@ def set_nerotation_constraints(solver,v_shifts,v_rots,v_cntr,v_rotprod_flat,v_tc
 #def set_staff_constraints(solver):
 #    pass
 
-def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_pcounts,v_tcost,cnts,bis,sect):
+def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_pcounts,v_tcost,cnts,bis,sect,holidays):
     nslts = len(WEEK_SLOTS)
     
     nstaff,nshifts,nrots,shifts,rots_tup = get_section_nstaff_nshifts_nrots_shifts_rots(sect)
@@ -556,7 +569,10 @@ def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_pcoun
             solver.Add(v_rots[(stf,rots_tup.index('UNC_Proc'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('UCMam Proc 8a-12p')*nslts+i],stf) for i in range(nslts)]))
             solver.Add(v_rots[(stf,rots_tup.index('FRE_Mamm'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('FreMam halfday')*nslts+i],stf) for i in range(nslts)]))
             solver.Add(v_rots[(stf,rots_tup.index('SLN_Mamm'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('SL Mam 8a-12p')*nslts+i],stf) for i in range(nslts)]))
-            solver.Add(v_rots[(stf,rots_tup.index('TB'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('UCMam Proc 8a-12p')*nslts],stf)]))
+            if WEEKDAYS.index('MON') in holidays:
+                solver.Add(v_rots[(stf,rots_tup.index('TB'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('UCMam Proc 8a-12p')*nslts+WEEK_SLOTS.index('TUE-AM')],stf)]))
+            else:
+                solver.Add(v_rots[(stf,rots_tup.index('TB'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('UCMam Proc 8a-12p')*nslts],stf)]))
 
             # power constraint that limits number of each rotation that staff takes
             for rot in range(nrots):
@@ -564,12 +580,18 @@ def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_pcoun
 
     elif sect == 'sfl':
         for stf in range(nstaff):
-            #slnSflIdx = [solver.IsEqualCstVar(v_staff_flat[shifts.index('SL US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]
-            #freSflIdx = [solver.IsEqualCstVar(v_staff_flat[shifts.index('Fre US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]
-            #solver.Add(v_rots[(stf,rots.index('Sonoflu'))] == solver.Sum(slnSflIdx+freSflIdx))
+            slnSflIdx = [solver.IsEqualCstVar(v_staff_flat[shifts.index('SL US/Fluoro 8a-4p')*nslts+i*2],stf) for i in range(len(WEEKDAYS))] # only count every other slot (AM slot)
+            freSflIdx = [solver.IsEqualCstVar(v_staff_flat[shifts.index('Fre US/Fluoro 8a-4p')*nslts+i*2],stf) for i in range(len(WEEKDAYS))]
+            solver.Add(v_rots[(stf,rots_tup.index('Sonoflu'))] == solver.Sum(slnSflIdx+freSflIdx))
 
-            solver.Add(v_rots[(stf,rots_tup.index('FRE_Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('Fre US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]))
-            solver.Add(v_rots[(stf,rots_tup.index('SLN_Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('SL US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]))
+            slnSflIcuIdx = [solver.IsEqualCstVar(v_staff_flat[shifts.index('SL US/Fluoro 8a-4p')*nslts+WEEK_SLOTS.index('WED-AM')],stf)] # only count Wed Sonoflu ICU
+            freSflIcuIdx = [solver.IsEqualCstVar(v_staff_flat[shifts.index('Fre US/Fluoro 8a-4p')*nslts+WEEK_SLOTS.index('WED-AM')],stf)]
+            
+            solver.Add(v_rots[(stf,rots_tup.index('Sonoflu_ICU'))] == solver.Sum(slnSflIcuIdx+freSflIcuIdx))
+
+            #solver.Add(v_rots[(stf,rots_tup.index('FRE_Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('Fre US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]))
+            #solver.Add(v_rots[(stf,rots_tup.index('SLN_Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('SL US/Fluoro 8a-4p')*nslts+i],stf) for i in range(nslts)]))
+            
             #solver.Add(v_rots[(stf,rots.index('Sonoflu'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[i],stf) for i in range(0,len(SFL_SHIFTS)*nslts,2)]))
 
             # power constraint that limits number of each rotation that staff takes
@@ -602,7 +624,12 @@ def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_pcoun
     elif sect == 'abd':
         for stf in range(nstaff):
             solver.Add(v_rots[(stf,rots_tup.index('Abdomen'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('Abdomen 8a-12p')*nslts+i],stf) for i in range(nslts)]))
-            
+
+            if WEEKDAYS.index('MON') in holidays:
+                solver.Add(v_rots[(stf,rots_tup.index('Abdomen_MON'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('Abdomen 8a-12p')*nslts+WEEK_SLOTS.index('TUE-AM')],stf)]))
+            else:
+                solver.Add(v_rots[(stf,rots_tup.index('Abdomen_MON'))] == solver.Sum([solver.IsEqualCstVar(v_staff_flat[shifts.index('Abdomen 8a-12p')*nslts],stf)]))
+
             # power constraint that limits number of each rotation that staff takes
             for rot in range(nrots):
                 solver.Add(v_rots[(stf,rot)] < 4)
@@ -674,6 +701,98 @@ def set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_pcoun
     solver.Add(v_tcost == (solver.Sum([v_cntr_flat[i] for i in range(nrots*nstaff)])+v_pcounts))
     
     return v_tcost
+
+def set_pooltba_constraints(solver,cal,shifts,holidays):
+
+    for slot in range(len(WEEK_SLOTS)):
+        solver.Add(solver.AllDifferentExcept([shifts[(pool,slot)] for pool in range(len(LCM_STAFF))],-1))
+            
+    for p in range(len(LCM_STAFF)):
+        staffShifts = get_staff_shifts(LCM_STAFF[p])
+        dayShifts = set(DAY_SHIFTS).intersection(set(staffShifts))
+        amShifts = set(AM_SHIFTS).intersection(set(staffShifts))
+        pmShifts = set(PM_SHIFTS).intersection(set(staffShifts))
+        print("Shifts for",LCM_STAFF[p],"AM:",amShifts,"PM:",pmShifts)
+        nshifts = len(staffShifts)
+
+        for d in range(len(WEEKDAYS)):
+            if d in holidays:
+                # leave holidays unassigned
+                solver.AddConstraint(shifts[(p,d*2)] == -1)
+                solver.AddConstraint(shifts[(p,d*2+1)] == -1)
+
+            if 'MSK 8a-12p' in dayShifts:
+                AMeqMSK = solver.IsEqualCstVar(shifts[(p,d*2)],ALL_SHIFTS.index('MSK 8a-12p'));
+                PMeqMSK = solver.IsEqualCstVar(shifts[(p,d*2+1)],ALL_SHIFTS.index('MSK 12-4p'));
+                solver.AddConstraint(AMeqMSK == PMeqMSK)
+                    
+            if 'STAT1 8a-12p' in dayShifts:
+                AMeqSTA = solver.IsEqualCstVar(shifts[(p,d*2)],ALL_SHIFTS.index('STAT1 8a-12p'));
+                PMeqSTA = solver.IsEqualCstVar(shifts[(p,d*2+1)],ALL_SHIFTS.index('STAT1b 12p-4p'));
+                solver.AddConstraint(AMeqSTA == PMeqSTA)
+
+            if 'Abdomen 8a-12p' in dayShifts:
+                AMeqABD = solver.IsEqualCstVar(shifts[(p,d*2)],ALL_SHIFTS.index('Abdomen 8a-12p'));
+                PMeqABD = solver.IsEqualCstVar(shifts[(p,d*2+1)],ALL_SHIFTS.index('Abdomen 8a-12p'));
+                solver.AddConstraint(AMeqABD == PMeqABD)
+
+            if 'Chest/PET 8a-12p' in dayShifts:
+                AMeqCHT = solver.IsEqualCstVar(shifts[(p,d*2)],ALL_SHIFTS.index('Chest/PET 8a-12p'));
+                PMeqCHT = solver.IsEqualCstVar(shifts[(p,d*2+1)],ALL_SHIFTS.index('Chest/PET 12-4p'));
+                solver.AddConstraint(AMeqCHT == PMeqCHT)
+
+            if 'Neuro 8a-12p' in dayShifts:
+                AMeqNER = solver.IsEqualCstVar(shifts[(p,d*2)],ALL_SHIFTS.index('Neuro 8a-12p'));
+                PMeqNER = solver.IsEqualCstVar(shifts[(p,d*2+1)],ALL_SHIFTS.index('Neuro 12-4p'));
+                solver.AddConstraint(AMeqNER == PMeqNER)
+
+            if 'SL US/Fluoro 8a-4p' in dayShifts:
+                AMeqSSFL = solver.IsEqualCstVar(shifts[(p,d*2)],ALL_SHIFTS.index('SL US/Fluoro 8a-4p'));
+                PMeqSSFL = solver.IsEqualCstVar(shifts[(p,d*2+1)],ALL_SHIFTS.index('SL US/Fluoro 8a-4p'));
+                solver.AddConstraint(AMeqSSFL == PMeqSSFL)
+
+            if 'Fre US/Fluoro 8a-4p' in dayShifts:
+                AMeqFSFL = solver.IsEqualCstVar(shifts[(p,d*2)],ALL_SHIFTS.index('Fre US/Fluoro 8a-4p'));
+                PMeqFSFL = solver.IsEqualCstVar(shifts[(p,d*2+1)],ALL_SHIFTS.index('Fre US/Fluoro 8a-4p'));
+                solver.AddConstraint(AMeqFSFL == PMeqFSFL)
+
+                #solver.Add(solver.Max([shifts[(p,w,d*2)] == ALL_SHIFTS.index(r) for r in amShifts]) == 1)
+                #solver.Add(solver.Max([shifts[(p,w,d*2+1)] == ALL_SHIFTS.index(r) for r in pmShifts]) == 1)
+
+        for i in range(len(WEEK_SLOTS)):
+            
+            #if cal[ALL_STAFF.index(LCM_STAFF[p]),i] == ALL_SHIFTS.index('TBA'):
+
+            '''if i%2 == 0:
+            solver.Add(solver.Max([shifts[(p,i)] == ALL_SHIFTS.index(r) for r in amShifts]) == 1)
+            else:
+            solver.Add(solver.Max([shifts[(p,i)] == ALL_SHIFTS.index(r) for r in pmShifts]) == 1)'''
+
+                # These slots need to be filled
+                #solver.AddConstraint(shifts[(p,i)] != -1)
+                
+                # Arrange possible assignments
+                    #solver.AddConstraint(solver.AllowedAssignments(all_vars, one_day_tuples))
+
+                # Only assign AM shifts to AM slots; same for PM shifts
+            '''if amShifts and i%2 == 0: 
+            solver.Add(solver.Max([shifts[(p,i)] == ALL_SHIFTS.index(r) for r in amShifts]) == 1)
+            if pmShifts and i%2 == 1:
+            solver.Add(solver.Max([shifts[(p,i)] == ALL_SHIFTS.index(r) for r in pmShifts]) == 1)'''
+
+            # handle case where pool already assigned a shift from the calendar and set as a constraint; > 0 is not TBA but something else
+            if cal[ALL_STAFF.index(LCM_STAFF[p]),i] > 0:
+                print("Pool",LCM_STAFF[p],"already set to take shift",ALL_SHIFTS[cal[ALL_STAFF.index(LCM_STAFF[p]),i]],"for slot",i,"index value",cal[ALL_STAFF.index(LCM_STAFF[p]),i])
+                solver.Add(shifts[(p,i)] == cal[ALL_STAFF.index(LCM_STAFF[p]),i])
+            else:
+                print("Don't schedule pool",LCM_STAFF[p],"for slot",i)
+                #if the person isn't assigned to work elsewhere in the same week by default block out their schedule
+                    
+                # may not be needed b/c biases prevent unnecessary use of pools, but may be able incorporate using the ALL_SHIFTS.index('TBA')
+                #if any(w == week[0] for week in pools[p][1]): cal[ALL_STAFF.index(LCM_STAFF[p],d*2,w]) == ALL_SHIFTS.index('TBA'):
+                #    cal[ALL_STAFF.index(pools[p][0]),d*2,w] = ALL_SHIFTS.index('Day Off') # AM shift
+                #    cal[ALL_STAFF.index(pools[p][0]),d*2+1,w] = ALL_SHIFTS.index('Day Off') # PM shift
+                solver.Add(shifts[(p,i)] == -1) # if not a required shift by the pool set to -1'''
 
 def set_pool_constraints(solver,pools,nweeks,shifts,cal):
 
@@ -778,11 +897,19 @@ def set_day_calendar_constraints(solver,stf,cal,sect):
         for j in range(num_slots):
             # first check if certain staff is already working during the day or on nights
             if cal[sect_allstaff_idx,j] > 0 or any([cal[sect_allstaff_idx,len(WEEK_SLOTS)+j/2] == ALL_SHIFTS.index(EVE_SHIFTS[k]) for k in range(len(EVE_SHIFTS))]):
+
+                #print("Printing shift for staff",ALL_STAFF[sect_allstaff_idx],"slot",j,"shift",ALL_SHIFTS[cal[sect_allstaff_idx,j]])
+
                 # if that certain staff is already assigned a shift within this section, make that a constrainst in the solution
                 if ALL_SHIFTS[cal[sect_allstaff_idx,j]] in shifts:
-                    #if sect == 'msk':
-                    #    print("Staff",ALL_STAFF[ALL_STAFF.index(staff[i])],"covering shift",ALL_SHIFTS[cal[sect_allstaff_idx,j]])
+                    print("Setting constraint: staff",staff[i],"is on",ALL_SHIFTS[cal[sect_allstaff_idx,j]],"for slot",j)
                     solver.Add(stf[(shifts.index(ALL_SHIFTS[cal[sect_allstaff_idx,j]]),j)] == i)     
+
+                elif ALL_SHIFTS[cal[sect_allstaff_idx,j]] == 'TBA':
+                    # can overwrite the TBA slot so no need to set constraint
+                    #print("TBA for",ALL_STAFF[sect_allstaff_idx],"slot",j)
+                    pass
+                    
                 # just make them unavailable for any of the possible section shifts
                 else:
                     for k in range(num_shifts):
@@ -932,6 +1059,7 @@ def set_sfl_constraints(s,st,cal,holidays): # s = solver
 
         # DRL, JFK, SMN don't go to FRE
         s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != SFL_STAFF.index('JFK'))
+        s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != SFL_STAFF.index('SDE'))
         s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != SFL_STAFF.index('DRL'))
         s.Add(st[(SFL_SHIFTS.index('Fre US/Fluoro 8a-4p'),i*2)] != SFL_STAFF.index('SMN'))
 
@@ -1300,6 +1428,13 @@ def set_ne_constraints(solver,v_shifts,cal,holidays,section):
 
     else:
         pass
+
+# copies the constraint driven pool calendar (uses pools only when needed) to a new calendar that will be filled in
+def set_pooltba_cal(oldcal,tbacal,nweeks):
+    for w in range(nweeks):
+        for i in range(len(LCM_STAFF)):
+            for j in range(len(WEEK_SLOTS)):
+                tbacal[ALL_STAFF.index(LCM_STAFF[i]),j,w] = oldcal[ALL_STAFF.index(LCM_STAFF[i]),j,w]
              
 '''
 ====================
@@ -1849,27 +1984,51 @@ def print_allcounters(cumulative,counter,section,tcost=101,bias=None):
     print("Total Cost:",tcost)
 
 def print_calendar(cal):
-    num_staff, num_slots, num_weeks = cal.shape
 
+    # allows passing either a single week calendar or multiple 
+    if len(cal.shape) > 2:
+        num_staff, num_slots, num_weeks = cal.shape
+        
     #for wk in range(num_weeks):
-    for wk in range(num_weeks): # for testing just print the first few weeks
+        for wk in range(num_weeks): # for testing just print the first few weeks
+            print()
+            print("                     ===========================================")
+            print("                                      WEEK #",int(wk+1))
+            print("                     ===========================================")
+            print()
+            line_header = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(CALLDAYS[0],CALLDAYS[1],CALLDAYS[2],CALLDAYS[3],CALLDAYS[4],CALLDAYS[5],CALLDAYS[6])
+            print(line_header)
+            for st in range(num_staff):
+                print(ALL_STAFF[st])
+                line_am = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,0,wk]],ALL_SHIFTS[cal[st,2,wk]],ALL_SHIFTS[cal[st,4,wk]],ALL_SHIFTS[cal[st,6,wk]],ALL_SHIFTS[cal[st,8,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-AM'),wk]])
+                line_pm = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,1,wk]],ALL_SHIFTS[cal[st,3,wk]],ALL_SHIFTS[cal[st,5,wk]],ALL_SHIFTS[cal[st,7,wk]],ALL_SHIFTS[cal[st,9,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-PM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-PM'),wk]])
+                line_call = '{:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+0,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+1,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+2,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+3,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+4,wk]])
+                print(line_am)
+                print(line_pm)
+                print(line_call)
+                
+    else:
+        num_staff, num_slots = cal.shape
+
         print()
         print("                     ===========================================")
-        print("                                      WEEK #",int(wk+1))
+        print("                                      SINGLE WEEK")
         print("                     ===========================================")
         print()
         line_header = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(CALLDAYS[0],CALLDAYS[1],CALLDAYS[2],CALLDAYS[3],CALLDAYS[4],CALLDAYS[5],CALLDAYS[6])
         print(line_header)
         for st in range(num_staff):
             print(ALL_STAFF[st])
-            line_am = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,0,wk]],ALL_SHIFTS[cal[st,2,wk]],ALL_SHIFTS[cal[st,4,wk]],ALL_SHIFTS[cal[st,6,wk]],ALL_SHIFTS[cal[st,8,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-AM'),wk]])
-            line_pm = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,1,wk]],ALL_SHIFTS[cal[st,3,wk]],ALL_SHIFTS[cal[st,5,wk]],ALL_SHIFTS[cal[st,7,wk]],ALL_SHIFTS[cal[st,9,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-PM'),wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-PM'),wk]])
-            line_call = '{:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+0,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+1,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+2,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+3,wk]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+4,wk]])
+            line_am = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,0]],ALL_SHIFTS[cal[st,2]],ALL_SHIFTS[cal[st,4]],ALL_SHIFTS[cal[st,6]],ALL_SHIFTS[cal[st,8]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-AM')]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-AM')]])
+            line_pm = '{:>25} {:>25} {:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,1]],ALL_SHIFTS[cal[st,3]],ALL_SHIFTS[cal[st,5]],ALL_SHIFTS[cal[st,7]],ALL_SHIFTS[cal[st,9]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SAT-PM')]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+CALL_SLOTS.index('SUN-PM')]])
+            line_call = '{:>25} {:>25} {:>25} {:>25} {:>25}'.format(ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+0]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+1]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+2]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+3]],ALL_SHIFTS[cal[st,len(WEEK_SLOTS)+4]])
             print(line_am)
             print(line_pm)
             print(line_call)
-
+            
 def print_csv_staff_calendar(cal):
+    f1=open('./out.csv', 'w+')
+
     num_staff, num_slots, num_weeks = cal.shape
 
     #for wk in range(num_weeks):
@@ -1996,7 +2155,7 @@ def build_generic(cal,cumulative,r_cumulative,r_counters,section,limit):
     else:
         pass
 
-    v_tcost = set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_pcounts,v_tcost,r_counters,bias,section)
+    v_tcost = set_rotation_constraints(solver,v_staff,v_rots,v_cntr,v_rotprod_flat,v_pcounts,v_tcost,r_counters,bias,section,holidays)
 
     # Creating decision builder and collector
     collector = get_collector_obj(solver,v_staff_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat,v_tcost,time_limit)
@@ -2153,6 +2312,36 @@ def build_wmr(cal,cuml,cntr,bias,limit):
     print_call_analysis(solver,collector,staff,analysis,'wmr')
 
     return analysis[2],analysis[3],analysis[4]
+
+def build_pooltba_days(calendar,nweeks,limit):
+    
+    time_limit = limit
+
+    for i in range(nweeks):
+
+        # Make a solver with random seed
+        solver = make_random_solver()
+
+        # Create shifts lookup
+        v_shifts, v_shifts_flat = create_pooltba_shifts(solver)
+    
+        # Get the holidays from the calendar
+        holidays = get_holidays(calendar[:,:,i])
+
+        # Constraints
+        print_calendar(calendar[:,:,i])
+        set_pooltba_constraints(solver,calendar[:,:,i],v_shifts,holidays)
+
+        # Creating decision builder and collector
+        collector = get_collector(solver,v_shifts_flat,time_limit)
+
+        # Print results
+        print("updating pooltba calendar")
+
+        #print_pool_results(collector,shifts,pools,nweeks)
+        calendar[:,:,i] = update_pooltba_calendar(collector,calendar[:,:,i],v_shifts)
+
+    return calendar
 
 def build_pool_days(pools,nweeks,calendar,limit):
     
@@ -2325,6 +2514,21 @@ def update_pool_calendar(collect,cal,shifts,nweeks,pools):
                     #print("found pool shift",curshift,"for staff",pools[p][0])
                     staffidx = ALL_STAFF.index(pools[p][0])
                     cal[staffidx,s,w] = curshift
+    return cal
+
+def update_pooltba_calendar(collect,cal,shifts):
+    #staff_calendar = np.zeros((len(ALL_STAFF),len(WEEK_SLOTS)+len(CALL_SLOTS),num_weeks),dtype='int64') # staff_calendar matrix is in the "slots" context
+
+    num_solutions = collect.SolutionCount()
+    if num_solutions < 1:
+        raise ValueError('update_pooltba_calendar: No solutions found for pooltba constraints.')
+
+    for p in range(len(LCM_STAFF)):
+        for s in range(len(WEEK_SLOTS)):
+            curshift = collect.Value(0,shifts[(p,s)]) # just use solution 0 for now
+            if curshift != -1:
+                staffidx = ALL_STAFF.index(LCM_STAFF[p])
+                cal[staffidx,s] = curshift
     return cal 
 
 def make_random_solver():
@@ -2332,13 +2536,15 @@ def make_random_solver():
     solver = pywrapcp.Solver("Schedule Solution")
     random.seed()
     r = int(random.random()*100000)
-    print("random seed:", r)
+    #print("random seed:", r)
     solver.ReSeed(r)
 
     return solver
 
 def all_staff_idx(s):
     return ALL_STAFF.index(s)
+
+
 
 '''
 ===================
@@ -2359,17 +2565,21 @@ def make_week_hx(cal,cml,cnt,bis):
                     if shift == ALL_SHIFTS.index('UCMam Diag 8a-12p') and slot%2 == 0: # the UNC-Diag AM/PM are both considered UNC-Diag
                         curr[s,ALL_ROTS.index('UNC_Diag')] += 1
                     elif shift == ALL_SHIFTS.index('UCMam Proc 8a-12p') and slot%2 == 0:  # the UNC-Proc AM/PM are both considered UNC-Proc
+                        if slot == WEEK_SLOTS.index('MON-AM'):
+                            curr[s,ALL_ROTS.index('TB')] += 1
                         curr[s,ALL_ROTS.index('UNC_Proc')] += 1
                     elif shift == ALL_SHIFTS.index('FreMam halfday'): # FRE_Mamm
                         curr[s,ALL_ROTS.index('FRE_Mamm')] += 1
                     elif shift == ALL_SHIFTS.index('SL Mam 8a-12p'): # SLN Mamm
                         curr[s,ALL_ROTS.index('SLN_Mamm')] += 1
                     
-                    elif shift == ALL_SHIFTS.index('Fre US/Fluoro 8a-4p') and slot%2 == 0: # only listed once on qgenda so don't need to sort by slot
-                        curr[s,ALL_ROTS.index('FRE_Sonoflu')] += 1
-                    elif shift == ALL_SHIFTS.index('SL US/Fluoro 8a-4p') and slot%2 == 0:  # only listed once on qgenda so don't need to sort by slot
-                        curr[s,ALL_ROTS.index('SLN_Sonoflu')] += 1
-                        
+                    elif (shift == ALL_SHIFTS.index('Fre US/Fluoro 8a-4p') or shift == ALL_SHIFTS.index('SL US/Fluoro 8a-4p')) and slot%2 == 0: # only listed once on qgenda so don't need to sort by slot
+                        #curr[s,ALL_ROTS.index('SLN_Sonoflu')] += 1
+                        #curr[s,ALL_ROTS.index('FRE_Sonoflu')] += 1
+                        if slot == WEEK_SLOTS.index('WED-AM'):
+                            curr[s,ALL_ROTS.index('Sonoflu_ICU')] += 1
+                        curr[s,ALL_ROTS.index('Sonoflu')] += 1
+
                     elif shift == ALL_SHIFTS.index('MSK 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
                         curr[s,ALL_ROTS.index('MSK')] += 1
                     
@@ -2377,6 +2587,8 @@ def make_week_hx(cal,cml,cnt,bis):
                         curr[s,ALL_ROTS.index('Neuro')] += 1
                         
                     elif shift == ALL_SHIFTS.index('Abdomen 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
+                        if slot == WEEK_SLOTS.index('MON-AM'):
+                            curr[s,ALL_ROTS.index('Abdomen_MON')] += 1
                         curr[s,ALL_ROTS.index('Abdomen')] += 1
                         
                     elif shift == ALL_SHIFTS.index('Chest/PET 8a-12p') and slot%2 == 0: # the AM/PM are both the same so only need to count the AM rotations
@@ -2398,7 +2610,7 @@ def make_week_hx(cal,cml,cnt,bis):
                     elif ALL_SHIFTS[shift] in SCV_SHIFTS: # any SCV rotation whether AM/PM counts as one rotation
                         curr[s,ALL_ROTS.index('SCV')] += 1
 
-                    elif shift == ALL_SHIFTS.index('Admin Day'):# and slot%2 == 0: # counting by half days of Admin time
+                    elif shift == ALL_SHIFTS.index('Admin Day') and slot%2 == 0: # counting by half days of Admin time
                         curr[s,ALL_ROTS.index('Admin')] += 2
                     elif shift == ALL_SHIFTS.index('Admin AM') or shift == ALL_SHIFTS.index('Admin PM'):
                         curr[s,ALL_ROTS.index('Admin')] += 1
@@ -2827,11 +3039,11 @@ def main():
 
     # Top level settings
     num_weeks = 4
+    tba = False
     time_limit = 0 # set to "0" for no limit
+    ptime_limit = 2000
     day_sections = ['brt','cht','nuc','sfl','scv','msk','abd','ner','sta','adm','opr']
-    #day_sections = ['adm','brt','cht','nuc','scv','msk','abd','ner','opr','sfl','sta']
-    #day_sections = ['brt','cht','nuc','msk','abd','ner','sta','scv','opr']
-    #day_sections = ['scv']
+    #day_sections = ['brt']
     #call_sections = ['st3','swg','stw','wsp','wmr']
     f_history = '/Users/jasonbalkman/Documents/KAISER/SCHEDULE_ANALYSIS/DATA/JunAug2018.csv' # history input data
     #f_history = False
@@ -2863,7 +3075,7 @@ def main():
     #pooldays = [('CCM',((0,0),(0,2),(0,4)))]
     #pooldays = [('CCM',((0,0),(0,2),(0,4))),
                 #('JK',((0,1),(0,3)))]
-    #cal_schedule = build_pool_days(pooldays,num_weeks,cal_schedule,time_limit)
+    #cal_schedule = build_pooltba_days(cal_schedule,num_weeks,ptime_limit)
 
     # Set cal_schedule constraints
     for i in range(num_weeks):
@@ -2871,8 +3083,13 @@ def main():
         #set_staffday(cal_schedule,'GJS',i,2,'Admin Day')
         set_staffday(cal_schedule,'RV',i,4,'Day Off')
         set_staffday(cal_schedule,'RV',i,2,'Day Off')
-    #set_staffshift(calinit,'EEP',3,0,1,'OPPR4pm')
-
+    #set_staffshift(cal_schedule,'EEP',3,0,1,'OPPR4pm')
+    '''set_staffshift(cal_schedule,'CCM',0,4,0,'FreMam halfday')
+    set_staffshift(cal_schedule,'CCM',3,4,0,'FreMam halfday')
+    set_staffshift(cal_schedule,'RCK',2,0,1,'Nucs 8a-4p')
+    set_staffshift(cal_schedule,'RCK',2,1,1,'Nucs 8a-4p')
+    print_calendar(cal_schedule)'''
+    
     # Build multiphase call schedule
     #if call_sections:
     #    cal = build_multi_call(num_weeks,call_sections,time_limit,cal)
@@ -2880,6 +3097,7 @@ def main():
     # Build multiphase weekday schedule
     if day_sections:
         attempt = 1
+        alimit = 10 # attempt limit
         cal_result = (False,False) # initialize for the first pass
 
         # used in case there is a failure to schedule and need to reset 
@@ -2887,7 +3105,7 @@ def main():
         cum_backup = np.copy(cumulative)
         cnt_backup = np.copy(counter)
 
-        while cal_result[0] is False and attempt < 10:
+        while cal_result[0] is False and attempt < alimit:
             print("** ATTEMPT",attempt,"** :",day_sections)
             cal_result = build_multi_day(num_weeks,day_sections,time_limit,cal_schedule,cumulative,counter)
             if cal_result[0] is False:
@@ -2898,11 +3116,45 @@ def main():
                 counter = np.copy(cnt_backup)
                 attempt += 1
         if attempt < 10:
+            
+            # if we are handling the TBA pool calendar, start over with the minimum pool use 
+            # will need to reset the counters as well
+            if tba:
+                # used in case there is a failure to schedule and need to reset
+                print_calendar(cal_result[1])
+
+                cal_schedule = np.copy(cal_backup)
+                print_calendar(cal_schedule)
+                set_pooltba_cal(cal_result[1],cal_schedule,num_weeks)
+                cal_schedule = build_pooltba_days(cal_schedule,num_weeks,ptime_limit)
+                cumulative = np.copy(cum_backup)
+                counter = np.copy(cnt_backup)
+
+                attempt = 1
+                alimit = 10 # attempt limit
+                cal_result = (False,False) # initialize for the first pass
+                
+                cal_backup = np.copy(cal_schedule) 
+                cum_backup = np.copy(cumulative)
+                cnt_backup = np.copy(counter)
+
+                while cal_result[0] is False and attempt < alimit:
+                    print("** ATTEMPT",attempt,"** :",day_sections)
+                    print_calendar(cal_schedule)
+                    cal_result = build_multi_day(num_weeks,day_sections,time_limit,cal_schedule,cumulative,counter)
+                    if cal_result[0] is False:
+                        section_fail = cal_result[1]
+                        day_sections = juggle_sections(day_sections,section_fail)
+                        cal_schedule = np.copy(cal_backup) # reset the calendar from the beginning otherwise the old assignments will convert to constraints
+                        cumulative = np.copy(cum_backup)
+                        counter = np.copy(cnt_backup)
+                        attempt += 1
+                        
             print_allcounters(cumulative,counter,'all',cal_result[2])
             print_calendar(cal_result[1])
             print("Time limit:",time_limit)
-        else:
-            print("No solution could be found after 100 attempts at reshuffling the sections.")
+    else:
+            print("No solution could be found after",alimit,"attempts at reshuffling the sections.")
 
     print_csv_staff_calendar(cal_result[1])
     #print_shift_calendar(shift_calendar)        

@@ -106,7 +106,8 @@ AM_SHIFTS = ("STAT1 8a-12p",
              "Neuro 8a-12p",
              "UCMam Diag 8a-12p",
              "UCMam Proc 8a-12p",
-             "FreMam halfday")
+             "FreMam halfday",
+             "TBA")
 
 PM_SHIFTS = ("STAT2 12p-4p",
              "STAT1b 12p-4p",
@@ -122,7 +123,8 @@ PM_SHIFTS = ("STAT2 12p-4p",
              "Neuro 12-4p",
              "UCMam Diag 12-4p",
              "UCMam Proc 12-4p",
-             "FreMam halfday")
+             "FreMam halfday",
+             "TBA")
 
 DAY_SHIFTS = ("SL US/Fluoro 8a-4p",
              "Fre US/Fluoro 8a-4p",
@@ -153,11 +155,11 @@ ADM_SHIFTS = ('Admin Day','Admin AM','Admin PM')
 
 # Rotations - to measure equality
 BRT_ROTS = ('UNC_Diag','UNC_Proc','FRE_Mamm','SLN_Mamm','TB')
-SFL_ROTS = ('FRE_Sonoflu','SLN_Sonoflu')
-#SFL_ROTS = ('Sonoflu') # no need to distinguish between FRE and SLN
+#SFL_ROTS = ('FRE_Sonoflu','SLN_Sonoflu')
+SFL_ROTS = ('Sonoflu','Sonoflu_ICU') # no need to distinguish between FRE and SLN
 MSK_ROTS = ('MSK',)
 NER_ROTS = ('Neuro',)
-ABD_ROTS = ('Abdomen',)
+ABD_ROTS = ('Abdomen','Abdomen_MON')
 CHT_ROTS = ('Chest/PET',)
 NUC_ROTS = ('Nucs',)
 STA_ROTS = ('STAT_AM','STAT_PM')
@@ -172,19 +174,19 @@ ADM_ROTS = ('Admin',)
 ALL_ROTS = BRT_ROTS+SFL_ROTS+MSK_ROTS+NER_ROTS+ABD_ROTS+CHT_ROTS+NUC_ROTS+STA_ROTS+OPR_ROTS+ST3_ROTS+SWG_ROTS+STW_ROTS+WSP_ROTS+WMR_ROTS+SCV_ROTS+ADM_ROTS
 
 # Staff Lists
-ALL_STAFF = ('JDB','SDE','HG','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','SXK','BJK','JK','RCK')
+ALL_STAFF = ('JDB','SDE','HG','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','JK','RCK','SXK','BJK','SXK')
 #ALL_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','SMN') # used for testing
 BRT_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM')
 SFL_STAFF = ('JDB','SDE','HG','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV','CCM','JK')
-MSK_STAFF = ('CCM','GJS','GSr','DRL','SJP','JK')
-MSV_STAFF = ('CCM','GJS','GSr','DRL','SJP')
+MSK_STAFF = ('GJS','GSr','DRL','SJP','CCM','JK')
+MSV_STAFF = ('GJS','GSr','DRL','SJP','CCM')
 NER_STAFF = ('EEP','GSr','JFK','SMN','SJP','BJK')
 NSV_STAFF = ('EEP','GSr','JFK','SMN','SJP') 
-ABD_STAFF = ('BCL','DSL','HSS','JKL','SH')
+ABD_STAFF = ('BCL','DSL','HSS','JKL','SH','JK')
 ASV_STAFF = ('BCL','DSL','HSS','JKL','SH')
-CHT_STAFF = ('BCL','GJS','SMN','RV','JKL')
+CHT_STAFF = ('BCL','GJS','SMN','RV','JKL','RCK')
 NUC_STAFF = ('SMN','GSr','HG','RCK')
-STA_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSr','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','JK','BJK')
+STA_STAFF = ('JDB','SDE','GHL','DCN','JKS','CCM','GJS','GSr','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','CCM','JK','BJK')
 OPR_STAFF = ALL_STAFF
 ST3_STAFF = ('JDB','SDE','GHL','DCN','JKS','GJS','GSr','DRL','SJP','EEP','JFK','SMN','BCL','DSL','HSS','JKL','SH','RV')
 #ST3_STAFF = ALL_STAFF # used for testing
@@ -192,7 +194,7 @@ SWG_STAFF = ALL_STAFF
 STW_STAFF = ST3_STAFF
 WSP_STAFF = ('JDB','SDE','GHL','DCN','JKS','BCL','DSL','HSS','JKL','HG','RV')
 WMR_STAFF = ('GJS','GSr','DRL','SJP','EEP','JFK','SMN','SH')
-SCV_STAFF = ('JDB','SDE','SH','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','EEP','GJS','HSS','JKS','GSr','RV')
+SCV_STAFF = ('JDB','SDE','JFK','BCL','DSL','JKL','DRL','GHL','SMN','DCN','SJP','GJS','HSS','JKS','GSr')
 LCM_STAFF = ('CCM','SXK','BJK','JK','RCK')
 ADM_STAFF = SCV_STAFF
 
@@ -204,8 +206,11 @@ CALL_SLOTS = ('MON-PM','TUE-PM','WED-PM','THU-PM','FRI-PM','SAT-AM','SAT-PM','SU
 WKND_SECTS = ('stw','wsp','wmr')
 
 # For Pools
-CCM_SHIFTS = SFL_SHIFTS+MSK_SHIFTS+STA_SHIFTS+OPR_SHIFTS
-JK_SHIFTS = SFL_SHIFTS+MSK_SHIFTS+STA_SHIFTS+OPR_SHIFTS
+CCM_SHIFTS = SFL_SHIFTS+MSK_SHIFTS+STA_SHIFTS+OPR_SHIFTS+('TBA',)
+JK_SHIFTS = SFL_SHIFTS+MSK_SHIFTS+STA_SHIFTS+OPR_SHIFTS+ABD_SHIFTS+('TBA',)
+RCK_SHIFTS = NUC_SHIFTS+OPR_SHIFTS+CHT_SHIFTS+('TBA',)
+BJK_SHIFTS = NER_SHIFTS+OPR_SHIFTS+STA_SHIFTS+('TBA',)
+SXK_SHIFTS = STA_SHIFTS+OPR_SHIFTS+('TBA',)
 
 '''
 ===============
@@ -220,9 +225,15 @@ def get_staff_shifts(staff):
         shifts = CCM_SHIFTS
     elif staff == 'JK':
         shifts = JK_SHIFTS
+    elif staff == 'BJK':
+        shifts = BJK_SHIFTS
+    elif staff == 'RCK':
+        shifts = RCK_SHIFTS
+    elif staff == 'SXK':
+        shifts = SXK_SHIFTS
     else:
         pass
-
+    
     return shifts
 
 def get_section_nstaff_nrots_staff_rots(sect):
@@ -614,11 +625,11 @@ def get_section_nstaff_nrots_staff_rots(sect):
 def get_collector_obj(solver,v_staff_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat,v_tcost,tlimit):
 
     # Create the decision builder.
-    print("creating decision builder...")
+    #print("creating decision builder...")
     db = solver.Phase(v_staff_flat, solver.CHOOSE_RANDOM, solver.ASSIGN_RANDOM_VALUE)
 
     # Create the solution collector.
-    print("creating collector...")
+    #print("creating collector...")
     solution = solver.Assignment()
     solution.Add(v_staff_flat)
     solution.Add(v_rots_flat)
@@ -650,11 +661,11 @@ def get_collector_obj(solver,v_staff_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat
 def get_necollector_obj(solver,v_neshifts_flat,v_rots_flat,v_cntr_flat,v_rotprod_flat,v_tcost,tlimit):
 
     # Create the decision builder.
-    print("creating decision builder...")
+    #print("creating decision builder...")
     db = solver.Phase(v_neshifts_flat, solver.CHOOSE_RANDOM, solver.ASSIGN_RANDOM_VALUE)
 
     # Create the solution collector.
-    print("creating collector...")
+    #print("creating collector...")
     solution = solver.Assignment()
     solution.Add(v_neshifts_flat)
     solution.Add(v_rots_flat)
@@ -699,8 +710,8 @@ def get_collector(solver,flat,tlimit):
 
     if tlimit > 0:
         time_limit_ms = solver.TimeLimit(tlimit)
-        solver.Solve(db,[time_limit_ms, collector, objective])
+        solver.Solve(db,[time_limit_ms, collector])
     else:        
-        solver.Solve(db,[collector, objective])
+        solver.Solve(db,[collector])
 
     return collector
