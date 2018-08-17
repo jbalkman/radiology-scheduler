@@ -7,3 +7,4 @@ Scheduling Constraint Optimization and Testing Tool ("SCOTT") for Private Practi
 - increase time limit on schedule generation to consider more potential schedules (increases run time)
 - global lists define subspecialty staff and all rotations
 - see ExampleOutput.txt for random scheduling for single month of multiple rotations
+- built upon google optimization OR-Tools (see https://developers.google.com/optimization/scheduling/employee_scheduling)
